@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cmp">
+	
+	<!-- 대상목록 -->
+	<select id="getClientList" parameterType="hashmap" resultType="hashmap">
+		SELECT  C.*
+		FROM(
+			SELECT  ICI.CLIENT_NO AS CLIENT_NO , ICI.CLIENT_NAME AS CLIENT_NAME , ICI.BIRTHD AS BIRTHD, ICI.GENDER AS GENDER
+                    ,ICI.PH_NO AS PH_NO , ICI.PH_DR AS PH_DR , ICI.EMAIL AS EMAIL , ICI.EMAIL_DR AS EMAIL_DR
+                    ,ICI.ADDRESS AS ADDRESS
+                    ,JI.JOIN_NO AS JOIN_NO ,JI.JDATE AS JDATE , JI.JOIN_EDATE AS EDATE
+                    ,PI.PAY_NO AS PAY_NO , PI.TARGET_DATE AS TARGET_DATE , PI.PAY_MONEY AS PAY_MONEY , PI.PAY_WHETHER AS PAY_WHETHER
+                    ,
+                    ROW_NUMBER()OVER(ORDER BY ICI.CLIENT_NO) AS RNUM
+			
+			FROM INSIDE_CLIENT_INFO ICI INNER JOIN JOIN_INFO JI ON ICI.CLIENT_NO = JI.CLIENT_NO
+			                            INNER JOIN PAY_INFO PI ON JI.JOIN_NO = PI.JOIN_NO
+			WHERE 1 = 1
+			
+			${str}
+			) C
+		WHERE C.RNUM BETWEEN #{startCnt} AND #{endCnt}
+	</select>
+	
+	<!-- 고객 수 카운트 -->
+	<select id="clientCnt" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(A.CLIENT_NO) AS CNT
+		FROM(
+		    SELECT ICI.CLIENT_NO , ICI.CLIENT_NAME , ICI.BIRTHD , ICI.GENDER , ICI.PH_NO , ICI.PH_DR , ICI.EMAIL , ICI.EMAIL_DR ,ICI.ADDRESS
+		            ,JI.JOIN_NO , JI.JDATE , JI.JOIN_EDATE , PI.PAY_NO , PI.TARGET_DATE , PI.PAY_MONEY, PI.PAY_WHETHER,
+		            ROW_NUMBER() OVER(ORDER BY ICI.CLIENT_NO) AS RNUM
+		            
+		    FROM INSIDE_CLIENT_INFO ICI INNER JOIN JOIN_INFO JI ON ICI.CLIENT_NO = JI.CLIENT_NO
+		                                INNER JOIN PAY_INFO PI ON JI.JOIN_NO = PI.JOIN_NO
+		    )A
+	
+	</select>
+	
+	<!-- 채널선정 -->
+	<insert id="channelSelect" parameterType="hashmap">
+	INSERT INTO CMP_CHANNEL (CMP_CHANNEL_NO, CMP_NO, CHANNEL_COMP_NO, CHANNEL_NO, CONTENTS) VALUES ( CMP_CHANNEL_SEQ.nextval, 43 , 65 , 3, '내용')
+	
+	</insert>
+	
+	<!-- 캠페인카운트 -->
+	<select id="getCmpCnt" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*)
+		FROM CMP
+	</select>
+	
+	<!-- 캠페인목록 -->
+	<select id="getCmpList" parameterType="hashmap" resultType="hashmap">
+		SELECT B.*
+		FROM(
+			SELECT CMP_NO, CMP_NAME, TO_CHAR(SDATE,'YYYY-MM-DD') AS SDATE, TO_CHAR(EDATE,'YYYY-MM-DD') AS EDATE, PROG_STAT, EMP_NAME, CMP.ADD_DAY,
+							ROW_NUMBER() OVER(ORDER BY ADD_DAY DESC) AS RNUM
+			FROM CMP INNER JOIN EMP_INFO
+			 			   ON CMP.MGR_NO = EMP_INFO.EMP_NO
+			 			   WHERE 1 = 1
+			<if test="textbox_srch_txt != null and textbox_srch_txt != ''">
+            <choose>
+               <when test="content_srch_DD eq 0">
+                  AND CMP_NAME LIKE '%' || #{textbox_srch_txt} || '%'
+               </when>
+               <when test="content_srch_DD eq 1">
+                  AND PROG_STAT LIKE '%' || #{textbox_srch_txt} || '%'
+               </when>
+               <when test="content_srch_DD eq 2">
+                   AND EMP_NAME LIKE '%' || #{textbox_srch_txt} || '%'
+               </when>
+            </choose>
+         </if>
+			 			   )B
+		WHERE B.RNUM BETWEEN #{startCnt} AND #{endCnt}
+		<!-- SELECT CMP_NO, CMP_NAME, TO_CHAR(SDATE,'YYYY-MM-DD') AS SDATE, TO_CHAR(EDATE,'YYYY-MM-DD') AS EDATE, PROG_STAT, EMP_NAME,
+				ROW_NUMBER() OVER(ORDER BY ADD_DAY DESC) AS RNUM
+        FROM CMP INNER JOIN EMP_INFO
+                         ON CMP.MGR_NO = EMP_INFO.EMP_NO -->
+    
+		
+	</select>
+	
+	
+	
+	
+</mapper>

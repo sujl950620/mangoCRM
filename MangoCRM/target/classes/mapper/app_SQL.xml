@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cmp">
+	<select id="listCnt" parameterType="hashmap"
+		resultType="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM CMP_APP INNER JOIN CMP
+		ON CMP_APP.CMP_NO =
+		CMP.CMP_NO
+		LEFT OUTER JOIN EMP_INFO
+		ON EMP_INFO.EMP_NO = CMP_APP.APP_EMP_NO
+		<if test="searchTxt != null and searchTxt != ''">
+			<choose>
+				<when test="searchGbn eq 0">
+					WHERE CMP.CMP_NAME LIKE '%' || #{searchTxt} || '%'
+				</when>
+				<when test="searchGbn eq 1">
+					AND EMP_INFO.EMP_NAME LIKE '%' || #{searchTxt} || '%'
+				</when>
+				<when test="searchGbn eq 2">					
+					AND CMP_APP.APP_STAT LIKE '%' || #{searchTxt} || '%'
+				</when>
+			</choose>
+		</if>
+	</select>
+	<select id="getlist" parameterType="hashmap" resultType="hashmap">
+		SELECT ALIST.APP_NO,ALIST.APP_STAT,ALIST.APP_DAY,ALIST.APP_EMP_NO,ALIST.SDATE ,ALIST.EDATE , ALIST.CMP_NAME,ALIST.EMP_NAME,ALIST.RNUM
+		FROM (SELECT APP_NO,APP_STAT,NVL(TO_CHAR(APP_DAY,'YY-MM-DD'),'XXX') AS APP_DAY,APP_EMP_NO,TO_CHAR(SDATE,'YY-MM-DD') AS SDATE,TO_CHAR(EDATE,'YY-MM-DD') AS EDATE,CMP_NAME, NVL(EMP_NAME,'') AS EMP_NAME,
+			  ROW_NUMBER() OVER(ORDER BY APP_NO DESC) AS RNUM
+			  FROM CMP_APP INNER JOIN CMP
+				 				   ON CMP_APP.CMP_NO = CMP.CMP_NO
+			  			   LEFT OUTER JOIN EMP_INFO
+								   ON EMP_INFO.EMP_NO = CMP_APP.APP_EMP_NO
+		<if test="searchTxt != null and searchTxt != ''">
+			<choose>
+				<when test="searchGbn eq 0">
+					WHERE CMP.CMP_NAME LIKE '%' || #{searchTxt} || '%'
+				</when>
+				<when test="searchGbn eq 1">
+					AND EMP_INFO.EMP_NAME LIKE '%' || #{searchTxt} || '%'
+				</when>
+				<when test="searchGbn eq 2">					
+					AND CMP_APP.APP_STAT LIKE '%' || #{searchTxt} || '%'
+				</when>
+			</choose>
+		</if>
+		) ALIST
+		WHERE ALIST.RNUM BETWEEN #{startCnt} AND #{endCnt}
+		ORDER BY ALIST.RNUM DESC
+	</select>
+
+</mapper>

@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="prod">
+	<!-- 서비스 리스트  -->
+	<select id="getServiceList" parameterType="hashmap" resultType="hashmap">
+		SELECT SERVICE_NO, SERVICE_CODE, SERVICE_PERIOD, SERVICE_PRICE, INSTALL_PRICE, REMARKS, PROD_NO
+		FROM SERVICE
+	</select>
+	<!-- 제품 리스트  -->
+	<select id="getGoodsList" parameterType="hashmap" resultType="hashmap">
+		SELECT GOODS_NO, GOODS_CODE, GOODS_PRICE, GOODS_SIZE, REMARKS, PROD_NO
+		FROM GOODS
+	</select>
+
+
+
+
+
+</mapper>

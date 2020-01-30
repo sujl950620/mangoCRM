@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="msg">
+	<select id="getMsgInviteList" parameterType="hashMap" resultType="hashMap">
+		SELECT EMP_POSI_NO, TEAM_NO, EMP_NAME, EMP_PHONE, TEAM_NAME, TEAM_TASK,
+        DEPART_NAME, DEPART_TASK
+		FROM (  SELECT EMP.EMP_POSI_NO AS EMP_POSI_NO, EMP.TEAM_NO AS TEAM_NO, EMP_NAME, EMP_PHONE, TEAM_NAME, TEAM_TASK,
+        		DEPART_NAME, DEPART_TASK, EMP_RESIGN_DATE,
+        		ROW_NUMBER() OVER(ORDER BY EMP.EMP_NAME ASC) AS RNUM
+        		FROM EMP_INFO EMP INNER JOIN EMP_POSI PO
+		                                  ON EMP.EMP_POSI_NO = PO.EMP_POSI_NO
+		                          INNER JOIN TEAM
+		                                  ON EMP.TEAM_NO = TEAM.TEAM_NO
+		                          INNER JOIN DEPART
+		                                  ON TEAM.DEPART_NO = DEPART.DEPART_NO
+ 			) A
+		WHERE A.EMP_RESIGN_DATE IS NULL
+	</select>
+</mapper>

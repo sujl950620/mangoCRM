@@ -1,0 +1,136 @@
+@charset "UTF-8";
+.msg {
+	display : inline-block;
+	width : 1080px;
+	min-width : 880px;
+	height : 700px;
+	background-color : #fff7cc;
+}
+
+.top_bar {
+	display : inline-block;
+	width : 1080px;
+	height : 50px;
+	background-color : #ffe24c;
+}
+
+.chat_top_btn_area {
+	display: inline-block;
+	width: 180px;
+	float: right;
+	margin-right: 10px;
+}
+
+.add_staff {
+   display: table;
+   width : 80px;
+   height: 25px;
+   font-size: 10pt;
+   color: #595959;
+   text-align : center;
+   border-radius : 5px;
+   float : right;
+   background-color : #F2B807;
+   padding-top : 5px;
+   margin-top : 10px;
+   margin-left : 10px;
+}
+
+.home_btn {
+   display: table;
+   width : 80px;
+   height: 25px;
+   font-size: 10pt;
+   color: #595959;
+   text-align : center;
+   border-radius : 5px;
+   float : right;
+   background-color : #F2B807;
+   padding-top : 5px;
+   margin-top : 10px;
+   margin-left : 10px;
+}
+
+.chat_top_btn_area > div:hover {
+   background-color : #F2CB07;
+   cursor : pointer;
+}
+
+.home_btn {
+	
+}
+
+
+.board {
+	display : inline-block;
+	width : 100%;
+	height : 650px;
+}
+
+.chat_board {
+	display : inline-block;
+	background-color : white;
+	width : 94%;
+	height : 560px;
+	margin-top : 3%;
+	margin-left : 3%;
+}
+
+.bottom_bar {
+	display : inline-block;
+	width : 1016px;
+	height : 40px;
+	margin-left : 32px;
+	background-color : gray;
+}
+
+.file_area {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+}
+
+.file {
+	display: inline-block;
+	width: 30px;
+	height: 30px;
+	font-size: 20pt;
+	
+	color: #F2B907;
+	margin-left: 5px;
+	cursor: pointer;
+}
+.file:hover {
+	color: #FFFFFF;
+}
+
+.write {
+   display: inline-block;;
+   width : 850px;
+   height: 32px;
+   font-size: 10pt;
+   color: #595959;
+   text-align : center;
+   border-radius : 5px;
+   background-color : #F2B807;
+   vertical-align: top;
+   font-size: 12pt
+}
+
+.send {
+	display: inline-block;
+	width: 90px;
+	height: 32px;
+	color: #595959;
+	background-color: #F2B807;
+	font-size: 15pt;
+	text-align: center;
+	border-radius : 5px;
+	margin-left: 20px;
+	cursor: pointer;
+	
+}
+
+.send:hover {
+	background-color : #F2CB07
+}

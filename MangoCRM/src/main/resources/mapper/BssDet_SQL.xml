@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bssDet">
+
+<select id="getChn" parameterType="hashmap" resultType="hashmap">
+	SELECT CH.* , PR.PROG_NAME, bstype.BSS_TYPE_NAME, saldiv.SALES_DIV_NAME, 
+       ls.LEAD_STAT_NAME, cl.CLIENT_NAME, cl.CLIENT_PH, cl.CLIENT_FAX, cl.CLIENT_EMAIL,
+       cp.COMP_NAME, cp.COMP_PH, ei.EMP_NAME , ei.EMP_PHONE, T.TEAM_NAME, T.TEAM_CALL
+		FROM BSS_CHN CH INNER JOIN BSS_PROG PR
+                        ON CH.PROG_NO = PR.PROG_NO
+                INNER JOIN BSS_TYPE BSTYPE
+                        ON CH.BSS_TYPE_NO = BSTYPE.BSS_TYPE_NO
+                INNER JOIN BSS_SALES_DIV SALDIV
+                        ON CH.SALES_DIV_NO = SALDIV.SALES_DIV_NO
+                INNER JOIN LEAD LD
+                        ON ch.lead_no = ld.lead_no
+                INNER JOIN LEAD_STAT LS
+                        ON ld.lead_stat_no = ls.lead_stat_no
+                INNER JOIN CLIENT CL
+                        ON ld.client_no = cl.client_no
+                INNER JOIN COMP CP
+                             ON cl.comp_no = cp.comp_no
+                INNER JOIN EMP_INFO EI
+                        ON cl.emp_no = EI.EMP_NO
+                INNER JOIN TEAM T
+                        ON EI.TEAM_NO = T.TEAM_NO
+WHERE ch.CHN_NO = #{chnNo}
+</select>
+<select id="getBssType" parameterType="hashmap" resultType="hashmap">
+	SELECT *
+	FROM BSS_TYPE
+</select>
+<select id="getBssSalesDiv" parameterType="hashmap" resultType="hashmap">
+	SELECT *
+	FROM BSS_SALES_DIV
+</select>
+<select id="getEmpList" parameterType="hashmap" resultType="hashmap">
+		SELECT *
+		FROM ( 	SELECT E.EMP_NO, D.DEPART_NAME, T.TEAM_NAME, E.EMP_NAME, EP.EMP_POSI_NAME AS POSI_NAME, E.EMP_EMAIL, D.DEPART_NO,
+				   	   ROW_NUMBER() OVER(ORDER BY E.EMP_NO DESC) AS RNUM
+			   	FROM EMP_INFO E INNER JOIN TEAM T
+			   					ON E.TEAM_NO = T.TEAM_NO
+			   					INNER JOIN DEPART D
+			   					ON T.DEPART_NO = D.DEPART_NO
+			   					INNER JOIN EMP_POSI EP
+			   					ON E.EMP_POSI_NO = EP.EMP_POSI_NO
+			   	WHERE E.EMP_RESIGN_DATE IS NULL
+			   	<if test="searchTxt != null and searchTxt != ''">
+			   		AND E.EMP_NO LIKE '%' || #{searchTxt} || '%'
+					OR D.DEPART_NAME LIKE '%' || #{searchTxt} || '%'
+					OR T.TEAM_NAME LIKE '%' || #{searchTxt} || '%'
+					OR E.EMP_NAME LIKE '%' || #{searchTxt} || '%'
+					OR EP.EMP_POSI_NAME LIKE '%' || #{searchTxt} || '%'
+				</if>
+				ORDER BY E.EMP_NO DESC
+		) SQ
+		WHERE SQ.RNUM BETWEEN #{startCnt} AND #{endCnt}
+	</select>
+	
+	<select id="getEmpCnt" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM EMP_INFO E INNER JOIN TEAM T
+			   			ON E.TEAM_NO = T.TEAM_NO
+			   			INNER JOIN DEPART D
+			   			ON T.DEPART_NO = D.DEPART_NO
+			   			INNER JOIN EMP_POSI EP
+			   			ON E.EMP_POSI_NO = EP.EMP_POSI_NO
+		WHERE E.EMP_RESIGN_DATE IS NULL
+		<if test="searchTxt != null and searchTxt != ''">
+			AND E.EMP_NO LIKE '%' || #{searchTxt} || '%'
+			OR D.DEPART_NAME LIKE '%' || #{searchTxt} || '%'
+			OR T.TEAM_NAME LIKE '%' || #{searchTxt} || '%'
+			OR E.EMP_NAME LIKE '%' || #{searchTxt} || '%'
+			OR EP.EMP_POSI_NAME LIKE '%' || #{searchTxt} || '%'
+		</if>
+	</select>
+	<select id="getSelectProdDiv" parameterType="hashmap" resultType="hashmap">
+		SELECT DIV_NO
+		FROM PROD
+		GROUP BY DIV_NO
+	</select>
+	<select id="getSelectProdType" parameterType="hashmap" resultType="hashmap">
+		SELECT TYPE_NO
+		FROM PROD
+		GROUP BY TYPE_NO
+	</select>
+	
+	<!-- 의견 목록 가져오기 -->
+	<select id="getBssOpin" parameterType="hashmap"
+		resultType="hashmap">
+		SELECT BS.OPIN_NO AS OPIN_NO, E.EMP_NAME, E.EMP_NO,
+		EP.EMP_POSI_NAME AS POSI_NAME,
+		BS.BSS_OPIN_CON AS OPIN_CON, TO_CHAR(BS.BSS_OPIN_DATE, 'YYYY-MM-DD HH24:MI:SS') AS
+		OPIN_DATE
+		FROM BSS_OPIN BS INNER JOIN EMP_INFO E
+		ON BS.EMP_NO = E.EMP_NO
+		INNER JOIN EMP_POSI EP
+		ON E.EMP_POSI_NO = EP.EMP_POSI_NO
+		AND BS.BSS_OPIN_DEL_YN = 1
+		WHERE BS.CHN_NO = #{chnNo}
+		ORDER BY
+		BS.OPIN_NO DESC
+	</select>
+	
+	<!-- 의견 목록 페이징 -->
+	<select id="getBssOpinCnt" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM BSS_OPIN
+		WHERE CHN_NO = #{chnNo}
+		AND BSS_OPIN_DEL_YN = 1
+	</select>
+	
+	<!-- 의견 작성 -->
+	<insert id="insertBssOpin" parameterType="hashmap">
+		INSERT INTO BSS_OPIN(OPIN_NO, CHN_NO, EMP_NO, BSS_OPIN_CON)
+		VALUES ( BSS_OPIN_SEQ.NEXTVAL, #{chnNo}, #{empNo}, #{opin_txt})
+	</insert>
+	
+	<!-- 의견 삭제 -->
+	<update id="delBssOpin" parameterType="hashmap">
+		UPDATE BSS_OPIN
+		SET BSS_OPIN_DEL_YN = 0
+		WHERE OPIN_NO = #{opin_no}
+	</update>
+</mapper>
