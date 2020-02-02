@@ -313,13 +313,14 @@ $(document).ready(function() {
 	// 의견 리스트 Set
 	function setOpinList(opin) {
 		var html = "";
-		
 		if(opin.length > 0) {
 			for(var i in opin) {
 				html += "<tr>";
 				html += "<td class=\"field_contents\">";
-				html += "<div class=\"opin_contents\"><pre>" + opin[i].OPIN_CON + "</pre></div>";
-				html += "<div class=\"opin_add_data\">" + opin[i].EMP_NAME;
+// 				html += "<div class=\"opin_contents\"><pre>" + opin[i].OPIN_CON + "</pre></div>";
+				html += `<div class="opin_contents"><pre>` + opin[i].OPIN_CON + `</pre></div>`;
+// 				html += "<div class=\"opin_add_data\">" + opin[i].EMP_NAME;
+				html += `<div class="opin_add_data">`+ opin[i].EMP_NAME;
 				if(typeof opin[i].POSI_NAME != "undefined") {
 					html += " " + opin[i].POSI_NAME;
 				}
@@ -502,7 +503,6 @@ $(document).ready(function() {
 
 function getSche() {
 	var params = $("#dataForm").serialize() + "&" + $("#actiForm").serialize();
-	console.log(params);
 	$.ajax({
 		type: "post",
 		url: "getClientScheAjax",

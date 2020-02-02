@@ -187,29 +187,6 @@ function drawListPaging(pb) {
 </script>
 </head>
 <body>
-	<div class="pop_area">
-		<!--pop_on으로 하면 해당 팝업이 나타납니다  -->
-		<!-- 연락처 목록 삭제 팝업 -->
-			<div class="pop_wrap pop_off">
-				<div class="pop_bg"></div>
-				<div class="pop pop_size_small">
-					<div class="pop_title_area">
-						<div class="pop_title_text">
-							삭제
-						</div>
-						<div class="pop_close">
-						</div>
-					</div>
-					<div class="pop_contents">연락처를 삭제하시겠습니까?</div>
-					<div class="pop_btn_area">
-						<div class="btn btn_yellow btn_size_normal" id="btn_add_ok">확인</div>
-						<div class="btn btn_yellow btn_size_normal" id="btn_add_cancel"
-							style="margin-right: 10px">취소</div>
-					</div>
-				</div>
-			</div>
-	</div>
-	
 	<c:import url="/topLeft">
 		<c:param name="menuNo">2</c:param>
 	</c:import>
@@ -226,7 +203,7 @@ function drawListPaging(pb) {
 	                    <div class="btn btn_yellow btn_size_normal" id="client_del">삭제</div>
 	               </div>
 	               <form action="#" id="actionForm" method="post">
-	               	   <input type="hidden" id="page" name="page" value="1">
+	               	   <input type="hidden" id="page" name="page" value="${page}">
 	               	   <input type="hidden" id="client_no" name="client_no" value="${param.no}">
 		               <div class="top_title_area">
 		                    <div>

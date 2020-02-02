@@ -39,7 +39,11 @@ public class ClientController {
 	
 	// 고객 목록
 	@RequestMapping(value = "/clientList")
-	public ModelAndView clientList(HttpSession session, ModelAndView mav) {
+	public ModelAndView clientList(HttpSession session, @RequestParam HashMap<String, String> params, ModelAndView mav) {
+		if(params.get("page") == null) {
+			params.put("page", "1");
+		}
+		mav.addObject("page", params.get("page"));
 		mav.setViewName("client/clientList");
 
 		return mav;
@@ -124,7 +128,6 @@ public class ClientController {
 		ObjectMapper mapper= new ObjectMapper();
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		try {
-			System.out.println("params =>" +params);
 			/* 고객등록 */
 			iClientService.clientinsertData(params);
 			modelMap.put("res","SUCCESS");
@@ -144,7 +147,6 @@ public class ClientController {
 		ObjectMapper mapper= new ObjectMapper();
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		try {
-			System.out.println("params =>" +params);
 			/* 고객등록 */
 			iClientService.clientupdateData(params);
 			modelMap.put("res","SUCCESS");
@@ -193,7 +195,6 @@ public class ClientController {
 	public String getclientAjax(@RequestParam HashMap<String, String> params, ModelAndView mav, HttpSession session) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> modelMap = new HashMap<String, Object>();
-		System.out.println("params="+params);
 		
 		int cnt = iClientService.getclientCnt(params);
 		if(params.get("page") == null) {
