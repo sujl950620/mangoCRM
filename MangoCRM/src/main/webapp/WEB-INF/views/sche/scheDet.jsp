@@ -31,7 +31,7 @@ $(document).ready(function() {
 	/* 일정 세부사항 보기 취소 */
 	$("#scheCancel").on("click", function() {
 		makeTwoBtnPopup(1, "취소하시겠습니까", "계속 진행 시 취소합니다.", true, 400, 250, null, "확인", function() {
-			location.href = "scheListTest";
+			location.href = "scheList";
 		},"취소", function() {
 			closePopup(1);
 		});
@@ -87,7 +87,7 @@ $(document).ready(function() {
 	
 	/* 일정 의견 등록 버튼 */
 	$("#scheOpinAddBtn").on("click",function(){
-			var params = $("#actionForm").serialize();
+			var params = $("#opinForm").serialize();
 			
 			$.ajax({
 				
@@ -123,7 +123,7 @@ function reLoadData(){
 	$.ajax({
 		
 		type : "post",
-		url : "scheDataAajx",
+		url : "scheDataAjax",
 		dataType : "json",
 		data : params,
 		
@@ -143,6 +143,11 @@ function reLoadData(){
 /* 일정 세부사항,수정 기본 데이터 출력 기능 */
 function loadData(scheData){
 	
+	$("#sche_div_name").val(scheData.CN);
+	
+	if(${sTeamNo} != scheData.TEAM_NO){
+	$("#scheFixBtn").css("display","none");
+	}
 	$("#sche_div_no").html(scheData.CN);
 	$("#sche_acti_no").html(scheData.DN);
 	$("#sche_importance").html(scheData.SCHE_IMPORTANCE);
@@ -164,26 +169,32 @@ function loadScheDiv(scheDivData){
 	if($("#scheDivNoM").val() == 0){
 		$("#changeScheDivFirst").html("고객");
 		$("#changeScheDivSecond").html("고객사");
-		$("#cNo").val(scheDivData.CLIENT_NO);
-		$("#sche_comp_no").html(scheDivData.COMP_NAME);
-		$("#sche_client_no").html(scheDivData.CLIENT_NAME);
-		$("#sche_ci_participant").html(scheDivData.SCHE_CI_PARTICIPANT);
+		if(scheDivData != null){
+			$("#cNo").val(scheDivData.CLIENT_NO);
+			$("#sche_comp_no").html(scheDivData.COMP_NAME);
+			$("#sche_client_no").html(scheDivData.CLIENT_NAME);
+			$("#sche_ci_participant").html(scheDivData.SCHE_CI_PARTICIPANT);
+		}	
 	}
 	else if($("#scheDivNoM").val()==1){
 		$("#changeScheDivFirst").html("리드명");
 		$("#changeScheDivSecond").html("담당자");
-		$("#cNo").val(scheDivData.LEAD_NO);
-		$("#sche_comp_no").html(scheDivData.LEAD_NAME);
-		$("#sche_client_no").html(scheDivData.EMP_NAME);
-		$("#sche_ci_participant").html(scheDivData.SCHE_CI_PARTICIPANT);
+		if(scheDivData != null){
+			$("#cNo").val(scheDivData.LEAD_NO);
+			$("#sche_comp_no").html(scheDivData.LEAD_NAME);
+			$("#sche_client_no").html(scheDivData.EMP_NAME);
+			$("#sche_ci_participant").html(scheDivData.SCHE_CI_PARTICIPANT);
+		}
 	}
 	else{
 		$("#changeScheDivFirst").html("영업명");
 		$("#changeScheDivSecond").html("담당자");
-		$("#cNo").val(scheDivData.CHN_NO);
-		$("#sche_comp_no").html(scheDivData.CHN_NAME);
-		$("#sche_client_no").html(scheDivData.EMP_NAME);
-	 	$("#sche_ci_participant").html(scheDivData.SCHE_CI_PARTICIPANT);
+		if(scheDivData != null){
+			$("#cNo").val(scheDivData.CHN_NO);
+			$("#sche_comp_no").html(scheDivData.CHN_NAME);
+			$("#sche_client_no").html(scheDivData.EMP_NAME);
+		 	$("#sche_ci_participant").html(scheDivData.SCHE_CI_PARTICIPANT);
+		}
 	}
 	
 }
@@ -394,31 +405,56 @@ function loadAttachList(attachlist, attachCnt){
 
 
 /* 일정상품 리스트 출력 */
-function loadProdList(prodlist,prodCnt){
-	var html="";
-	var cntHtml ="";	
-	
-	cntHtml += "(" + prodCnt + ")";
-	
-	
-	
-	
-	for(var i in prodlist){
-	html +=	"<div class=\"prod_box\" name=\""+prodlist[i].SCHE_PROD_NO+"\">";
-	html += 	"<div class=\"prod_left_box\">                                            ";
-	html += 	"<img src=\"resources/images/sche/product_icon.png\" class=\"prod_icon\">                                                 ";
-	html += 	"</div>                                                                 ";
-	html += 	"<div class=\"prod_right_box2\">                                          ";
-	html += 	"<div class=\"left_opin_content cursor_p\">"+prodlist[i].PROD_NAME+"</div>";
-	html += 	"<div class=\"left_user_data\">"+prodlist[i].EMP +" | "+ prodlist[i].DT+"</div>    ";
-	html += 	"</div>                                                                 ";
-	html += "</div>";
-	}
-	
-	$(".prod-list_count").html(cntHtml);
-	$(".product_box").html(html);
 
-}
+	function loadProdList(prodlist, prodCnt) {
+		var html = "";
+		var cntHtml = "";
+		
+
+		cntHtml += "(" + prodCnt + ")";
+		
+		for ( var i in prodlist) {
+			
+			if (typeof prodlist[i].GOODS_NO == "undefined") {
+				html += "<div class=\"prod_box\" name=\""+prodlist[i].SERVICE_NO+"\" >";
+			} else {
+				html += "<div class=\"prod_box\" name=\""+prodlist[i].GOODS_NO+"\" >";
+			}
+			html += "<div class=\"prod_left_box\">                                            ";
+			html += "<img src=\"resources/images/sche/product_icon.png\" class=\"prod_icon prodDetBtn\" id=\""+prodlist[i].DIV_NO+"\">                                                 ";
+			html += "</div>                                                                 ";
+			html += "<div class=\"prod_right_box2\">                                          ";
+			html += "<div class=\"left_opin_content cursor_p prodDetBtn\" id=\""+prodlist[i].DIV_NO+"\">"
+					+ prodlist[i].PROD_NAME + "</div>";
+			html += "<div class=\"left_user_data\">" + prodlist[i].EMP + " | "
+					+ prodlist[i].DT + "</div>    ";
+			html += "</div>                                                                 ";
+			html += "</div>";
+		}
+
+		$(".prod-list_count").html(cntHtml);
+		$(".product_box").html(html);
+
+		$(".prodDetBtn").on(
+				"click",
+				function() {
+					$("#prod").val($(this).attr("id"));
+
+					if ($("#prod").val() == 1) {
+						$("#goods_no").val(
+								$(this).parent().parent(".prod_box").attr(
+										"name"));
+					} else {
+						$("#service_no").val(
+								$(this).parent().parent(".prod_box").attr(
+										"name"));
+					}
+
+					$("#actionForm").attr("action", "goodsDet");
+					$("#actionForm").submit();
+		});
+
+	}
 </script>
 </head>
 <body>
@@ -446,9 +482,14 @@ function loadProdList(prodlist,prodCnt){
 					<input type="hidden" name="opin_no" id="opin_no"/>
 					<input type="hidden" name="minutes_no" id="minutes_no"/>
 					<input type="hidden" name="prod_no" id="prod_no"/>
+					<input type="hidden" name="prod" id="prod"/>
+					<input type="hidden" name="service_no" id="service_no"/>
+					<input type="hidden" name="goods_no" id="goods_no"/>
 					<input type="hidden" name="cNo" id="cNo"/>
+					<input type="hidden" name="sche_div_name" id="sche_div_name"/>
 					<input type="hidden" name="sche_no" id="sche_no" value="${param.sche_no}"/>
 					<input type="hidden" name="scheDivNoM" id="scheDivNoM" value="${param.scheDivNoM}"/>
+					
 					<table class="table_area">
 						<colgroup>
 							<col width=10% />
@@ -522,7 +563,7 @@ function loadProdList(prodlist,prodCnt){
 					<!-- 여기까지 세부사항 메인내용 테이블 -->
 				</div>
 				<!-- 세부사항 메인 내용 여기까지 -->
-				
+				</form>
 				<div class="blank_space"></div>
 
 				<div class="blank_space"></div>
@@ -629,7 +670,10 @@ function loadProdList(prodlist,prodCnt){
 						<div class="opin_box_1">
 							<!-- 하단 내용 입력 영역 -->
 							<div class="left_box">
+							<form action="#" id="opinForm" method="post">
+								<input type="hidden" id="sche_no_opin" name="sche_no_opin" value="${param.sche_no}"/>
 								<textarea class="input_style_normal1 input_min_mix1" id="sche_opin_con" name="sche_opin_con"></textarea>
+								</form>
 							</div>
 							<!-- 하단 버튼 영역 -->
 							<div class="right_box">
@@ -638,7 +682,6 @@ function loadProdList(prodlist,prodCnt){
 						</div>
 					</div>
 				</div>
-				</form>
 				<!-- 의견 여기까지 -->
 				<div class="blank_space"></div>
 				<div class="blank_space"></div>

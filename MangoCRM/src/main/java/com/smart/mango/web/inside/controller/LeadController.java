@@ -185,6 +185,21 @@ public class LeadController {
 
 		return mapper.writeValueAsString(modelMap);
 	}
+	
+	@RequestMapping(value = "leadCardAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String leadCardAjax(@RequestParam HashMap<String, String> params, ModelAndView modelAndView)
+			throws Throwable {
+
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+
+		List<HashMap<String, String>> list = iLeadService.getLeadCard(params);		
+		
+		modelMap.put("list", list);		
+
+		return mapper.writeValueAsString(modelMap);
+	}
 
 	@RequestMapping(value = "leadpopAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
@@ -335,7 +350,6 @@ public class LeadController {
 	public String getClientListCntAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> modelMap = new HashMap<String, Object>();
-			
 		int cnt = iLeadService.getClientCnt(params);
 
 		modelMap.put("cnt", cnt);

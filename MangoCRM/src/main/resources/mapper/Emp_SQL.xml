@@ -16,7 +16,11 @@
        							ON E.EMP_POSI_NO = EP.EMP_POSI_NO
        							INNER JOIN COMMON_CODE CC
        							ON E.EMP_FORM = CC.CODE_S_CATE
-       							   AND CC.CODE_L_CATE = 1
+       							AND CC.CODE_L_CATE = 1
+       							INNER JOIN AUTHOR A
+       							ON E.AUTHOR_NO = A.AUTHOR_NO
+       							AND E.AUTHOR_NO != 0
+       							AND D.DEPART_NO != 1
        							
        			WHERE E.EMP_RESIGN_DATE IS NULL
 				<if test="searchTxt != null and searchTxt != ''">
@@ -61,7 +65,11 @@
        					ON E.EMP_POSI_NO = EP.EMP_POSI_NO
        					INNER JOIN COMMON_CODE CC
        					ON E.EMP_FORM = CC.CODE_S_CATE
-       					AND CC.CODE_L_CATE = 1		
+       					AND CC.CODE_L_CATE = 1
+       					INNER JOIN AUTHOR A
+       					ON E.AUTHOR_NO = A.AUTHOR_NO
+       					AND E.AUTHOR_NO != 0
+       					AND D.DEPART_NO != 1	
        			WHERE E.EMP_RESIGN_DATE IS NULL
 				<if test="searchTxt != null and searchTxt != ''">
 					<choose>
@@ -96,6 +104,9 @@
 		SELECT EMP_POSI_NO AS POSI_NO, EMP_POSI_NAME AS POSI_NAME
 		FROM EMP_POSI
 		WHERE EMP_POSI_NO &gt; 0
+		<if test="flag == 'INSERT'">
+			AND EMP_POSI_NO NOT IN(3,4)
+		</if>
 	</select>
 	
 	<select id="getFormList" parameterType="hashmap" resultType="hashmap">
@@ -105,8 +116,10 @@
 	</select>
 	
 	<select id="getDepartList" parameterType="hashmap" resultType="hashmap">
-		SELECT DEPART_NO, DEPART_NAME
-		FROM DEPART
+		SELECT DISTINCT D.DEPART_NO, D.DEPART_NAME
+		FROM DEPART D INNER JOIN TEAM T
+                      ON D.DEPART_NO = T.DEPART_NO
+		ORDER BY D.DEPART_NO
 	</select>
 	
 	<select id="getAuthorList" parameterType="hashmap" resultType="hashmap">

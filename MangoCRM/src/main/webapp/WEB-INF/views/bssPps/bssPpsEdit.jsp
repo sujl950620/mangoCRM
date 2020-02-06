@@ -184,7 +184,7 @@ $(document).ready(function() {
 		
 		if(list.length > 0) {
 			for(var i in list) {
-				html += "<tr class=\"list_contents\" name=\"" + list[i].EMP_NO + "_" + list[i].EMP_NAME + "_" + list[i].EMP_EMAIL + "_" + list[i].DEPART_NAME + "_" + list[i].DEPART_NO + "\">";
+				html += "<tr class=\"list_contents\" name=\"" + list[i].EMP_NO + "~" + list[i].EMP_NAME + "~" + list[i].EMP_EMAIL + "~" + list[i].DEPART_NAME + "~" + list[i].DEPART_NO + "\">";
 		  		html += "<td>" + list[i].EMP_NO + "</td>";
 		  		html += "<td>" + list[i].DEPART_NAME + "</td>";
 		  		html += "<td>" + list[i].TEAM_NAME + "</td>";
@@ -231,7 +231,7 @@ $(document).ready(function() {
 		// 담당자 값 선택 Event
 		$(".pop_list>tbody").on("click", "tr", function() {
 			var select = $(this).attr("name");
-			var array = select.split("_");
+			var array = select.split("~");
 			$("#mgr_name").val(array[1]);
 			$("#depart_name").val(array[3]);
 			$("#mgr_email").val(array[2]);

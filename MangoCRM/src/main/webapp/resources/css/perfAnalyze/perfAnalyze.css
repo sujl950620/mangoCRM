@@ -4,8 +4,7 @@
 .cmp_title {
 	display: block;
 	text-align: center;
-	font-size: 36pt;
-	font-family: "Malgun Gothic", "맑은 고딕", "serif";
+	font-size: 32pt;
 }
 
 .cmp_title_wrap {
@@ -288,7 +287,6 @@
 .graph_area {
 	min-width: 1040px;
 	width: calc(100% - 7px);
-	height: 600px;
 	border: 1px solid #000000;
 }
 
@@ -317,68 +315,6 @@
    background-color : #F2CB07;
    cursor : pointer;
 }
-
-
-/* .analyze_btn {
-	display: inline-block;
-	width: 80px;
-	height: 30px;
-	vertical-align: top;
-}
-
-.analyze_btn > div {
-	display: inline-block;
-	width: 80px;
-	height: 100%;
-}
-
-.analyze_btn > div > div {
-	display: table-cell;
-	width: 80px;
-	height: 30px;
-	vertical-align: middle;
-	background-color: #F2B807;
-	text-align: center;
-	border: 1px solid #707070;
-	border-radius: 3px;
-	cursor: pointer;
-	font-size: 14pt;
-	font-family: "맑은 고딕", "Malgun Gothic";
-}
-
-.analyze_btn > div > div:hover {
-	background-color: #F2CB07;
-}
-
-.exit_btn {
-	display: inline-block;
-	width: 80px;
-	height: 30px;
-	vertical-align: top;
-}
-
-.exit_btn > div {
-	display: table;
-	width: 80px;
-	height: 30px;
-}
-
-.exit_btn > div > div {
-	display: table-cell;
-	width: 80px;
-	height: 30px;
-	vertical-align: middle;
-	background-color: #F2B807;
-	text-align: center;
-	border: 1px solid #707070;
-	border-radius: 3px;
-	cursor: pointer;
-}
-
-.exit_btn > div > div:hover {
-	background-color: #F2CB07;
-} */
-
 
 
 
@@ -538,20 +474,6 @@ td{
 	width: 250px;
 }
 
-/* .table_regist_date {
-	background-color : #595959;
-	font-size : 10pt;
-	font-weight: bold;
-	color : #ffffff;
-	width: 150px;
-}
-
-.regist_date_txt {
-	border : 0;
-	width: 150px;
-
-} */
-
 .title_none {
 	background-color : #595959;
 	font-size : 10pt;
@@ -612,6 +534,13 @@ td{
    margin-top: 30px;
 }
 
+.paging_area {
+	display: inline-block;
+	width: 1200px;
+	text-align: center;
+	position: relative;
+}
+
 .content_bottom_1_span {
 
    display: inline-block;
@@ -620,15 +549,17 @@ td{
 }
 
 .bottom_btn_1 {
-   display : inline-block;
-   width : 40px;
-   height : 40px;
-   border : 0px;
-   margin-left : 2px;
-   background-color : #595959;
-   color: #F2F2F2;
+	display : inline-block;
+	width : 40px;
+	height : 40px;
+	border : 0px;
+	margin-left : 2px;
+	background-color : #595959;
+	color: #F2F2F2;
+	padding-top: 7px;
+	font-size: 11pt;
+	margin-top: 10px;
 }
-
 .bottom_btn_2 {
    display : inline-block;
    width : 40px;
@@ -637,19 +568,26 @@ td{
    border : 0px;
    background-color : #595959;
    color: #F2F2F2;
+   padding-top: 7px;
+	font-size: 11pt;
+	margin-top: 10px;
 }
-
 .bottom_btn_1:hover {
    background-color: #F2CB07;
    color: #595959;
    cursor : pointer;
 }
-
+.paging_area{
+	display: inline-block;
+	width: 1200px;
+	text-align: center;
+	position: relative;
+}
 .bottom_btn_2:hover {
    background-color: #F2CB07;
    color: #595959;
    cursor : pointer;
-}
+  }
 
 .analyze_write_area {
 	width: 1200px;

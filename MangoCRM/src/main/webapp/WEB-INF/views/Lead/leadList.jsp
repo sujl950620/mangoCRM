@@ -68,7 +68,7 @@ table {
 	border-radius: 3px;
     background-color: #F2CB07;
     border: 0px solid #c5960a;
-    color: #595959;	
+    color: #272727;	
     font-size: 10pt;
     font-weight: bold;
     line-height: 40px;
@@ -157,7 +157,7 @@ table {
 	height: 70px;
 	border-radius: 3px; 
 	border: 1px solid #d0d0d0;
-	position : relative;
+	position : absolute;
 	background-color: white;
 	line-height: 72px;
 	padding: 5px 0;
@@ -184,6 +184,10 @@ table {
 	height: 100%;
 	overflow-y : auto;
 }
+
+.card_view_bottom::-webkit-scrollbar{
+	display: none;
+}
 </style>
 <c:import url="/header"></c:import>
 <script type="text/javascript">
@@ -193,13 +197,16 @@ $(document).ready(function() {
 	$(".table_img_size").on("click", function(){
 		$("#Lead_list_area").show();
 		//간판보기
-		$("#lead_card_area").hide();			
+		$("#lead_card_area").hide();
+		$(".cntPick").show();
 	});
 	
 	$(".grid_img_size").on("click", function(){
+		reloadCard();
 		$("#Lead_list_area").hide();
 		//카드 형식 보기 
 		$("#lead_card_area").show();
+		$(".cntPick").hide();
 	});
 	
 	
@@ -217,6 +224,12 @@ $(document).ready(function() {
 		reloadList();
 	});
 	
+	$("#searchTxt").on("keypress", function(event) {
+		if(event.keyCode == 13) {
+			$("#searchBtn").click();
+			return false;
+		}
+	});
 	
 	$(".list_paging_area").on("click", "div", function(){
 		if(($(this).attr("name") != "")){
@@ -226,7 +239,7 @@ $(document).ready(function() {
 	});
 	
 	
-	$("#tbody1").on("dblclick", "tr", function(){
+	$("#tbody1").on("dblclick", ".list_contents", function(){
 		$("#lead_no").val($(this).attr("name"));
 		$("#tableForm").attr("action", "leadDetail");
 		$("#tableForm").submit();
@@ -304,10 +317,28 @@ function reloadList() {
 		}
 	});
 }
+
+function reloadCard(){
+	var params = $("#srchForm").serialize() + "&" + $("#tableForm").serialize();
+	$.ajax({
+		type : "post",
+		url : "leadCardAjax",
+		dataType : "json",
+		data : params,
+
+		success : function(result) {
+			leadCardList(result.list);
+		},
+		error : function(request, status, error) {
+			console.log("text : " + request.responseText);
+			console.log("error : " + error);
+		}
+	});
+}
 function redrawList(list) {
 	var html = "";
 	if (list.length == 0) {
-		html += "<tr class=\"list_contents\" style=\"height: 500px;\">";
+		html += "<tr  style=\"height: 500px; font-size : 10pt;\">";
 		html += "<td colspan=\"9\">조회된 데이터가 없습니다.</td>";
 		html += "</tr>";
 		$(".list_paging_area").html("");
@@ -353,39 +384,6 @@ function redrawList(list) {
 	
 	$("#client_all").html($(".table_list tbody .list_chbox").length);
 	$("#client_cnt").html($(".table_list tbody .list_chbox:checked").length);
-}
-function redrawPaging(pb){
-	var html = "";
-	//처음
-	html += "<div class = \"btn_paging\" name=\"1\">&lt;&lt;</div>&nbsp;";
-	//이전
-	if($("#page").val() == "1"){
-	html += "<div class = \"btn_paging\" name=\"1\">&lt;</div>&nbsp;";
-	}
-	else{
-		html += "<div class = \"btn_paging\" name=\"" + ($("#page").val() * 1 - 1) + "\">&lt;</div>&nbsp;";			
-	}
-	//숫자
-	for(var i = pb.startPcount ; i <= pb.endPcount; i++){
-		if($("#page").val() == i){
-			html += "<div class = \"btn_paging\"><b>"+ i +"</b></div>&nbsp;";	
-		}
-		else{
-			html += "<div class = \"btn_paging\" name=\"" + i + "\">"+ i + "</div>&nbsp;";	
-		}
-	}
-	//다음
-	if($("#page").val() == pb.maxPcount){
-	html += "<div class = \"btn_paging\" name=\"" + pb.maxPcount + "\">&gt;</div>&nbsp;";
-	}
-	else{
-		html += "<div class = \"btn_paging\" name=\"" + ($("#page").val() * 1 + 1) + "\">&gt;</div>&nbsp;";			
-	}
-	
-	//마지막
-	html += "<div class = \"btn_paging\" name = \"" + pb.maxPcount + "\">&gt;&gt</div>";
-	
-	$(".list_paging_area").html(html);
 }
 
 
@@ -443,17 +441,17 @@ function leadCardList(list){
 
 	$(".card_view_area").html(html);
 	
-	$(".card_view_bottom").slimScroll({
-		height: "100%",
-		width : "100%"
-	});
+// 	$(".card_view_bottom").slimScroll({
+// 		height: "100%",
+// 		width : "100%"
+// 	});
 	
 	for(var i in list){
 		
 		html = "";
 		
 		html += "<div class=\"card_area\" id=\"" + list[i].L_NO + "\">";
-		html += "	<div class=\"card_title\">";
+		html += "	<div class=\"card_title\" id=\"" + list[i].E_NO + "\">";
 		html += "		<div class=\"card_name\">" + list[i].L_NM + "</div>";
 		html += "		<div class=\"card_btn\" id=\"btn_card\"></div>";
 		html += "	</div>";
@@ -467,20 +465,54 @@ function leadCardList(list){
 	
 	
 	// 드래그앤 드랍 함수
-	$(".card_view_bottom").sortable({      // start : 드래그 했을 때 함수
+	$(".card_view_bottom").sortable({      // start : 드래그 했을 때 함수                         // diactivate : 드래그 끝났을 때 발생 함수 
 		connectWith: ".card_view_bottom",  // stop : 드랍했을 때 함수
-		items: '.card_area',				   // change : 영역이 옮겨 질때 마다 발생하는 함수 
-		helper: function(event, ui){		   // diactivate : 드래그 끝났을 때 발생 함수 
-			$helper= ui.clone();
-	        return $helper;
-		},
+		items: '.card_area',			   // change : 영역이 옮겨 질때 마다 발생하는 함수
 		//드래그 처음 시작 함수
 		start : function(event, ui){
 			$("#lNo").val(ui.item.attr("id"));
 		},
 		//드랍 함수
 		stop : function(event, ui){
-			editLs();
+			if($(ui.item).parent("div").attr("id") == "Conversion"){
+				makeTwoBtnPopup(1, "컨버젼 경고", "정말로 기회로 전환시키겠습니까?", false, 400, 200, null, "확인", function() {
+					closePopup(1);
+					$("#lead_no").val(ui.item.attr("id"));
+					var params = $("#tableForm").serialize() + "&lead_nm=" + $(ui.item).children(".card_title").children(".card_name").html()
+								+ "&empNo=" + $(ui.item).children(".card_title").attr("id");
+					alert(params);
+					$.ajax({
+						type: "post",
+						url: "insertChnAjax",
+						dataType: "json",
+						data: params,
+						success: function(result) {
+							if (result.res == "SUCCESS") {
+								editLs();
+								makeOneBtnPopup(2, "컨버젼 성공", "기회로 전환되었습니다.", false, 400, 200, null, "확인", function() {
+									closePopup(2);
+									location.href = "bssMain";
+								});
+							} else {
+								makeOneBtnPopup(3, "컨버젼 실패", "이미 기회로 전환된 리드입니다.", false, 400, 200, null, "확인", function() {
+									closePopup(3);
+									reloadList();
+								});
+							}
+						},
+						error : function(request, status, error) {
+							console.log("status : " + request.status);
+							console.log("text : " + request.responseTest);
+							console.log("error : " + error);
+						}
+					});
+				}, "취소", function() {
+					closePopup(1);
+					reloadList();
+				});
+			} else {
+				editLs();
+			}
 		},
 		deactivate : function(event, ui){
 			$("#lsNo").val($(ui.item).parent("div").attr("id"));
@@ -511,7 +543,9 @@ function leadCardList(list){
 			$("#btn_modify").on("click",function(b){
 				//수정 이벤트
 				b.stopPropagation();
-				alert("@");
+				$("#lead_no").val($(e.target).parent().parent().attr("id"));
+				$("#tableForm").attr("action", "leadupdate");
+				$("#tableForm").submit();
 			});
 		} 
 		else {
@@ -570,7 +604,9 @@ function editLs() {
 </script>
 </head>
 <body>
-	<c:import url="/topLeft"></c:import>
+	<c:import url="/topLeft">
+		<c:param name="menuNo">5</c:param>
+	</c:import>
 	<div class="title_area">리드</div>
 	<div class="content_area">
 		<div class="list_wrap">
@@ -589,8 +625,8 @@ function editLs() {
 				</div>
 				<!-- 상단 등록, 삭제 -->
 				<div class="content_btn">
-					<div id = "lead_del_Btn">삭제</div>
-					<div id = "lead_reg_Btn">등록</div>
+					<div id = "lead_del_Btn" class="btn btn_yellow btn_size_normal" style="color: #272727;">삭제</div>
+					<div id = "lead_reg_Btn" class="btn btn_yellow btn_size_normal" style="color: #272727;">등록</div>
 				</div>
 				<!-- 상단 테이블이미지, 간판이미지 -->
 				<div class="view_area">
@@ -603,14 +639,16 @@ function editLs() {
 			<div class="content_srch">
 				<div class="content_srch_btn">
 					<div id = "searchBtn">검색</div>
-					<input type="text" name = "searchTxt" class="content_srch_txt" /> 
+					<input type="text" name = "searchTxt" id="searchTxt" class="content_srch_txt" /> 
 					<select name = "searchGbn2" class="content_srch_DD">
 						<!-- 검색드랍다운리스트 -->
 						<option class="content_srch_DD1"></option>
-						<option selected="selected" value = "0">고객명</option>
+						<option value = "0">고객명</option>
 						<option value = "1">기업명</option>
 						<option value = "2">담당자</option>
 						<option value = "3">리드 상태</option>
+						<option selected="selected" value = "4">전체</option>
+						<option value = "5">리드명</option>
 					</select> 
 					<span class="cntPick">
 						<span id="chkcnt_all"></span>개 항목중 <span id="chkcnt">0</span>개 선택

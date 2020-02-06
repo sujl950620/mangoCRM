@@ -15,6 +15,11 @@ table {
 	font-size: 10pt;
 }
 
+.card_area {
+	width: 100%;
+	height: 100%;
+}
+
 .card_view_top {
 	height: 100px;
 	width: 1200px;
@@ -44,9 +49,9 @@ table {
 	height: 100%;
 }
 /* 리드 카드보기 가운데부분  */
-.card_view_title {
+.card_view_area {
 	width: 1200px;
-	height: auto;
+	height: 580px;
 	text-align: center;
 	margin: 10px 0;
 }
@@ -72,7 +77,7 @@ table {
 	font-size: 10pt;
 	font-weight: bold;
 	line-height: 40px;
-	vertical-align: middle;
+	vertical-align: top;
 }
 
 /* 카드 내부 */
@@ -178,9 +183,6 @@ table {
 .input_normal {
 	text-align: center;
 	text-indent: 0px;
-}
-
-.input_normal {
 	border: 0px !important;
 }
 
@@ -293,7 +295,7 @@ table {
 				redrawCardList(result.bssList);
 				/* 카드 목록 클릭 */
 				$(".card_view_title_stat").on("click", ".card", function() {
-					if($(this).parents(".card_view_title_stat").attr("id") == 0) {
+					if($(this).parents(".card_view_bottom").attr("id") == "b0") {
 						$("#lead_no").val($(this).children(".card_area").attr("id"));
 						var params = $("#actionForm").serialize();
 						$.ajax({
@@ -330,11 +332,6 @@ table {
 						});
 					}
 				});
-				
-				/* 카드 목록 클릭(리드) */
-				$("#0").on("click", ".card", function() {
-					
-				});
 			},
 			error : function(request, status, error) {
 				console.log("text : " + request.responseText);
@@ -347,28 +344,38 @@ table {
 		var html = "";
 		
 		html += "<div class=\"vertical_line\"></div>";
-		html += "<div class=\"card_view_title_stat\" id=\"0\">";
+		html += "<div class=\"card_view_title_stat\">";
 		html += "	<div class=\"card_view_stat\">리드</div>";
+		html += "   <div class=\"card_view_bottom\" id=\"b0\"></div>";
 		html += "</div>";
 		html += "<div class=\"vertical_line\"></div>";
-		html += "<div class=\"card_view_title_stat\" id=\"1\">";
+		html += "<div class=\"card_view_title_stat\">";
 		html += "	<div class=\"card_view_stat\">영업기회</div>";
+		html += "   <div class=\"card_view_bottom\" id=\"b1\"></div>";
 		html += "</div>";
 		html += "<div class=\"vertical_line\"></div>";
-		html += "<div class=\"card_view_title_stat\" id=\"2\">";
+		html += "<div class=\"card_view_title_stat\">";
 		html += "	<div class=\"card_view_stat\">영업제안</div>";
+		html += "   <div class=\"card_view_bottom\" id=\"b2\"></div>";
 		html += "</div>";
 		html += "<div class=\"vertical_line\"></div>";
-		html += "<div class=\"card_view_title_stat\" id=\"3\">";
+		html += "<div class=\"card_view_title_stat\">";
 		html += "	<div class=\"card_view_stat\">영업협상</div>";
+		html += "   <div class=\"card_view_bottom\" id=\"b3\"></div>";
 		html += "</div>";
 		html += "<div class=\"vertical_line\"></div>";
-		html += "<div class=\"card_view_title_stat\" id=\"4\">";
+		html += "<div class=\"card_view_title_stat\">";
 		html += "	<div class=\"card_view_stat\">영업계약</div>";
+		html += "   <div class=\"card_view_bottom\" id=\"b4\"></div>";
 		html += "</div>";
 		html += "<div class=\"vertical_line\"></div>";
 		
-		$("#cardViewTitle").html(html);
+		$("#cardViewArea").html(html);
+		
+		$(".card_view_bottom").slimScroll({
+			height: "100%",
+			width : "100%"
+		});
 		
 		for(var i in bssList){
 			
@@ -383,7 +390,7 @@ table {
 			html += "</div>";
 			html += "</div>";
 			
-			$("#" + bssList[i].PROG_NO).append(html);
+			$("#b" + bssList[i].PROG_NO).append(html);
 		}
 		reloadLeadList();
 	}
@@ -422,7 +429,7 @@ table {
 			html += "</div>";
 			html += "</div>";
 			
-			$("#0").append(html);
+			$("#b0").append(html);
 		}
 	}
 	
@@ -553,7 +560,7 @@ table {
 				</div>
 			<div id="card_area">
 				<div class="div_line_yellow"></div>
-				<div class="card_view_title" id="cardViewTitle">
+				<div class="card_view_area" id="cardViewArea">
 				<!-- 카드 목록 영역 -->
 				</div>
 			</div>
@@ -598,17 +605,17 @@ table {
 							<col width="110px" />
 						</colgroup>
 						<thead>
-							<tr class="table_list_td">
-								<th class="table_list_header">no</th>
-								<th class="table_list_header">영업기회명</th>
-								<th class="table_list_header">고객사</th>
-								<th class="table_list_header">고객</th>
-								<th class="table_list_header">시작일</th>
-								<th class="table_list_header">종료일</th>
-								<th class="table_list_header">예상매출</th>
-								<th class="table_list_header">상태</th>
-								<th class="table_list_header">부서</th>
-								<th class="table_list_header">담당자</th>
+							<tr class="table_list_header">
+								<th>no</th>
+								<th>영업기회명</th>
+								<th>고객사</th>
+								<th>고객</th>
+								<th>시작일</th>
+								<th>종료일</th>
+								<th>예상매출</th>
+								<th>상태</th>
+								<th>부서</th>
+								<th>담당자</th>
 							</tr>
 						</thead>
 						<tbody>

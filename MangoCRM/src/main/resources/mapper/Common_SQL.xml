@@ -25,7 +25,7 @@
 		CONNECT BY PRIOR M.MENU_NO = M.TOP_MENU_NO) M
 	</select>
 	
-	<select id="menuAuthorCheck" parameterType="hashmap" resultType="hashmap">
+	<select id="menuAuthorCheck" parameterType="hashmap" resultType="String">
 		SELECT AUTHOR_TYPE_NO
 		FROM MENU_AUTHOR
 		WHERE AUTHOR_NO = #{authorNo}

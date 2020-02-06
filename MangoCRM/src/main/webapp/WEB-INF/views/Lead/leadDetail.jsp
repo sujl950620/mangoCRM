@@ -705,7 +705,7 @@ $(document).ready(function() {
 	$("#viewClientBtn").on("click", function() {
 		var flag = $("#all_flag").val();
 		if(flag == 0) {
-			var params = "&team_no=" + $("#team_no").val();
+			var params = "&lead_no=" + $("#lead_no").val();
 
 			$.ajax({
 				type: "post",
@@ -733,9 +733,9 @@ $(document).ready(function() {
 	
 	// 팀 소속 사원 tr 클릭 Event
 	$("#client_table").on("click", "tr", function() {
-		$("#cl_no").val($(this).attr("name"));
-// 		$("#ClientForm").attr("action", "empMgtDetail"); // 고객 리스트로 이동
-// 		$("#ClientForm").submit();
+		$("#client_no").val($(this).attr("name"));
+		$("#clientForm").attr("action", "clientDetail"); // 고객 리스트로 이동
+		$("#clientForm").submit();
 	});
 	
 	// 삭제 버튼 클릭 이벤트
@@ -932,6 +932,7 @@ function drawClient(list) {
 	}
 	
 	$("#client_table").html(html);
+	$("")
 }
 
 //의견 리스트 Get
@@ -1028,7 +1029,10 @@ function drawOpinList(list) {
 			data : params,
 			success : function(result) {
 				if (result.res == "SUCCESS") {
-					makeAlert(7, "망고CRM관리자", "성공적으로 업로드 되었습니다.", null)
+					makeAlert(7, "망고CRM관리자", "성공적으로 업로드 되었습니다.", function(){
+						location.reload();
+					});
+					
 				} else {
 					alert("저장이 안됩니다");
 				}
@@ -1063,9 +1067,11 @@ function uploadList(list) {
 	var html = "";
 	console.log(list);
 	if (list.length == 0) {
-		html += "<tr class=\"list_contents\" style=\"height: 300px;\">";
-		html += "<td colspan=\"9\">조회된 데이터가 없습니다.</td>";
-		html += "</tr>";
+			html += "<tr style=\"text-align: center;\">";
+			html += "	<td>";
+			html += "		<div> 조회된 데이터가 없습니다. </div>";
+			html += "	</td>";
+			html += "</tr>";
 	} else {
 		for ( var i in list) {
 			html += "<tr class=\"list_contents\" id = \"lead_attach_no\"name = \"" + list[i].LEAD_ATTACH_NO + "\">"
@@ -1245,7 +1251,7 @@ function drawSche(sche) {
 			html += "            <img src=\"resources/images/activity/" + icon + "_icon.png\" alt=\"\" />";
 			html += "        </div>";
 			html += "    </td>";
-			html += "    <td class=\"activity_right\" colspan=\"" + ((sche[i].EDATE == null) ? "2": "1") +"\">";
+			html += "    <td class=\"activity_right\" colspan=\"" + ((sche[i].SCHE_RES == null) ? "2": "1") +"\">";
 			html += "        <div class=\"activity_bg\">";
 			html += "            <div>";
 			html += "                <div class=\"activity_cg\">" + sche[i].CODE_NAME +"</div>";
@@ -1256,7 +1262,7 @@ function drawSche(sche) {
 			html += "            <div class=\"activity_contents\">" + sche[i].EMP_NAME + " " + sche[i].EMP_PNM +" 담당</div>";
 			html += "        </div>";
 			html += "    </td>";
-			if(sche[i].EDATE != null){
+			if(sche[i].SCHE_RES != null){
 				html += "<td class=\"activity_result\">";
 	            html += "    <div class=\"activity_bg_right\">";
 	            html += "        <div>";
@@ -1264,7 +1270,7 @@ function drawSche(sche) {
 	            html += "            <div class=\"activity_uploadtime\">" + sche[i].EDATE + "</div>";
 	            html += "        </div>";
 	            html += "        <div class=\"activity_contents\">" + sche[i].LEAD_NAME + " | " + sche[i].CLIENT_PNM +"</div>";
-	            html += "        <div class=\"activity_contents\">" + sche[i].SCHE_RES +"</div>";
+	            html += "        <div class=\"activity_contents\">" + ((typeof sche[i].SCHE_RES == "undefined") ? "<br/>" : sche[i].SCHE_RES)  +"</div>";
 	            html += "        <div class=\"activity_contents\">" + sche[i].EMP_NAME + " " + sche[i].EMP_PNM +" 담당</div>";
 	            html += "    </div>";
 	            html += "</td>";
@@ -1273,101 +1279,22 @@ function drawSche(sche) {
 			// 일정 결과가 있을 때 
 		}
 	}
-	
 	$("#acti_area").html(html);
-}
-function getSche() {
-	var params = $("#actionForm").serialize() + "&" + $("#actiForm").serialize();
-	$.ajax({
-		type: "post",
-		url: "getLeadScheAjax",
-		dataType: "json",
-		data: params,
-		success: function(result) {
-			drawSche(result.scheList);
-		},
-		error : function(request, status, error) {
-			console.log("status : " + request.status);
-			console.log("text : " + request.responseTest);
-			console.log("error : " + error);
-		}
+	$("tr").on("click",".activity_right, .activity_result",function(){
+		$("#sche_no").val($(this).parent().attr("id"));
+		$("#actionForm").attr("action","scheDet");
+		$("#actionForm").submit();
 	});
-}
-
-function drawSche(sche) {
-	var html = "";
 	
-	if(sche == ""){
-		html += "<tr>"
-		html += "	<td>"
-		html += "		<div> 조회된 데이터가 없습니다. </div>"
-		html += "	</td>"
-		html += "</tr>"
-	} else {
-		for(var i in sche){
-			var icon = ""; 
-			// 활동 분류 
-			switch(sche[i].CODE_S_CATE){
-			// 전화
-			case 0:	
-				icon = "call";
-				break;
-			// 상담
-			case 1:
-				icon = "headphone";
-				break;
-			// 메일
-			case 2:
-				icon = "email";
-				break;
-			// 방문
-			case 3:
-				icon = "visit"
-				break;
-			}
-			html += "<tr class=\"activity_row\" id=\"" + sche[i].SCHE_NO +"\">";
-			html += "    <td class=\"activity_left\">";
-			html += "        <div class=\"activity_cg_icon\">";
-			html += "            <img src=\"resources/images/activity/" + icon + "_icon.png\" alt=\"\" />";
-			html += "        </div>";
-			html += "    </td>";
-			html += "    <td class=\"activity_right\" colspan=\"" + ((sche[i].EDATE == null) ? "2": "1") +"\">";
-			html += "        <div class=\"activity_bg\">";
-			html += "            <div>";
-			html += "                <div class=\"activity_cg\">" + sche[i].CODE_NAME +"</div>";
-			html += "                <div class=\"activity_uploadtime\">" + sche[i].SDATE + "</div>";
-			html += "            </div>";
-			html += "            <div class=\"activity_contents\">" + sche[i].LEAD_NAME + " | " + sche[i].CLIENT_PNM +"</div>";
-			html += "            <div class=\"activity_contents\">" + sche[i].SCHE_CON +"</div>";
-			html += "            <div class=\"activity_contents\">" + sche[i].EMP_NAME + " " + sche[i].EMP_PNM +" 담당</div>";
-			html += "        </div>";
-			html += "    </td>";
-			if(sche[i].EDATE != null){
-				html += "<td class=\"activity_result\">";
-	            html += "    <div class=\"activity_bg_right\">";
-	            html += "        <div>";
-	            html += "            <div class=\"activity_cg\">결과</div>";
-	            html += "            <div class=\"activity_uploadtime\">" + sche[i].EDATE + "</div>";
-	            html += "        </div>";
-	            html += "        <div class=\"activity_contents\">" + sche[i].LEAD_NAME + " | " + sche[i].CLIENT_PNM +"</div>";
-	            html += "        <div class=\"activity_contents\">" + sche[i].SCHE_RES +"</div>";
-	            html += "        <div class=\"activity_contents\">" + sche[i].EMP_NAME + " " + sche[i].EMP_PNM +" 담당</div>";
-	            html += "    </div>";
-	            html += "</td>";
-			}
-			html += "</tr>";
-			// 일정 결과가 있을 때 
-		}
-	}
-	
-	$("#acti_area").html(html);
 }
 
 
 </script>
 </head>
-<body>
-	<c:import url="/topLeft"></c:import>
+<body>	
+	<c:import url="/topLeft">
+		<c:param name="menuNo">5</c:param>
+	</c:import>
 	<div class="title_area">리드</div>
 	<div class="content_area">
 		<div class="content_wrap">
@@ -1376,6 +1303,8 @@ function drawSche(sche) {
 				<input type="hidden" id="sEmpNo" name="sEmpNo" value="${sEmpNo}"/>
 				<input type="hidden" id="lead_nm" name="lead_nm" />
 				<input type="hidden" id="empNo" name="empNo" value="${data.EMP_NO}"/>
+				<input type="hidden" id="scheDivNoM" name="scheDivNoM" value="1"/>
+				<input type="hidden" id="sche_no" name="sche_no"/>
 			</form>
 			<div class="lead_all">
 				<div class="table_title">
@@ -1526,29 +1455,29 @@ function drawSche(sche) {
 					<div class="lead_cldr b_text">의견<span class="opin_cnt"></span></div>
 				</div>
 				<div class="lead_opinion">
-					<table class="table_normal">
-						<colgroup>
-							<col width="90%" />
-							<col width="10%" />
-						</colgroup>
-						<tbody id="lead_opin_area">
-						</tbody>
-						<form action="#" method="post" id="opinForm">
-							<tr class="tr_no_uline">
-								<td class="field_contents">
-									<textarea class="textarea_noresize" id="opin_con" name="opinCon"></textarea>
-								</td>
-								<td class="field_contents">
-									<div class="btn_black btn_size_wfull" id="btn_opin_write">작성</div>
-								</td>
-							</tr>
-						</form>
-					</table>
+					<form action="#" method="post" id="opinForm">	
+						<table class="table_normal">
+							<colgroup>
+								<col width="90%" />
+								<col width="10%" />
+							</colgroup>
+							<tbody id="lead_opin_area">
+							</tbody>
+								<tr class="tr_no_uline">
+									<td class="field_contents">
+										<textarea class="textarea_noresize" id="opin_con" name="opinCon"></textarea>
+									</td>
+									<td class="field_contents">
+										<div class="btn_black btn_size_wfull" id="btn_opin_write">작성</div>
+									</td>
+								</tr>
+						</table>
+					</form>
 				</div>
 				<div class="div_line"></div>
 				<div class="div_line"></div>
 				<form action="#" method="post" id="clientForm">
-					<input type="hidden" id="cl_no" name="clNo" />
+					<input type="hidden" id="client_no" name="client_no" />
 				</form>
 				<div class="table_top_area client">
 					<div class="lead_cldr b_text">관련 고객<span class="client_cnt"></span></div>

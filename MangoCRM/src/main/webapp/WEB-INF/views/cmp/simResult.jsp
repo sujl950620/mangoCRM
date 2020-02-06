@@ -7,9 +7,66 @@
 <meta charset="UTF-8">
 <title>Contents Test</title>
 <c:import url="/header"></c:import>
+<script src="resources/script/highcharts/highcharts.js"></script>
+<script src="resources/script/highcharts/modules/exporting.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-
+	reloadList();
+	$("#save_btn").on("click", function() {			
+		save();
+	});
+	
+	/* for(var i=0; i < 10; i++){
+		chart[i] = {
+			name : 1,
+			y : 1,
+			color : '#fff'
+		}
+	} */
+	
+	$("#chart").highcharts({
+	    chart: {
+	    	type: 'column',
+	        height: '300',
+	    },
+	    title: {
+	        text: ''
+	    },
+	    xAxis: {
+	        categories: ['SMS', 'MMS', 'E-mail']
+	    },
+	    tooltip: {
+	        pointFormat: '<b>{point.percentage:.1f}%</b>'
+	    },
+	    plotOptions: {
+	        pie: {
+	            allowPointSelect: true,
+	            cursor: 'pointer',
+	            dataLabels: {
+	                enabled: false
+	            },
+	            showInLegend: false
+	        },
+	    },
+	    series: [{
+	        name: '반응값',
+	        data: [5, 3, 4],
+	        stack: 'male'
+	    }, {
+	        name: '실반응값',
+	        data: [3, 4, 4],
+	        stack: 'male'
+	    }, {
+	        name: '전송량',
+	        data: [2, 5, 6],
+	        stack: 'female'
+	    }],
+	    
+	    credits:{
+	    	enabled: false
+	    }
+	});
+	
 	function reloadList() {
 		var params = $("#actionForm").serialize();
 
@@ -20,7 +77,6 @@ $(document).ready(function() {
 			data : params,
 			success : function(result) {
 				redrawList(result.list);
-				redrawPaging(result.pb);
 			},
 			error : function(request, status, error) {
 				console.log("text : " + request.responseText);
@@ -29,7 +85,29 @@ $(document).ready(function() {
 		});
 	}
 	
-	function redrawList(list) {
+	function save(){
+	var params = $("#saveForm").serialize();
+	$.ajax({
+		type : "post",
+		url : "saveAjax",
+		dataType : "json",
+		data : params,
+		success : function(result) {
+			if (result.res == "SUCCESS") {
+				$("#saveForm").attr("action", "approval");
+				$("#saveForm").submit();
+			} else {
+				alert("등록 실패");
+			}
+		},
+		error : function(request, status, error) {
+			console.log("text : " + request.responseText);
+			console.log("error : " + error);
+		}
+	
+	});
+	}; 
+		function redrawList(list) {
 		var html = "";
 		
 		if (list.length == 0) {
@@ -38,15 +116,96 @@ $(document).ready(function() {
 			html += "</tr>";
 		} else {
 			for ( var i in list) {
-				html += "<tr name=\"" + list[i].SIM_NO + "\"id=\""+ list[i].DP_NO +"\" >";
-				html += "<td>" + list[i].CMP_NO + "</td>";
+				html += "<tr name=\"" + list[i].SIM_NO + "\"id=\""+ list[i].CMP_NO +"\" >";
+				html += "<td>" + list[i].CMP_NAME + "</td>";
+				html += "<td>" + list[i].CHANNEL_NAME + "</td>";
 				html += "<td>" + list[i].SEND_SIZE + "</td>";
-				html += "<td>" + list[i].REPONSE_SIZE + "</td>";
+				html += "<td>" + list[i].RECEIVE_SIZE + "</td>";
+				html += "<td>" + list[i].RESPONSE_SIZE + "</td>";
 				html += "<td>" + list[i].ACTUAL_RESPONSE_SIZE + "</td>";
+				html += "<td>" + list[i].EMP_NAME + "</td>";
 				html += "</tr>";
-			}
+			} 
 		}
 		$("tbody").html(html);
+	}
+	
+	function drawChart() {
+		alert("a");
+		/* $('#chart').highcharts({
+	        chart: {
+	            type: column,
+	            zoomType: 'x'
+	        },
+	        colors: ['#5CB3FF', '#D462FF', '#FBB917', '#00B3A2', '#FB558A', 
+	                 '#2870E3', '#FF8F00', '#B5BF07', '#3F9D00', '#CE3C92'],
+	        title: {
+	            text: 'SampleChart'
+	        },
+	        subtitle: {
+	            text: '- Sample -'
+	        },
+	        xAxis: {
+	            labels: {
+	                formatter: function() {
+	                    return this.value; // clean, unformatted number for year
+	                }
+	            }
+	        },
+	        yAxis: {
+	            title: {
+	                text: 'yPos'
+	            },
+	            labels: {
+	                formatter: function() {
+	                    return this.value +'k';
+	                }
+	            }
+	        },
+	        tooltip: {
+	            pointFormat: '{series.name} produced <b>{point.y:,.0f}</b><br/>in {point.x}'
+	        },
+	        plotOptions: {
+	            area: {
+	                pointStart: 1,
+	                marker: {
+	                    enabled: false,
+	                    symbol: 'circle',
+	                    radius: 2,
+	                    states: {
+	                        hover: {
+	                            enabled: true
+	                        }
+	                    }
+	                }
+	            }
+	        },
+	        series: [{
+	            name: 'Brands',
+	            colorByPoint: true,
+	            data: [{
+	                name: 'Chrome',
+	                y: 61.41,
+	                sliced: true,
+	                selected: true
+	            }, {
+	                name: 'Internet Explorer',
+	                y: 11.84
+	            }, {
+	                name: 'Firefox',
+	                y: 10.85
+	            }, {
+	                name: 'Edge',
+	                y: 4.67
+	            }, {
+	                name: 'Safari',
+	                y: 4.18
+	            }, {
+	                name: 'Other',
+	                y: 7.05
+	            }]
+	        }]
+	    }); */
 	}
 });
 </script>
@@ -83,7 +242,6 @@ table {
 
 .otbox {
 	width: 1200px;
-	height: 130px;
 	margin-top: 30px;
 }
 
@@ -374,7 +532,6 @@ table {
 
 .enroll_btn {
 	width: 1200px;
-	height: 50px;
 }
 /*버튼을 div로 만들었습니다.
   버튼 속성입니다.
@@ -506,25 +663,20 @@ width: 150px;
 text-align:center;
 }
 
-.otbox {
-	width: 1200px;
-	height: 130px;
-	margin-top: 30px;
-}
-
 
 </style>
 </head>
 <body>
 
 	<c:import url="/topLeft">
-		<c:param name="menuNo">11</c:param>
+		<c:param name="menuNo">9</c:param>
 	</c:import>
-	<div class="title_area">Main Title</div>
+	<div class="title_area">시뮬레이션 결과</div>
 	<div class="content_area">
 		<div class="contents_wrap">
 			<!-- 내용쓰기 -->
-
+			<form action="#" method="post" id="actionForm">
+			<input type="hidden" id="cmpNo" name="cmpNo" value="${param.cmpNo}" />
 
 			<div class="circle">1</div>
 			&nbsp;&nbsp;
@@ -541,70 +693,58 @@ text-align:center;
 			<!--  두표꺼 끝aaaaaaaaaaaaaaaa -->
 
 			<!-- 그래프 영역  -->
+			<form action="#" id="saveForm" method="post">
+			<input type="hidden" id="seq" name="seq" value="${param.seq}"/>	
+			<input type="hidden" id="empNo" name="empNo" value="${sEmpNo}"/>	
 
-			<a href="#"
+			</form>
+				<div id="chart" style=" width: 1200px; height: 450px;">
+					<a href="#"
 				onClick="saveNDrive('https://cafeattach.naver.net/07921ba8bde5e33f10f294a5987b0375dd8f719356/20190822_59_cafefile/28933132_1566465844559_PhHh5W_rtf/%EC%A0%95%EB%A6%AC.rtf?type=attachment', '%EC%A0%95%EB%A6%AC.rtf', '4318');return false"></a>
-
-			
-
-				<img src="./images/common/그래프.png"
-					style="width: 1200px; height: 450px;">
-
-			
-			<br />
-			<!-- 테이블 -->
-			<div class="content_btn">
-				<div style="border: inset;">
-					<span class="react">■</span>: (반응값) <span class="real_react">●</span>:
-					(실반응값) <span class="send">▲</span>: (전송량)
+				
+						
+						
+						
+											
 				</div>
-			</div>
-			<br />
-			<div class="otbox">
 
-				<div id="con" class="list">
-
+				
 				<table>
-
+				<thead>
 					<tr class="sample_1">
 
 						<td class="sample_title1">캠페인 명</td>
-						<td class="sample_title2">전송량</td>
-						<td class="sample_title3">반응값</td>
-						<td class="sample_title4">반응률(%)</td>
-						<td class="sample_title4">실반응값</td>
-						<td class="sample_title5">담당자</td>
+						<td class="sample_title2">채널</td>
+						<td class="sample_title3">전송량</td>
+						<td class="sample_title4">반응값</td>
+						<td class="sample_title5">반응률(%)</td>
+						<td class="sample_title6">실반응값</td>
+						<td class="sample_title7">담당자</td>
 						
 					</tr>
+					</thead>
+					<tbody>
 					<tr class="sample_2">
-
-
-
-						<td class="smp" type="text"style="font-size:13px;">000캠페인</td>
-
-						<td><input class="sample1_txt" type="text" readonly
-							value="10" /></td>
-						<td><input class="sample2_txt" type="text"
-							readonly="readonly" value="100" /></td>
-						<td><input class="sample3_txt" type="text"
-							readonly="readonly" value="10%" /></td>
-						<td><input class="sample4_txt" type="text"
-							readonly="readonly" value="10" /></td>
-						<td><input class="sample4_txt" type="text"
-							readonly="readonly" value="담당자" /></td> 
-						</tr>
-
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>	
+						<td></td>
+						<td></td>
+					</tr>
+					</tbody>
 				</table>
-</div>
 			</div>
+		</div>
 
 			
 
 			<div class="enroll_btn">
-				<div>결재 올리기</div>
+				<div id="save_btn">결재 올리기</div>
 			</div>
 
-			
+			</form>
 		</div>
 	</div>
 	<c:import url="/bottom"></c:import>

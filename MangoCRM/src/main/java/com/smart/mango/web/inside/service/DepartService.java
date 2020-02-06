@@ -36,9 +36,44 @@ public class DepartService implements IDepartService {
 		iDepartDao.insertDepart(params);
 	}
 	@Override
-	public void updateDepart(HashMap<String, String> params) throws Throwable {
+	public HashMap<String, String> getDepartMgr(HashMap<String, String> params) throws Throwable {
 		// TODO Auto-generated method stub
-		iDepartDao.updateDepart(params);
+		return iDepartDao.getDepartMgr(params);
+	}
+	@Override
+	public void insertTeam(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		iDepartDao.insertTeam(params);
+	}
+	@Override
+	public HashMap<String, String> getTeamMgr(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iDepartDao.getTeamMgr(params);
+	}
+	@Override
+	public int getEmpDepartCnt(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iDepartDao.getEmpDepartCnt(params);
+	}
+	@Override
+	public List<HashMap<String, String>> getEmpDepartList(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iDepartDao.getEmpDepartList(params);
+	}
+	@Override
+	public void departEdit(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		iDepartDao.departEdit(params);
+	}
+	@Override
+	public void departMgrEdit(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		iDepartDao.departMgrEdit(params);
+	}
+	@Override
+	public HashMap<String, String> getMgr(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iDepartDao.getMgr(params);
 	}
 	
 }

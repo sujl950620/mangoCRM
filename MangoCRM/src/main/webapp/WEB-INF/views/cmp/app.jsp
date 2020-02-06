@@ -7,36 +7,133 @@
 <meta charset="UTF-8">
 <title>결재</title>
 <c:import url="/header"></c:import>
+<script src="resources/script/highcharts/highcharts.js"></script>
+<script src="resources/script/highcharts/modules/exporting.js"></script>
 <script type="text/javascript">
 $(document).ready(function() {
-	$("#app_btn").on("click",function(){
-		var params = $("#actionForm").serialize();
+	reloadList();
+	 if($("#appstat").val()== 4){
+        $("#app_btn").show();
+	 }else{
+     		$("#app_btn").hide();
+ 	 }			 
+			 
+	 $("#app_btn").on("click", function() {
+			makeTwoBtnPopup(1, "결재", "결재를 하시겠습니까?", true, 600, 400, null, "취소", function() {
+				closePopup(1);				
+			},"확인", function() {
+				closePopup(1);				
+				var params = $("#saveForm").serialize();				
+				$.ajax({
+					type : "post", //데이터 전송방식
+					url : "appdayAjax",//주소
+					dataType : "json",//데이터 전송 규격
+					data : params, // 보낼 데이터
+					//{키:값,키:값,....} -> join
+					success : function(result) {
+						location.href = "approval";
+					},
+					error : function(request, status, error) {
+						console.log("text : "
+								+ request.responseText);
+						console.log("error : " + error);
+					}
+				});				
+			});
+		});
+	
 		
+	
+	
+	
+	//여기1
+	$("#chart").highcharts({
+	    chart: {
+	    	type: 'column',
+	        height: '300',
+	    },
+	    title: {
+	        text: ''
+	    },
+	    xAxis: {
+	        categories: ['SMS', 'MMS', 'E-mail']
+	    },
+	    tooltip: {
+	        pointFormat: '<b>{point.percentage:.1f}%</b>'
+	    },
+	    plotOptions: {
+	        pie: {
+	            allowPointSelect: true,
+	            cursor: 'pointer',
+	            dataLabels: {
+	                enabled: false
+	            },
+	            showInLegend: false
+	        },
+	    },
+	    series: [{
+	        name: '반응값',
+	        data: [5, 3, 4],
+	        stack: 'male'
+	    }, {
+	        name: '실반응값',
+	        data: [3, 4, 4],
+	        stack: 'male'
+	    }, {
+	        name: '전송량',
+	        data: [2, 5, 6],
+	        stack: 'female'
+	    }],
+	    
+	    credits:{
+	    	enabled: false
+	    }
+	});	
+	
+	function reloadList() {
+		var params = $("#actionForm").serialize();		
 		$.ajax({
-			type : "post", //데이터 전송방식
-			url : "appdayAjax",//주소
-			dataType : "json",//데이터 전송 규격
-			data : params, // 보낼 데이터
-			//{키:값,키:값,....} -> join
+			type : "post",
+			url : "result_simAjax",
+			dataType : "json",
+			data : params,
 			success : function(result) {
-				location.href = "applist";
+				redrawList(result.list);
 			},
 			error : function(request, status, error) {
-				console.log("text : "
-						+ request.responseText);
+				console.log("text : " + request.responseText);
 				console.log("error : " + error);
 			}
 		});
-	});
+	}
 	
-	$("#app_btn").on("click", function() {
-		makeTwoBtnPopup(1, "결재", "결재 하시겠습니까?", true, 600, 400, null, "취소", function() {
-			makeAlert(2, "확인", "내용임", null);
-		},"확인", function() {
-			closePopup(1);
-			location.href = "applist";
-		});
-	});
+	function redrawList(list) {
+		var html = "";		
+		if (list.length == 0) {
+			html += "<tr>";
+			html += "<td colspan=\"5\">조회된 데이터가 없습니다.</td>";
+			html += "</tr>";
+		} else {
+			for ( var i in list) {
+				html += "<tr name=\"" + list[i].SIM_NO + "\"id=\""+ list[i].CMP_NO +"\" >";
+				html += "<td>" + list[i].CMP_NAME + "</td>";
+				html += "<td>" + list[i].CHANNEL_NAME + "</td>";
+				html += "<td>" + list[i].SEND_SIZE + "</td>";
+				html += "<td>" + list[i].RECEIVE_SIZE + "</td>";
+				html += "<td>" + list[i].RESPONSE_SIZE + "</td>";
+				html += "<td>" + list[i].ACTUAL_RESPONSE_SIZE + "</td>";
+				html += "<td>" + list[i].EMP_NAME + "</td>";
+				html += "</tr>";
+			} 
+		}
+		$("tbody").html(html);
+	}
+	
+	function drawChart() {
+		alert("a");
+
+	}
+	
 });
 </script>
 <style type="text/css">
@@ -372,18 +469,18 @@ table {
   버튼은 float:right을 썼기때문에 반대로 적어주세요.
 */
 .enroll_btn>div {
-	display: table;
-	width: 80px;
-	height: 30px;
-	font-size: 10pt;
-	color: #595959;
-	text-align: center;
-	border-radius: 5px;
-	float: right;
-	background-color: #F2B807;
-	padding-top: 7px;
-	margin-top: 20px;
-	margin-left: 10px;
+    display: table;
+    width: 80px;
+    height: 30px;
+    font-size: 10pt;
+    color: #595959;
+    text-align: center;
+    border-radius: 5px;
+    float: right;
+    background-color: #F2B807;
+    padding-top: 7px;
+    margin-top: 20px;
+    margin-left: 10px;
 }
 /*버튼의 hover입니다.*/
 .enroll_btn>div:hover {
@@ -507,81 +604,60 @@ text-align:center;
 </style>
 </head>
 <body>
-	<c:import url="/topLeft">
+		<c:import url="/topLeft">
 		<c:param name="menuNo">14</c:param>
 	</c:import>
 	<div class="title_area">결재</div>
 	<div class="content_area">
 		<div class="contents_wrap">
-			<!-- 내용쓰기 -->
-
+			<!-- 내용쓰기 -->		
 			<!-- 첨부파일  -->
-
-			<br />			
-
+			<br />
+			<!--  두표꺼 끝aaaaaaaaaaaaaaaa -->
 			<!-- 그래프 영역  -->
-				<img src="./images/common/그래프.png"
-					style="width: 1200px; height: 450px;">
-
-			
-			<br />
-			<!-- 테이블 -->
-			<div class="content_btn">
-				<div style="border: inset;">
-					<span class="react">■</span>: (반응값) <span class="real_react">●</span>:
-					(실반응값) <span class="send">▲</span>: (전송량)
-				</div>
-			</div>
-			<br />
-			<div class="otbox">
-
-				<div id="con"></div>
-
-				<table>
-
-					<tr class="sample_1">
-
-						<td class="sample_title1">캠페인 명</td>
-						<td class="sample_title2">전송량</td>
-						<td class="sample_title3">반응값</td>
-						<td class="sample_title4">반응률(%)</td>
-						<td class="sample_title4">실반응값</td>
-						<td class="sample_title5">담당자</td>
-						
-					</tr>
-					<tr class="sample_2">
-
-
-
-						<td class="smp" type="text"style="font-size:13px;">000캠페인</td>
-
-						<td><input class="sample1_txt" type="text" readonly
-							value="10" /></td>
-						<td><input class="sample2_txt" type="text"
-							readonly="readonly" value="100" /></td>
-						<td><input class="sample3_txt" type="text"
-							readonly="readonly" value="10%" /></td>
-						<td><input class="sample4_txt" type="text"
-							readonly="readonly" value="10" /></td>
-						<td><input class="sample4_txt" type="text"
-							readonly="readonly" value="담당자" /></td>
-						</tr>
-
-				</table>
-
-			</div>
-
-			
-			<form action="#" id="actionForm" >
-<%-- 			<input type="hidden" id="no" name="no" value="${ }" />
-			<input type="hidden" id="name" name="name" value="${ }" /> --%>
-			<div class="enroll_btn">
-				<div id="app_btn">결재</div>
-			</div>
+			<form action="#" id="saveForm" method="post">
+			<input type="hidden" id="seq" name="seq" value="${param.seq}"/>				
+			<input type="hidden" id="empNo" name="empNo" value="${sEmpNo}"/>
+			<input type="hidden" name="page" id="page" value="1" />										
+			<input type="hidden" name="appno" id="appno" value="${param.appno}" />
+			<input type="hidden" name="cmpno" id="cmpno" value="${param.cmpno}" />			
+			<input type="hidden" name="appstat" id="appstat" value="${param.appstat}" />
+				
 			</form>
-			
+				<div id="chart" style=" width: 1200px;">
+					<a href="#" onClick="saveNDrive('https://cafeattach.naver.net/07921ba8bde5e33f10f294a5987b0375dd8f719356/20190822_59_cafefile/28933132_1566465844559_PhHh5W_rtf/%EC%A0%95%EB%A6%AC.rtf?type=attachment', '%EC%A0%95%EB%A6%AC.rtf', '4318');return false"></a>		
+				</div>
+
+				
+				<table>
+				<thead>
+					<tr class="sample_1">
+						<td class="sample_title1">캠페인 명</td>
+						<td class="sample_title2">채널</td>
+						<td class="sample_title3">전송량</td>
+						<td class="sample_title4">반응값</td>
+						<td class="sample_title5">반응률(%)</td>
+						<td class="sample_title6">실반응값</td>
+						<td class="sample_title7">담당자</td>						
+					</tr>
+					</thead>
+					<tbody>
+					<tr class="sample_2"> 
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td></td>	
+						<td></td>
+						<td></td>
+					</tr>
+					</tbody>
+				</table>
+			</div>
+				<div class="enroll_btn">
+					<div id="app_btn">결재</div>
+				</div>	
 		</div>
-	</div>
 	<c:import url="/bottom"></c:import>
 </body>
 </html>

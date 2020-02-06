@@ -10,220 +10,436 @@
 <c:import url="/header"></c:import>
 <script type="text/javascript">
 $(document).ready(function() {
-	console.log("${param}");
-	$(".save_Btn").on("click", function(){
+	alert($("#seq").val());
+	chSelect();
+	var a = new Array();
+	a = $("#ch").val();
+	
+	$("#back_Btn").on("click",function(){
+		location.href="targetSelect";
+	});
+	
+	if(a[2] != 0 && a[2]!=undefined){
+		//sms를 보여줘야해
+		smsListdraw();
+	}
+	
+	if(a[6] != 0 && a[6]!=undefined){
+		//mms를 보여줘야해
+		mmsListdraw();
+	}
+	if(a[10] !=0 && a[10]!=undefined){
+		emailListdraw();
+	}
+	
+	function chSelect(){
 		
-		if($.trim($("#Email_input").val()) ==""){
-			alert("내용을 입력하세요.");
-			$("#Email_input").focus();
-		}/* else if($.trim($("#mmsArea").val()) == ""){
-			alert("내용을 입력하세요.");
-			$("#mmsArea").focus();
-		}else if($.trim($("#smsArea").val()) == ""){
-				alert("내용을 입력하세요.");
+		var param= $("#actionForm").serialize();
+		
+		$.ajax({
+			type : "post",
+			url : "selectChAjax",
+			dataType : "json", 
+			data : param, 
+			success : function(res){
+				drawCh(res.list);
+			},
+			error : function(request,status, error){
+				console.log("text : " + request.responseText);
+				console.log("error : " + error);
+			}
+		}); 
+	}
+	function drawCh(list){
+		for(var i in list){
+			/* alert(list[i].CHANNEL_NO); */
+			if(list[i].CHANNEL_NO == 1){
+				$("#content").val(list[i].CONTENTS);
+				$("#compNo").val(list[i].CHANNEL_COMP_NO);
+				smsListdraw();
+				
+			}
+			else if(list[i].CHANNEL_NO == 2){
+				$("#content").val(list[i].CONTENTS);
+				mmsListdraw();
+			}
+			else{
+				$("#content").val(list[i].CONTENTS);
+				emailListdraw();
+			}
+		}
+	}
+	
+	$("#back_Btn").on("click",function(){
+		location.href="targetSelect";		
+	});
+	
+	$("#save_Btn").on("click",function(){
+		if(a[2] != 0 && a[2] != undefined){
+			$("#chNo").val(1);
+			if($.trim($("#smsArea").val()) ==""){
+				alert("sms내용을 입력하세요.");
 				$("#smsArea").focus();
-		} */else {
-			
-			var params = $("#saveForm").serialize();
+			}
+			else{
+				$("#content").val($("#smsArea").val());
+				$('input:radio[name="sms"]:checked').each(function(){
+					$("#compNo").val($(this).val());
+				});
+				saveChannel();
+			}
+		}
+		
+		if (a[6] != 0 && a[6]!=undefined){
+			$("#chNo").val("2");
+			if($.trim($("#mmsArea").val()) ==""){
+				alert("MMS내용을 입력하세요.");
+				$("#mmsArea").focus();
+			}
+			else {
+				$("#content").val($("#mmsArea").val());
+				$('input:radio[name="mms"]:checked').each(function(){
+					$("#compNo").val($(this).val());
+					alert($("#compNo").val());
+				});
+				saveChannel();
+			}
+		}
+		
+		if(a[10] != 0 && a[10] != undefined){
+				$("#chNo").val(3);
+			if($.trim($("#emailArea").val()) ==""){
+				alert("내용을 입력하세요.");
+				$("#emailArea").focus();
+			}
+			else{
+				$("#content").val($("#emailArea").val());
+				$('input:radio[name="email"]:checked').each(function(){
+					$("#compNo").val($(this).val());
+					alert($("#compNo").val());
+				});
+				saveChannel();
+			}
+		}
+	});
 
-			$.ajax({
-				type : "post",
-				url : "SaveAjax",
-				dataType : "json",
-				data : params,
-				success : function(result) {
-					if(result.res == "SUCCESS"){
-						alert("저장에 성공하였습니다.");
-					}else{
-						alert("작성에 실패하였습니다.");
-						}
-				},
-				error : function(request, status, error) {
-					console.log("text : " + request.responseText);
-					console.log("error : " + error);
-				}
-			});
+	$(".next_Btn").on("click", function(){
+		if(a[2] != 0){
+			$("#chNo").val(1);
+			if($.trim($("#smsArea").val()) ==""){
+				alert("sms내용을 입력하세요.");
+				$("#smsArea").focus();
+			}
+			else{
+				$("#content").val($("#smsArea").val());
+				$('input:radio[name="sms"]:checked').each(function(){
+					$("#compNo").val($(this).val());
+				});
+				simul();
+			}
 		}
-	});
-	
-	$("#cancelBtn").on("click", function(){
-		history.back();
-	});	
-	
-	/* $('button').each(function() {
-		if ($(this).html().length > 2) {
-			var leng_diff = $(this).html().length - 2;
-			$(this).width($(this).width() + (10 * leng_diff) + "px");
+		
+		if (a[6] != 0){
+			$("#chNo").val("2");
+			if($.trim($("#mmsArea").val()) ==""){
+				alert("MMS내용을 입력하세요.");
+				$("#mmsArea").focus();
+			}
+			else {
+				$("#content").val($("#mmsArea").val());
+				$('input:radio[name="mms"]:checked').each(function(){
+					$("#compNo").val($(this).val());
+					alert($("#compNo").val());
+				});
+				simul();
+			}
 		}
-	});
-	$('.top_bar > div').each(function() {
-		if ($(this).html().length > 2) {
-			var leng_diff = $(this).html().length - 2;
-			$(this).width($(this).width() + (10 * leng_diff) + "px");
-		}
-	});
-	$('.bottom_bar > div').each(function() {
-		if ($(this).html().length > 2) {
-			var leng_diff = $(this).html().length - 2;
-			$(this).width($(this).width() + (10 * leng_diff) + "px");
-		}
-	}); */
-	
-	
-	$("#allChk").on("click", function() {
-		// .is(셀렉터) : 해당 셀렉터인지 확인. 맞으면 true
-		if($(this).is(":checked")) {
-			//$("#checkWrap [type='checkbox']").attr("checked", "checked");
-			$("#chkWrap [type='checkbox']").prop("checked", true);
-		} else {
-			//$("#checkWrap [type='checkbox']").removeAttr("checked");
-			$("#chkWrap [type='checkbox']").prop("checked", false)
-		}
-	});
-	
-	$("#chkWrap").on("click", "[type='checkbox']", function() {
-		if(!$(this).is(":checked")) {
-			$("#all").prop("checked", false);
-		} else {
-			var cnt = 0;
-			
-			//$(셀렉터).each(함수) : 셀렉터의 개수만큼 함수를 실행
-			$("#chkWrap [type='checkbox']").each(function() {
-				if(!$(this).is(":checked")) {
-					cnt++;
-				}
-			});
-			
-			if(cnt == 0) {
-				$("#allChk").prop("checked", true);
+		
+		if(a[10] != 0){
+				$("#chNo").val(3);
+			if($.trim($("#emailArea").val()) ==""){
+				alert("내용을 입력하세요.");
+				$("#emailArea").focus();
+			}
+			else{
+				$("#content").val($("#emailArea").val());
+				$('input:radio[name="email"]:checked').each(function(){
+					$("#compNo").val($(this).val());
+					alert($("#compNo").val());
+				});
+				simul();
 			}
 		}
 	});
 	
-	$("#a").on("click", function() {
-		//click() : 클릭이벤트를 발생
-		//click(함수) : 클릭시 함수가 동작하도록 이벤트 할당. on("click", 함수)와 동일
-		$("#allChk").click();
-	});
+	function saveChannel(){
+		var params = $("#actionForm").serialize();
+
+		$.ajax({
+			type : "post",
+			url : "SaveAjax",
+			dataType : "json",
+			data : params,
+			success : function(result) {
+				if(result.res == "SUCCESS"){
+					
+					alert("저장에 성공하였습니다.");
+					location.href="cmpList";
+				}else{
+					alert("작성에 실패하였습니다.");
+					}
+			},
+			error : function(request, status, error) {
+				console.log("text : " + request.responseText);
+				console.log("error : " + error);
+			}
+		});
+	}
 	
-	/* $("tbody").on("click", "tr", function() {
-		$("#no").val($(this).attr("name"));
-		$("#actionForm").attr("action", "aDetail");
-		$("#actionForm").submit();
-	}); 
+	function simul() {
+		var params = $("#actionForm").serialize();
+
+		$.ajax({
+			type : "post",
+			url : "SaveAjax",
+			dataType : "json",
+			data : params,
+			success : function(result) {
+				alert("a");
+				if(result.res == "SUCCESS"){
+					
+					$.ajax({
+						type : "post",
+						url : "updatestatAjax", 
+						dataType : "json", 
+						data : params, 
+						success : function(res){
+							$("#actionForm").attr("action","simResult");
+							$("#actionForm").submit();
+						},
+						error : function(request,status, error){
+							console.log("text : " + request.responseText);
+							console.log("error : " + error);
+						}
+					});
+					alert("저장에 성공하였습니다.");
+					
+				}else{
+					alert("작성에 실패하였습니다.");
+					}
+			},
+			error : function(request, status, error) {
+				console.log("text : " + request.responseText);
+				console.log("error : " + error);
+			}
+		});
+	}
 	
-	이놈이 div 클릭견본이다.
-	*/
-	
-	$("#select_btn").on("click", "div", function() {
-		if($("#EmailChk").is(":checked")) {
-			var html = "";
-			html += "<div class=\"Email_area\">"
-			html += "<br><b>E-mail 업체선정</b><br>"
-			html += "<br><br>채널"
-			html += "</div>"
-			
-			$("#Email_write_area").html(html);
-		}
-	});
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	$("#writeBtn").on("click", "div", function() {
-		if($("#EmailChk").is(":checked")) {
-			
+	/* sms */
+	function smsListdraw(){
+		var params=$("#actionForm").serialize();
+		
+		$.ajax({
+			type : "post",
+			url : "chcpListAjax", 
+			dataType : "json", 
+			data : params, 
+			success : function(result){
+				smsList(result.list);
+				
+			},
+			error : function(request,status, error){
+				console.log("text : " + request.responseText);
+				console.log("error : " + error);
+			}
+		});
+	}
+	/* 1SMS */
+	function smsList(list){
 		var html = "";
-		html += "<div class=\"Email_area\">"
-		html += "<br><b>E-mail 미리보기</b><br>"
-		html += "<textarea id=\"Email_input\" name=\"Email_input\" cols=\"30\" rows=\"15\" style=\"resize: none; width: 500px\"></textarea>"
-		html += "</div>";
-		
-		$("#Email_write_area").html(html);
+		if(list.length == 0){
+			html += "<tr>";
+			html += "<td colspan=\"5\">등록된 업체가 없습니다.</td>";
+			html += "</tr>";
+		}
+		else{
+			html += "	<table class=\"sms_table\" style=\"display:inline-block; vertical-align:top;\">";
+			html += "	<thead>";
+			html += "		<tr class=\"sample_1\">";
+			html += "			<td class=\"sample_title1\"></td>";
+			html += "			<td class=\"sample_title3\">업체</td>";
+			html += "			<td class=\"sample_title5\">기간</td>";
+			html += "			<td class=\"sample_title6\">금액</td>";
+			html += "		</tr>";
+			html += "	</thead>";
+			html += "	<tbody>";
+		for(var i in list){
+			html += "<tr class =\"td_font\" name=\""+list[i].CHANNEL_COMP_NO+ "\">";
+			if(list[i].CHANNEL_COMP_NO == $("#compNo").val()){
+				html += "<td><input type=\"radio\" name=\"sms\" value=\"" + list[i].CHANNEL_COMP_NO + "\" checked=\"true\"></td>";				
+			}else{
+				html += "<td><input type=\"radio\" name=\"sms\" value=\"" + list[i].CHANNEL_COMP_NO + "\"></td>";				
+			}
+			html += "<td>"+list[i].COMPANY_NAME+"</td>";
+			html += "<td>"+list[i].SDATE +  " ~ "  + list[i].EDATE + "</td>";
+			html += "<td>"+list[i].MONEY+"</td>";
+			html += "</tr>"; 
+		}
+			html += "	</tbody>                                                                                                                       ";
+			html += "	                                                                                                                               ";
+			html += "</table>                                                                                                                          ";
+			html += "<div class=\"sms_area\" style=\"display:inline-block;\">                                                                          ";
+			html += " 	<div class=\"sms_title\"><b>SMS 작성란</b></div><br/>                                                                          ";
+			html += "	<textarea class=\"sms_content\" id=\"smsArea\" name=\"smsArea\" col=\"10\" rows=\"8\" style=\"resize: none;\">" + $("#content").val() + "</textarea><br>  ";
+			html += "</div>";
 		}
 		
-		if($("#MMSChk").is(":checked")) {
-			var html = "";
+		$(".channel_table").html(html);
+	}
+	
+	/*2MMs*/
+	function mmsListdraw(){
+		var params = $("#actionForm").serialize();
+		
+		$.ajax({
+			type : "post",
+			url : "mmsListAjax", 
+			dataType : "json", 
+			data : params, 
+			success : function(result){
+				mmsList(result.mms);
+			},
+			error : function(request,status, error){
+				console.log("text : " + request.responseText);
+				console.log("error : " + error);
+			}
+		});
+	}
+	
+	/* 2MMs */
+	function mmsList(mms){
+		var html = "";
+		if(mms.length == 0){
+			html += "<tr>";
+			html += "<td colspan=\"5\">등록된 업체가 없습니다.</td>";
+			html += "</tr>";
+		}
+		else{
+			html += "	<table class=\"mms_table\" style=\"display:inline-block; vertical-align:top;\">                                                ";
+			html += "	<thead>                                                                                                                        ";
+			html += "		<tr class=\"sample_1\">                                                                                                    ";
+			html += "			<td class=\"sample_title1\"></td>                                                                                    ";
+			html += "			<td class=\"sample_title3\">업체</td>                                                                                  ";
+			html += "			<td class=\"sample_title5\">기간</td>                                                                                  ";
+			html += "			<td class=\"sample_title6\">금액</td>                                                                                  ";
+			html += "		</tr>                                                                                                                      ";
+			html += "	</thead>                                                                                                                       ";
+			html += "	<tbody>                                                                                                                        ";
+			for(var i in mms){
+				html += "<tr class =\"td_font\" name=\""+mms[i].CHANNEL_COMP_NO+ "\">";
+				html += "<td><input type=\"radio\" name=\"mms\" value=\"" + mms[i].CHANNEL_COMP_NO + "\"></td>";
+				html += "<td>"+mms[i].COMPANY_NAME+"</td>";
+				html += "<td>"+mms[i].SDATE +  " ~ "  + mms[i].EDATE + "</td>";
+				html += "<td>"+mms[i].MONEY+"</td>";
+				html += "</tr>"; 
+			}
+			html += "	</tbody>                                                                                                                       ";
+			html += "	                                                                                                                               ";
+			html += "</table>                                                                                                                          ";
+			html += "<div class=\"mms_area\" style=\"display:inline-block;\">                                                                          ";
+			html += " 	<div class=\"sms_title\"><b>MMS 작성란</b></div><br/>                                                                          ";
+			html += "	<textarea class=\"mms_content\" id=\"mmsArea\" name=\"mmsArea\" col=\"10\" rows=\"8\" style=\"resize: none;\"></textarea><br>  ";
 			
-			html += "<div class=\"mms_area\">";
-			html += "<div class=\"mms_title\"><b>MMS 작성란</b></div><br/>"
-			html += "<textarea class=\"mms_content\" id=\"mmsArea\" name=\"mmsArea\" col=\"10\" rows=\"8\" style=\"resize: none;\"></textarea><br>"
-			html += "<div class=\"mms_number\"><input type=\"text\" class =\"file_add_input\" placeholder=\"첨부파일\" style=\"\"/><div class=\"mms_btn\"><div>첨부</div></div></div>";
-			html += "<div class=\"mms_bottom_area\"></div>";
-			html += "</div><br/>";
+			html += "<div class=\"mms_number\">";
+			html += "<input type=\"text\" class =\"file_add_input\" placeholder=\"첨부파일\"/>";
+			html += "<div class=\"mms_btn\"><div>첨부</div></div>";
+			html += "</div>";
 			
-			$("#MMS_write_area").html(html);
+			html += "</div>";
 		}
 		
-		if($("#SMSChk").is(":checked")) {
-			var html = "";
-			
-			html += "<div class=\"sms_area\">";
-			html += "<div class=\"sms_title\"><b>SMS 작성란</b></div><br/>"
-			html += "<textarea class=\"sms_content\" id=\"smsArea\" name=\"smsArea\" col=\"10\" rows=\"8\" style=\"resize: none;\"></textarea><br>"
-			html += "</div><br/>";
-			
-			
-			$("#SMS_write_area").html(html);
-		}
-	});
-	
-	
-	
-	
-	
-	$("#MMSBtn").on("click", function() {
+		$(".channel_table2").html(html);
 		
-	});
+	}
 	
-	$("#sendBtn").on("click", function() {
-		alert("저장 되었습니다.")
-		location.href = "./analyze.html";
-		//지금 경로 맞지않음, 수정요망
-	});
-	
+	/*3email*/
+	function emailListdraw(){
+		
+		var params = $("#actionForm").serialize();
+		
+		$.ajax({
+			type : "post",
+			url : "emailListAjax", 
+			dataType : "json", 
+			data : params, 
+			success : function(result){
+				emailList(result.email);
+			},
+			error : function(request,status, error){
+				console.log("text : " + request.responseText);
+				console.log("error : " + error);
+			}
+		});
+	}
+	/* 3email */
+	function emailList(email){
+		var html = "";
+		if(email.length == 0){
+			html += "<tr>";
+			html += "<td colspan=\"5\">등록된 업체가 없습니다.</td>";
+			html += "</tr>";
+		}
+		else{
+			html += "	<table class=\"email_table\" style=\"display:inline-block; vertical-align:top;\">                                                ";
+			html += "	<thead>                                                                                                                        ";
+			html += "		<tr class=\"sample_1\">                                                                                                    ";
+			html += "			<td class=\"sample_title1\"></td>                                                                                    ";
+			html += "			<td class=\"sample_title3\">업체</td>                                                                                  ";
+			html += "			<td class=\"sample_title5\">기간</td>                                                                                  ";
+			html += "			<td class=\"sample_title6\">금액</td>                                                                                  ";
+			html += "		</tr>                                                                                                                      ";
+			html += "	</thead>                                                                                                                       ";
+			html += "	<tbody>                                                                                                                        ";
+			for(var i in email){
+				html += "<tr class =\"td_font\" name=\""+email[i].CHANNEL_COMP_NO+ "\">";
+				html += "<td><input type=\"radio\" name=\"email\" value=\"" + email[i].CHANNEL_COMP_NO + "\"></td>";
+				html += "<td>"+email[i].COMPANY_NAME+"</td>";
+				html += "<td>"+email[i].SDATE +  " ~ "  + email[i].EDATE + "</td>";
+				html += "<td>"+email[i].MONEY+"</td>";
+				html += "</tr>"; 
+			}
+			html += "	</tbody>                                                                                                                       ";
+			html += "	                                                                                                                               ";
+			html += "</table>                                                                                                                          ";
+			html += "<div class=\"email_area\" style=\"display:inline-block;\">";
+			html += "<div class=\"email_title\"><b>e-Mail 작성란</b></div><br/>";
+			html += "<textarea class=\"sms_content\" id=\"emailArea\" name=\"emailArea\" col=\"10\" rows=\"8\" style=\"resize: none;\"></textarea><br>";
+			html += "</div>"; 
+		}
+		
+		$(".channel_table2").html(html);
+	}
 });
 </script>
 </head>
 <body>
 	<c:import url="/topLeft">
-		<c:param name="menuNo">14</c:param>
+		<c:param name="menuNo">9</c:param>
 	</c:import>
 	<div class="title_area">채널선정</div>
-	<div class="content_area">
+	<div class="content_area" style="width:3000px;">
 		<div class="contents_wrap">
 			<div class="btn_area">
-				<div class="circle" >1</div> &nbsp;&nbsp;
-				<div class="circle" >2</div> &nbsp;&nbsp;
-				<div class="circle1" >3</div> &nbsp;&nbsp;
-				<div class="circle" >4</div> &nbsp;&nbsp;
+				<div class="circle">1</div> &nbsp;&nbsp;
+				<div class="circle">2</div> &nbsp;&nbsp;
+				<div class="circle1">3</div> &nbsp;&nbsp;
+				<div class="circle">4</div> &nbsp;&nbsp;
 				
-				<div class="save_Btn">저장</div>
-				<div class="next_Btn">시뮬레이션 수행</div>
-				<div class="back_Btn">이전</div>
+				<div class="save_Btn" id="save_Btn">저장</div>
+				<div class="next_Btn" id="next_Btn">시뮬레이션</div>
+				<div class="back_Btn" id="back_Btn">이전</div>
 			</div>
-			
 			<div class="fieldset_area">
-				<fieldset class="box_area">
-					<legend>채널선정</legend>
-						<input type="checkbox" name="allChk" id="allChk" />전체
-					  
-						<div class="chkWrap" id="chkWrap" >
-							<input type="hidden" name="" id="" value="" />
-							<input type="checkbox" name="EmailChk" id="EmailChk" />E-Mail(건당 30원)<br/>
-							<input type="checkbox" name="MMSChk" id="MMSChk" />MMS(건당 20원)<br />
-							<input type="checkbox" name="SMSChk" id="SMSChk" />SMS(건당 10원)<br/><br />
-						</div>
-						<div class="writeBtn" id="select_btn" name="select_btn" >
-							<div>업체선정</div>
-						</div>
-				</fieldset>
-				
 				<fieldset class="reserv_area">
 					<legend>예약어 안내</legend>
 						<div class="reserv_txt_area">
@@ -241,20 +457,27 @@ $(document).ready(function() {
 						</div>
 				</fieldset>
 			</div>
-			
-			
 			<br />
-			
-			<form action="#" id="saveForm" method="post">
-			<div class="Email_write_area" id="Email_write_area" name="Email_write_area"></div>
-			<div class="MMS_write_area" id="MMS_write_area" name="MMS_write_area" ></div>
-			<div class="SMS_write_area" id="SMS_write_area" name="SMS_write_area" ></div>
+			<form action="#" id="actionForm" method="post">
+				<input type="hidden" id="empNo" name="empNo" value="${sEmpNo}"/>
+				<input type="hidden" id="seq" name="seq" value="${param.seq }"/>
+				<input type="hidden" id="chboxx" name="chboxx" value="${param.chboxx}"/>
+				<input type="hidden" id="ch" name="ch" value="${param.ch}"/>
+				<input type="hidden" id="compNo" name="compNo"/>
+				<input type="hidden" id="chNo" name="chNo"/>
+				<input type="hidden" id="content" name="content"/>
+
+				<!--sms  -->
+				<div class="channel_table"></div>
+				<!--mms  -->
+				<div class="channel_table2"></div>
+				<!--email  -->
+				<div class="channel_table3"></div>
 			</form>
-			<!-- jQuery이용해서 초기화 후 추가 되는 부분 -->
-			
-			<input type="hidden" name="sendBtn" id="sendBtn" value="발송" />
-		</div>
+		</div> <!-- content wrap -->
 	</div>
+		
 	<c:import url="/bottom"></c:import>
+
 </body>
 </html>

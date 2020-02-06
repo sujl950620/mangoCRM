@@ -107,11 +107,15 @@ $(document).ready(function() {
 		});
 	});
 	
-	$("#scheClientBtn").on("click",function(){
-		if($.trim($('input[name="sche_div_no"]:checked').val())== ""){
+	$(".scheClientBtn").on("click",function(){
+		
+		console.log("실행되었습니다.");
+		
+		if($.trim($('input[name="sche_div_no"]:checked').val()) == ""){
 			makeAlert(2, "필수 입력 사항 미 입력!", "일정구분을  선택하고 검색버튼을 눌러주세요!", null);
 		}
 	});
+	
 });
 
 /* 일정구분, 활동분류 데이터 출력 Ajax */
@@ -152,57 +156,68 @@ function redrawRadioList(radio) {
 		
 	$("#scheRadio").html(html);
 	
+	
+	
 	/* 리드, 기회, 고객 세부사항 페이지에서 일정 등록 시 이벤트  */
-	if($.trim($('input[name="sche_div_no"]:checked').val())==0){
-		$("#changeScheDivFirst").html("고객");
-		$("#changeScheDivSecond").html("고객사");
-		$("#sche_comp_no").val("");
-		
-		
-		var html = "";
-		
-		html += "<input type=\"text\" class=\"det_text witdh80 ta_l\" name=\"shce_client_no\" id=\"sche_client_no\" readonly=\"readonly\">";
-		html += "<div class=\"bottom_btn_2 scheClientBtn\">검색</div>";
-		
-		$("#changeScheDivFirsts").html(html);
-		
-		$("#sche_client_no").val('${client.CLIENT_NAME}');
-		$("#sche_comp_no").val('${client.COMP_NAME}');
-	}
 	
-	if($.trim($('input[name="sche_div_no"]:checked').val())==1){
+	
+		if($.trim($('input[name="sche_div_no"]:checked').val())==0){
+			$("#changeScheDivFirst").html("고객");
+			$("#changeScheDivSecond").html("고객사");
+			$("#sche_comp_no").val("");
+			
+			
+			var html = "";
+			
+			html += "<input type=\"text\" class=\"det_text witdh80 ta_l\" name=\"shce_client_no\" id=\"sche_client_no\" readonly=\"readonly\">";
+			html += "<div class=\"bottom_btn_2 scheClientBtn\">검색</div>";
+			
+			$("#changeScheDivFirsts").html(html);
+			
+			$("#sche_client_no").val('${client.CLIENT_NAME}');
+			$("#sche_comp_no").val('${client.COMP_NAME}');
+			
+			
+		}
+		
+		if($.trim($('input[name="sche_div_no"]:checked').val())==1){
 
-		$("#changeScheDivFirst").html("리드명");
-		$("#changeScheDivSecond").html("담당자");
-		$("#sche_comp_no").val("");
+			$("#changeScheDivFirst").html("리드명");
+			$("#changeScheDivSecond").html("담당자");
+			$("#sche_comp_no").val("");
+			
+			var html = "";
+			
+			html += "<input type=\"text\" class=\"det_text witdh80 ta_l\" name=\"shce_client_no\" id=\"sche_client_no\" readonly=\"readonly\">";
+			html += "<div class=\"bottom_btn_2 scheClientBtn\" >검색</div>";
+			
+			$("#changeScheDivFirsts").html(html);
+			
+			$("#sche_client_no").val('${lead.LEAD_NAME}');
+			$("#sche_comp_no").val('${lead.EMP_NAME}');
+			
+			
+			
+		}
 		
-		var html = "";
-		
-		html += "<input type=\"text\" class=\"det_text witdh80 ta_l\" name=\"shce_client_no\" id=\"sche_client_no\" readonly=\"readonly\">";
-		html += "<div class=\"bottom_btn_2 scheClientBtn\" >검색</div>";
-		
-		$("#changeScheDivFirsts").html(html);
-		
-		$("#sche_client_no").val('${lead.LEAD_NAME}');
-		$("#sche_comp_no").val('${lead.EMP_NAME}');
-		
-	}
+		if($.trim($('input[name="sche_div_no"]:checked').val())==2){
+			$("#changeScheDivFirst").html("영업명");
+			$("#changeScheDivSecond").html("담당자");
+			$("#sche_comp_no").val("");
+			
+			var html = "";
+			
+			html += "<input type=\"text\" class=\"det_text witdh80 ta_l\" name=\"shce_client_no\" id=\"sche_client_no\" readonly=\"readonly\">";
+			html += "<div class=\"bottom_btn_2 scheClientBtn\">검색</div>";
+			
+			$("#changeScheDivFirsts").html(html);
+			
+			$("#sche_client_no").val('${bss.CHN_NAME}');
+			$("#sche_comp_no").val('${bss.EMP_NAME}');
+			
+		}
 	
-	if($.trim($('input[name="sche_div_no"]:checked').val())==2){
-		$("#changeScheDivFirst").html("영업명");
-		$("#changeScheDivSecond").html("담당자");
-		$("#sche_comp_no").val("");
-		
-		var html = "";
-		
-		html += "<input type=\"text\" class=\"det_text witdh80 ta_l\" name=\"shce_client_no\" id=\"sche_client_no\" readonly=\"readonly\">";
-		html += "<div class=\"bottom_btn_2 scheClientBtn\">검색</div>";
-		
-		$("#changeScheDivFirsts").html(html);
-		
-		$("#sche_client_no").val('${bss.CHN_NAME}');
-		$("#sche_comp_no").val('${bss.EMP_NAME}');
-	}
+	
 	
 	/* 일정구분 클릭 시 이벤트 */
 	$("input:radio[name=sche_div_no]").click(function(){
@@ -217,13 +232,19 @@ function redrawRadioList(radio) {
 			html += "<input type=\"text\" class=\"det_text witdh80 ta_l\" name=\"shce_client_no\" id=\"sche_client_no\" readonly=\"readonly\">";
 			html += "<div class=\"bottom_btn_2 scheClientBtn\">검색</div>";
 			
+			
 			$("#changeScheDivFirsts").html(html);
+			$("#scheDivNoM").val($('input[name="sche_div_no"]:checked').val());
+			
+			loadSelectList();
+			
 		}
 		
 		if($.trim($('input[name="sche_div_no"]:checked').val())==1){
 
 			$("#changeScheDivFirst").html("리드명");
 			$("#changeScheDivSecond").html("담당자");
+			$("#scheDivNoM").val($('input[name="sche_div_no"]:checked').val());
 			$("#sche_comp_no").val("");
 			
 			
@@ -232,8 +253,11 @@ function redrawRadioList(radio) {
 			
 			html += "<input type=\"text\" class=\"det_text witdh80 ta_l\" name=\"shce_client_no\" id=\"sche_client_no\" readonly=\"readonly\">";
 			html += "<div class=\"bottom_btn_2 scheClientBtn\" >검색</div>";
-			
+	
 			$("#changeScheDivFirsts").html(html);
+			$("#scheDivNoM").val($('input[name="sche_div_no"]:checked').val());
+			
+			loadSelectList();
 			
 		}
 		if($.trim($('input[name="sche_div_no"]:checked').val())==2){
@@ -247,88 +271,34 @@ function redrawRadioList(radio) {
 			html += "<div class=\"bottom_btn_2 scheClientBtn\">검색</div>";
 			
 			$("#changeScheDivFirsts").html(html);
+		$("#scheDivNoM").val($('input[name="sche_div_no"]:checked').val());
+			
+			loadSelectList();
+			
 		}
 		
-		$("#scheDivNoM").val($.trim($('input[name="sche_div_no"]:checked').val()));
 		
 		/* 고객,리드,영업 검색  */
 		$(".scheClientBtn").on("click", function(){
-			
-			var title = "";
-			
-			html = "";
-			html += "<div>";
-			html += "<form action=\"#\" method=\"post\" id=\"clientSearchForm\">";
-			html += "<input type=\"hidden\" name=\"page\" value=\"1\" id=\"page\"/>";
-			html +=	"<input type=\"hidden\" id=\"searchTxt\" name=\"searchTxt\" />"; 
-			html +=	"<input type=\"hidden\" id=\"no\" name=\"no\">"; 
-			html += "<input type=\"hidden\" id=\"schDivNo\" name=\"schDivNo\">";
-			html += "<input type = \"text\" class = \"input_address2\" id=\"txt_client_search\">";
-			html += "<img src = \"resources/images/Lead/icon_search_gray.png\" alt = \"\" width = \"30px\" class = \"address_search_icon\">";
-			html += "<img src = \"resources/images/Lead/icon_cancel_gray.png\" alt = \"\" width = \"20px\" class = \"address_search_cancel\">";
-			html += "</form>";
-			html += "</div>";
-			html += "<table class = \"pop_table\" style=\"width: 100%; height : auto; position : relative; top : -20px; border-top:0px;\">";
-			html += "<colgroup><col width=\"20%\" /><col width=\"40%\" /><col width=\"40%\" /></colgroup>";
-			html += "<thead>";
-			html += "<tr class = \"search_pop_title\">";
-			if($.trim($('input[name="sche_div_no"]:checked').val())==0){
-				title = "고객검색 팝업";
-				html += "<td>고객번호</td>";
-				html += "<td>고객이름</td>";
-				html += "<td>고객사</td>";
+			if($.trim($('input[name="sche_div_no"]:checked').val()) == ""){
+				makeAlert(2, "필수 입력 사항 미 입력!", "일정구분을  선택하고 검색버튼을 눌러주세요!", null);
+			}else{
+				
+			loadClientLeadBssList();
 			}
-			if($.trim($('input[name="sche_div_no"]:checked').val())==1){
-				title = "리드검색 팝업";
-				html += "<td>리드번호</td>";
-				html += "<td>리드명</td>";
-				html += "<td>담당자</td>";
-			}
-			if($.trim($('input[name="sche_div_no"]:checked').val())==2){
-				title = "영업검색 팝업";
-				html += "<td>영업번호</td>";
-				html += "<td>영업명</td>";
-				html += "<td>담당자</td>";
-			}
-			html += "</tr>";
-			html += "</thead>";
-			html += "<tbody class = \"search_pop_tbody\">";
-			html += "</tbody>";
-			html += "</table>";
-			html += "<div class = \"list_paging_area\" style = \"margin-top : 4px !important;\"></div>";
-			
-			makeNoBtnPopup(7, title, html , true , 500, 600, function() {
-				reloadList();
-			});
-			
-			$(".list_paging_area").on("click", "div", function(){
-				if(($(this).attr("name") != "")){
-					$("#page").val($(this).attr("name"));
-					reloadList();
-				}
-			});
-			
-			$(".address_search_icon").on("click", function(){
-				$txt_client_search = $("#txt_client_search").val();
-				$("#searchTxt").val($txt_client_search);
-				reloadList();
-			});
-			
-			$(".address_search_cancel").on("click",function(){
-				$("#txt_client_search").val("");
-				$txt_client_search = $("#txt_client_search").val();
-				$("#searchTxt").val($txt_client_search);
-				reloadList();
-			});
-			
-			$(".search_pop_tbody").on("click","tr",function(){
-				$("#cNo").val($(this).children("#clientNo").html());
-				$("#sche_client_no").val($(this).children("#clientName").html());
-				$("#sche_comp_no").val($(this).children("#compName").html());
-				closePopup(7);
-			});	
 		});
 		
+	});
+	
+	/* 고객,리드,영업 검색  */
+	$(".scheClientBtn").on("click", function(){
+		if($.trim($('input[name="sche_div_no"]:checked').val()) == ""){
+			makeAlert(2, "필수 입력 사항 미 입력!", "일정구분을  선택하고 검색버튼을 눌러주세요!", null);
+		}else{
+			
+		loadClientLeadBssList();
+		}
+	
 	});
 	
 	
@@ -336,9 +306,9 @@ function redrawRadioList(radio) {
 
 /* 활동분류 리스트 출력 */
 function redrawOptionList(option) {
-	
+		
 		var html = "";
-	
+		
 		for ( var i in option) {
 			if(option[i].CODE_NAME == "기타"){
 				html += "<option name=\"sche_acti_no\" value=\""+option[i].CODE_S_CATE+"\" selected=\"selected\">"+ option[i].CODE_NAME +"</option>";
@@ -347,6 +317,7 @@ function redrawOptionList(option) {
 			html += "<option name=\"sche_acti_no\" value=\""+option[i].CODE_S_CATE+"\">"+ option[i].CODE_NAME +"</option>";
 			}
 		}	
+		
 		
 	$("#scheActiNo").html(html);
 }
@@ -460,6 +431,84 @@ function redrawPaging(pb){
 	$(".list_paging_area").html(html);
 }
 /* ----------------------------------------------- 고객 검색end -----------------------------------*/
+function loadClientLeadBssList(){
+	
+	
+	var title = "";
+	
+	html = "";
+	html += "<div>";
+	html += "<form action=\"#\" method=\"post\" id=\"clientSearchForm\">";
+	html += "<input type=\"hidden\" name=\"page\" value=\"1\" id=\"page\"/>";
+	html +=	"<input type=\"hidden\" id=\"searchTxt\" name=\"searchTxt\" />"; 
+	html +=	"<input type=\"hidden\" id=\"no\" name=\"no\">"; 
+	html += "<input type=\"hidden\" id=\"schDivNo\" name=\"schDivNo\">";
+	html += "<input type = \"text\" class = \"input_address2\" id=\"txt_client_search\">";
+	html += "<img src = \"resources/images/Lead/icon_search_gray.png\" alt = \"\" width = \"30px\" class = \"address_search_icon\">";
+	html += "<img src = \"resources/images/Lead/icon_cancel_gray.png\" alt = \"\" width = \"20px\" class = \"address_search_cancel\">";
+	html += "</form>";
+	html += "</div>";
+	html += "<table class = \"pop_table\" style=\"width: 100%; height : auto; position : relative; top : -20px; border-top:0px;\">";
+	html += "<colgroup><col width=\"20%\" /><col width=\"40%\" /><col width=\"40%\" /></colgroup>";
+	html += "<thead>";
+	html += "<tr class = \"search_pop_title\">";
+	if($.trim($('input[name="sche_div_no"]:checked').val())==0){
+		title = "고객검색 팝업";
+		html += "<td>고객번호</td>";
+		html += "<td>고객명</td>";
+		html += "<td>고객사</td>";
+	}
+	if($.trim($('input[name="sche_div_no"]:checked').val())==1){
+		title = "리드검색 팝업";
+		html += "<td>리드번호</td>";
+		html += "<td>리드명</td>";
+		html += "<td>담당자</td>";
+	}
+	if($.trim($('input[name="sche_div_no"]:checked').val())==2){
+		title = "영업검색 팝업";
+		html += "<td>영업번호</td>";
+		html += "<td>영업명</td>";
+		html += "<td>담당자</td>";
+	}
+	html += "</tr>";
+	html += "</thead>";
+	html += "<tbody class = \"search_pop_tbody\">";
+	html += "</tbody>";
+	html += "</table>";
+	html += "<div class = \"list_paging_area\" style = \"margin-top : 4px !important;\"></div>";
+	
+	makeNoBtnPopup(7, title, html , true , 500, 600, function() {
+		reloadList();
+	});
+	
+	$(".list_paging_area").on("click", "div", function(){
+		if(($(this).attr("name") != "")){
+			$("#page").val($(this).attr("name"));
+			reloadList();
+		}
+	});
+	
+	$(".address_search_icon").on("click", function(){
+		$txt_client_search = $("#txt_client_search").val();
+		$("#searchTxt").val($txt_client_search);
+		reloadList();
+	});
+	
+	$(".address_search_cancel").on("click",function(){
+		$("#txt_client_search").val("");
+		$txt_client_search = $("#txt_client_search").val();
+		$("#searchTxt").val($txt_client_search);
+		reloadList();
+	});
+	
+	$(".search_pop_tbody").on("click","tr",function(){
+		$("#cNo").val($(this).children("#clientNo").html());
+		$("#sche_client_no").val($(this).children("#clientName").html());
+		$("#sche_comp_no").val($(this).children("#compName").html());
+		closePopup(7);
+	});	
+	
+}
 </script>
 </head>
 <body>
@@ -575,7 +624,7 @@ function redrawPaging(pb){
 						<tr class="u_s_tr">
 							<td class="table_td_1">일정 결과</td>
 							<td colspan="3" class="table_content"><textarea
-									class="det_text2" name="sche_res" id="sche_res"></textarea></td>
+									class="det_text2" name="sche_res" id="sche_res" readonly="readonly"></textarea></td>
 						</tr>
 					</table>
 					<!-- 여기까지 세부사항 메인내용 테이블 -->

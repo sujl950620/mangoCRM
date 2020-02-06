@@ -128,7 +128,12 @@ AND B.PPS_NO = #{pps_no}
 </select>
 
 <update id="updateBssPpsEdit" parameterType="hashmap">
-UPDATE BSS_PPS SET MGR_NO = #{mgr_no}, EMP_NO = #{sEmpNo}, DEPART_NO = #{depart_no}, PPS_NAME = #{pps_name}, PPS_SALES = REPLACE(#{pps_sales}, ',', ''), PPS_YEAR = #{pps_year}, PPS_DATE = SYSDATE
+UPDATE BSS_PPS SET  EMP_NO = #{sEmpNo},
+ <if test="depart_no != null and depart_no != ''">
+ MGR_NO = #{mgr_no},
+ DEPART_NO = #{depart_no}, 
+ </if>
+ PPS_NAME = #{pps_name}, PPS_SALES = REPLACE(#{pps_sales}, ',', ''), PPS_YEAR = #{pps_year}, PPS_DATE = SYSDATE
 WHERE PPS_NO = #{pps_no}
 </update>
 

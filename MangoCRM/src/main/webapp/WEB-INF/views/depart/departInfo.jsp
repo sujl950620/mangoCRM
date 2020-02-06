@@ -11,6 +11,12 @@
 	var cnt = 0;
 	//버튼에 한글자씩 추가되면 길이가 10씩 늘어납니다.
 	$(document).ready(function() {
+			getDepartInfo();			
+		$("#searchDepart").change(function(){
+			$("#depart_no").val($("#searchDepart").val());
+			console.log($("#depart_no").val());
+			getDepartInfo();
+		});
 		// Button Auto Sizing
 		$('button').each(function() {
 			if ($(this).html().length > 2) {
@@ -27,8 +33,26 @@
 		$("#cancel").on("click", function(){
 			location.href = "departMgt";
 		});
-		$("#searchDepart").change(function(){
-			getDepartInfo();
+		
+		$("#edit").on("click", function(){
+			var params = $("#actionForm").serialize();
+
+			$.ajax({
+				type: "post",
+				url: "departEditAjax",
+				dataType: "json",
+				data: params,
+				success: function(result) {
+					makeAlert(1, "성공", "부서가 수정되었습니다.", function(){
+						location.href = "departMgt";
+					});
+				},
+				error : function(request, status, error) {
+					console.log("status : " + request.status);
+					console.log("text : " + request.responseTest);
+					console.log("error : " + error);
+				}
+			});
 		});
 		
 		// 담당자 검색 버튼 클릭 Event
@@ -42,8 +66,57 @@
 			html += "<img src =\"resources/images/button/icon_cancel_gray.png\" alt=\"\" width=\"20px\" class=\"cancel_icon\" id=\"empCancelBtn\">";
 			html += "</div>";
 			html += "<input type=\"hidden\" name=\"page\" id=\"page\" value=\"1\" />";
+			if($("#depart_no").val() != $("#searchDepart").val()){
+			html += "<input type=\"hidden\" id=\"depart_no\" name=\"depart_no\" value=\""+${param.depart_no}+"\"/>	";
+			}
+			else{
+			html += "<input type=\"hidden\" id=\"depart_no\" name=\"depart_no\" value=\""+$("#searchDepart").val()+"\"/>	";				
+			}
 			html += "</form>";
 			html += "<table class=\"pop_list\">";
+			html += "<colgroup><col width=\"15%\"/><col width=\"20%\"/><col width=\"15%\"/><col width=\"25%\"/><col width=\"25%\"/>";
+			html += "<thead>";
+			html += "<tr class = \"table_list_header\">";
+			html += "<td>번호</td>";
+			html += "<td>부서</td>";
+			html += "<td>팀</td>";
+			html += "<td>이름</td>";
+			html += "<td>직급</td>";
+			html += "</tr>";
+			html += "</thead>";
+			html += "<tbody>";
+			html += "<tr class=\"list_contents\" style=\"height: 350px;\">";
+			html += "<td colspan=\"7\">조회된 데이터가 없습니다.</td>";
+			html += "</tr>";
+			html += "</tbody>";
+			html += "</table>";
+			html += "<div class=\"list_paging_area\" style=\"margin-top: 0px;\">";
+	        html += "</div>";
+	        
+	        makeNoBtnPopup(1, "사원 조회", html, true, 600, 650, function() {
+	        	getEmpList();
+	        	setEmpEvent();
+			});
+		});
+	
+		$("#emp_select").on("click", function() {
+			var html = "";
+			
+			html += "<form action=\"#\" method=\"post\" id=\"searchForm\">";
+			html += "<div>";
+			html += "<input type=\"text\" class=\"input_search\" id=\"searchTxt\" name=\"searchTxt\" placeholder=\"Ex) 홍길동\" />";
+			html += "<img src =\"resources/images/button/icon_search_gray.png\" alt=\"\" width=\"30px\" class=\"search_icon\" id=\"empSearchBtn\">";
+			html += "<img src =\"resources/images/button/icon_cancel_gray.png\" alt=\"\" width=\"20px\" class=\"cancel_icon\" id=\"empCancelBtn\">";
+			html += "</div>";
+			html += "<input type=\"hidden\" name=\"page\" id=\"page\" value=\"1\" />";
+			if($("#depart_no").val() != $("#searchDepart").val()){
+			html += "<input type=\"hidden\" id=\"depart_no\" name=\"depart_no\" value=\""+${param.depart_no}+"\"/>	";
+			}
+			else{
+			html += "<input type=\"hidden\" id=\"depart_no\" name=\"depart_no\" value=\""+$("#searchDepart").val()+"\"/>	";				
+			}
+			html += "</form>";
+			html += "<table class=\"pop_list\" id=\"pop_list\">";
 			html += "<colgroup><col width=\"15%\"/><col width=\"20%\"/><col width=\"15%\"/><col width=\"25%\"/><col width=\"25%\"/>";
 			html += "<thead>";
 			html += "<tr class = \"table_list_header\">";
@@ -77,7 +150,7 @@
 
 		$.ajax({
 			type: "post",
-			url: "EmpPopAjax",
+			url: "departPopAjax",
 			dataType: "json",
 			data: params,
 			success: function(result) {
@@ -98,11 +171,11 @@
 		if(list.length > 0) {
 			for(var i in list) {
 		  		if(list[i].DEPART_NO == $("#depart_no").val()){
-				html += "<tr class=\"list_contents\" name=\"" + list[i].EMP_NO + "_" + list[i].EMP_NAME + "_" + list[i].EMP_EMAIL + "_" + list[i].DEPART_NAME + "_" + list[i].DEPART_NO + "\">";
-		  		html += "<td>" + list[i].EMP_NO + "</td>";
+				html += "<tr class=\"list_contents\" name=\"" + list[i].NO + "_" + list[i].NAME + "_" + list[i].EMAIL + "_" + list[i].DEPART_NAME + "_" + list[i].DEPART_NO + "_" + list[i].PHONE + "\">";
+		  		html += "<td>" + list[i].NO + "</td>";
 		  		html += "<td>" + list[i].DEPART_NAME + "</td>";
 		  		html += "<td>" + list[i].TEAM_NAME + "</td>";
-		  		html += "<td>" + list[i].EMP_NAME + "</td>";
+		  		html += "<td>" + list[i].NAME + "</td>";
 		  		html += "<td>" + list[i].POSI_NAME + "</td>";
 				html += "</tr>";
 				cnt++;
@@ -145,17 +218,17 @@
 				getEmpList();
 			}
 		});
-		/* // 담당자 값 선택 Event
-		$(".pop_list>tbody").on("click", "tr", function() {
+		 // 담당자 값 선택 Event
+		$("#pop_list>tbody").on("click", "tr", function() {
 			var select = $(this).attr("name");
 			var array = select.split("_");
-			$("#mgr_no").val(array[0]);
-			$("#mgr_name").val(array[1]);
-			$("#mgr_email").val(array[2]);
-			$("#depart_name").val(array[3]);
+			$("#EMP_NO").val(array[0]);
+			$("#EMP_NAME").val(array[1]);
+			$("#EMP_EMAIL").val(array[2]);
+			$("#EMP_PHONE").val(array[5]);
 			$("#depart_no").val(array[4]);
 			closePopup(1);
-		}); */
+		});
 	}
 	
 	// 리스트 Paging draw
@@ -187,14 +260,19 @@
 	
 	function getDepartInfo(){
 		var params = $("#actionForm").serialize();
-		console.log(params);
 		$.ajax({
 			type : "post", 
 			url : "getDepartInfoAjax", 
 			dataType : "json",
 			data : params, 
 			success : function(result) {
-				redrawGetDepartInfo(result.getDepartInfo);
+				$("#DEPART_TASK").val(result.getDepartInfo.DEPART_TASK);
+				$("#EMP_NAME").val(result.getDepartInfo.EMP_NAME);
+				$("#EMP_EMAIL").val(result.getDepartInfo.EMP_EMAIL);
+				$("#DEPART_CALL").val(result.getDepartInfo.DEPART_CALL);
+				$("#CNT").val(result.getDepartInfo.CNT);
+				$("#EMP_PHONE").val(result.getDepartInfo.EMP_PHONE);
+				departList(result.departList);
 			},
 			error : function(request, status, error) {
 				console.log("text : " + request.responseText);
@@ -202,28 +280,33 @@
 			}
 		});
 	}
-	function redrawGetDepartInfo(getDepartInfo){
-		var html = "";
-			for(var i in getDepartInfo) {
-				arr[i] = i;
-				$(".list_paging_area").show();
-				html += "<tr name=\"" + list[i].PPS_NO + "\" class = \"list_contents\">";
-				html += "<td name=\"" + list[i].PPS_NO + "\" class = \"" + list[i].EMP_NAME + "\">";
-				html += "<input type=\"checkbox\" class=\"list_chbox\" id=\"chk_"+ i +"\">";
-				html += "<label for=\"chk_"+ i +"\" class=\"chbox_lbl\"></label>";
-				html += "</td>";
-				html += "<td>" + list[i].PPS_NO + "</td>";
-				html += "<td>" + list[i].PPS_NAME + "</td>";
-				html += "<td>" + list[i].PPS_SALES + "</td>";
-				html += "<td>" + list[i].EMP_NAME + "</td>";
-				html += "<td>" + list[i].PPS_YEAR + "</td>";
-				html += "<td>" + list[i].PPS_DATE + "</td>";
-				html += "<td>" + list[i].MGR_NAME + "</td>";
-				html += "<td>" + list[i].MGR_EMAIL + "</td>";
-				html += "<td>" + list[i].DEPART_NAME + "</td>";
-				html += "</tr>";
+	function departList(list){
+		var html = "";		
+			html = "<option selected=\"selected\" style=\"display : none;\">"+$("#DEPART_NAME").val()+"</option>";
+		for(i in list){
+			if(list[i].DEPART_NO == $("#searchDepart").val()){
+		html += "<option selected=\"selected\" value = \""+ list[i].DEPART_NO +"\">"+ list[i].DEPART_NAME +"</option>";
 			}
-		$(".table_list>tbody").html(html);
+			else
+				{
+				html += "<option value = \""+ list[i].DEPART_NO +"\">"+ list[i].DEPART_NAME +"</option>";
+				}
+		}
+		$("#searchDepart").html(html);
+	}
+	function teamList(list){
+		var html = "";
+		html += "<option value=\"0\">없음</option>"		
+		for(i in list){
+			if(list[i].TEAM_NO == $("#searchTeam").val()){
+		html += "<option selected=\"selected\" value = \""+ list[i].TEAM_NO +"\">"+ list[i].TEAM_NAME +"</option>";
+			}
+			else
+				{
+				html += "<option value = \""+ list[i].TEAM_NO +"\">"+ list[i].TEAM_NAME +"</option>";
+				}
+		}
+		$("#searchTeam").html(html);
 	}
 </script>
 <style type="text/css">
@@ -302,6 +385,8 @@ table {
 	<input type="hidden" id="depart_no" name="depart_no" value="${param.depart_no}"/>	
 	<input type="hidden" id="sEmpNo" name="sEmpNo" value="${sEmpNo}"/>	
 	<input type="hidden" id="sAuthorNo" name="sAuthorNo" value="${sAuthorNo}"/>	
+	<input type="hidden" id="DEPART_NAME" name="DEPART_NAME" value="${getDepartInfo.DEPART_NAME}"/>	
+	<input type="hidden" id="EMP_NO" name="EMP_NO" value="${getDepartInfo.NO}"/>	
 	<div class="contents_wrap">
 		<div class="table_top_area">
 			<div class="top_title_area">
@@ -328,14 +413,13 @@ table {
                     </td>
                     <td class="field_contents">
                         <select class="input_normal" id="searchDepart" name="searchDepart">
-                            <option>${getDepartInfo.DEPART_NAME}</option>
                         </select>
                     </td>
 					<td class="field_name">
                     	이메일
                     </td>
 					<td class="field_contents">
-						<input type="text" class="input_normal" readonly="readonly" id="" name="" value="${getDepartInfo.EMP_EMAIL}"/>
+						<input type="text" class="input_normal input_readonly" readonly="readonly" id="EMP_EMAIL" name="EMP_EMAIL" value="${getDepartInfo.EMP_EMAIL}"/>
 					</td>
 					<td class="field_name" rowspan="3">
 						<div class="profile_image"></div>
@@ -346,13 +430,22 @@ table {
                  	       부서장
                     </td>
                    <td class="field_contents">
-                  	<input type="text" class="input_normal" readonly="readonly" id="" name="" value="${getDepartInfo.EMP_NAME}"/>
+                   <c:choose>
+                        <c:when test="${sAuthorNo eq 0 or sAuthorNo eq 1}">
+                        <input type="text" class="input_normal input_readonly" style="width: calc(100% - 100px) !important" 
+                        readonly="readonly" id="EMP_NAME" name="EMP_NAME" value="${getDepartInfo.EMP_NAME}"/>
+                        <div class="btn_black btn_size_normal" id="emp_select">검색</div>
+                        </c:when>
+                        <c:otherwise>
+                        <input type="text" class="input_normal input_readonly" readonly="readonly" id="EMP_NAME" name="EMP_NAME" value="${getDepartInfo.EMP_NAME}"/>
+                        </c:otherwise>
+                   </c:choose>
                     </td>
                     <td class="field_name">
                     	휴대폰
                     </td>
 					<td class="field_contents">
-						<input type="text" class="input_normal" readonly="readonly" id="" name="" value="${getDepartInfo.EMP_PHONE}"/>
+						<input type="text" class="input_normal input_readonly" readonly="readonly" id="EMP_PHONE" name="EMP_PHONE" value="${getDepartInfo.EMP_PHONE}"/>
 					</td>
                 </tr>
                 <tr>
@@ -360,21 +453,36 @@ table {
                     	사원수
                     </td>
                     <td class="field_contents">
-                  <input type="text" class="input_normal" readonly="readonly" id="" name="" value="${getDepartInfo.CNT}"/>
+                  <input type="text" class="input_normal" readonly="readonly" id="CNT" name="CNT" value="${getDepartInfo.CNT}"/>
                     </td>
                     <td class="field_name">
                     	전화번호
                     </td>
 					<td class="field_contents">
-						<input type="text" class="input_normal" readonly="readonly" id="" name="" value="${getDepartInfo.DEPART_CALL}"/>
+					<c:choose>
+                <c:when test="${sAuthorNo eq 0 or sAuthorNo eq 1}">
+						<input type="text" class="input_normal" id="DEPART_CALL" name="DEPART_CALL" value="${getDepartInfo.DEPART_CALL}"/>
+					   </c:when>
+               <c:otherwise>
+						<input type="text" class="input_normal" readonly="readonly" id="DEPART_CALL" name="DEPART_CALL" value="${getDepartInfo.DEPART_CALL}"/>
+               </c:otherwise>
+               </c:choose>
 					</td>
                 </tr>
                 <tr>
+               
                     <td class="field_name  first_field_name" id="depart">
                    		업무
                     </td>
                     <td class="field_contents" id="depart_contents" colspan="3">
-                    <input type="text" class="input_normal" readonly="readonly" id="" name="" value="${getDepartInfo.DEPART_TASK}"/>
+                     <c:choose>
+                <c:when test="${sAuthorNo eq 0 or sAuthorNo eq 1}">
+                    <input type="text" class="input_normal" id="DEPART_TASK" name="DEPART_TASK" value="${getDepartInfo.DEPART_TASK}"/>
+                     </c:when>
+               <c:otherwise>
+                    <input type="text" class="input_normal" readonly="readonly" id="DEPART_TASK" name="DEPART_TASK" value="${getDepartInfo.DEPART_TASK}"/>
+               </c:otherwise>
+               </c:choose>
                     </td>
                     <td class="field_name">
 						프로필
@@ -404,7 +512,16 @@ table {
                  	    팀장
                     </td>
                    <td class="field_contents">
-         			<input type="text" class="input_normal input_readonly" readonly="readonly" id="" name=""/>
+					<c:choose>
+                        <c:when test="${sAuthorNo eq 0 or sAuthorNo eq 1}">
+                        <input type="text" class="input_normal input_readonly" style="width: calc(100% - 100px) !important" 
+                        readonly="readonly" id="mgr_name" name="mgr_name"/>
+                        <div class="btn_black btn_size_normal" id="emp_select">검색</div>
+                        </c:when>
+                        <c:otherwise>
+                        <input type="text" class="input_normal input_readonly" readonly="readonly" id="mgr_name" name="mgr_name"/>
+                        </c:otherwise>
+                    </c:choose>
                     </td>
                     <td class="field_name">
                  	       사원수

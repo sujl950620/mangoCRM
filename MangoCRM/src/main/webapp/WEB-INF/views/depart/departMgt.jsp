@@ -293,22 +293,174 @@ width : calc(100% - 94px);
 	height: 100%;
 	margin: 10px 0;
 }
+.card_wrap {
+	 width: 225px;
+	 height: 700px;
+}
 </style>
 <c:import url="/header"></c:import>
 <script type="text/javascript">
 var sum = 0;
+var temp = 0;
+var cnt = 0;
 	$(document).ready(function() {
 		reloadList();
-		
 		$(".card_view_title").slimscroll({
 			 width: '1200px', 
 			 height: '700px',
-			 axis: 'both'
+			 axis: 'x'
 		});
 		
-		$("#searchBtn").on("click", function(){
-			reloadList();
+		$("#cardViewTitle").on("click",".card", function(){
+			$("#team_no").val($(this).attr("name"));
+		var html = "";
+			
+			html += "<form action=\"#\" method=\"post\" id=\"searchForm\">";
+			html += "<div>";
+			html += "<input type=\"text\" class=\"input_search\" id=\"searchTxt\" name=\"searchTxt\" placeholder=\"Ex) 홍길동\" />";
+			html += "<img src =\"resources/images/button/icon_search_gray.png\" alt=\"\" width=\"30px\" class=\"search_icon\" id=\"empSearchBtn\">";
+			html += "<img src =\"resources/images/button/icon_cancel_gray.png\" alt=\"\" width=\"20px\" class=\"cancel_icon\" id=\"empCancelBtn\">";
+			html += "</div>";
+			html += "<input type=\"hidden\" id=\"sAuthorNo\" name=\"sAuthorNo\" value=\""+${sAuthorNo}+"\"/>	";
+			html += "<input type=\"hidden\" name=\"page\" id=\"page\" value=\"1\" />";
+			html += "<input type=\"hidden\" id=\"depart_no\" name=\"depart_no\"/>	";
+			html += "<input type=\"hidden\" name=\"team_no\" id=\"team_no\" value=\""+$("#team_no").val()+"\"/>	";
+			html += "<table class=\"pop_list\">";
+			html += "<colgroup><col width=\"15%\"/><col width=\"20%\"/><col width=\"15%\"/><col width=\"25%\"/><col width=\"25%\"/>";
+			html += "<thead>";
+			html += "<tr class = \"table_list_header\">";
+			html += "<td>번호</td>";
+			html += "<td>부서</td>";
+			html += "<td>팀</td>";
+			html += "<td>이름</td>";
+			html += "<td>직급</td>";
+			html += "</tr>";
+			html += "</thead>";
+			html += "<tbody>";
+			html += "<tr class=\"list_contents\" style=\"height: 350px;\">";
+			html += "<td colspan=\"7\">조회된 데이터가 없습니다.</td>";
+			html += "</tr>";
+			html += "</tbody>";
+			html += "</table>";
+			html += "<div class=\"list_paging_area\" style=\"margin-top: 0px;\">";
+	        html += "</div>";
+			html += "</form>";
+	        
+	        makeNoBtnPopup(1, "사원 조회", html, true, 600, 650, function() {
+	        	getEmpList();
+	        	setEmpEvent();
+			});
 		});
+		/* 조회팝업 */
+		// 담당자 목록 Get
+		function getEmpList() {
+			var params = $("#searchForm").serialize();
+
+			$.ajax({
+				type: "post",
+				url: "departPopAjax",
+				dataType: "json",
+				data: params,
+				success: function(result) {
+					drawListPaging(result.pb);
+					drawEmpList(result.list);
+				},
+				error : function(request, status, error) {
+					console.log("status : " + request.status);
+					console.log("text : " + request.responseTest);
+					console.log("error : " + error);
+				}
+			});
+		}
+		// 담당자 목록 draw
+		function drawEmpList(list) {
+			var html = "";
+			
+			if(list.length > 0) {
+				for(var i in list) {
+					html += "<tr class=\"list_contents\" name=\"" + list[i].NO + "_" + list[i].NAME + "_" + list[i].EMAIL + "_" + list[i].DEPART_NAME + "_" + list[i].DEPART_NO + "\">";
+			  		html += "<td>" + list[i].NO + "</td>";
+			  		html += "<td>" + list[i].DEPART_NAME + "</td>";
+			  		html += "<td>" + list[i].TEAM_NAME + "</td>";
+			  		html += "<td>" + list[i].NAME + "</td>";
+			  		html += "<td>" + list[i].POSI_NAME + "</td>";
+					html += "</tr>";
+					cnt++;
+					$("#cnt").val(cnt);
+				}
+			}
+			else {
+				html += "<tr class=\"list_contents\" style=\"height: 350px;\">";
+				html += "<td colspan=\"7\">조회된 데이터가 없습니다.</td>";
+				html += "</tr>";
+				$(".list_paging_area").html("");
+			}
+			
+			$(".pop_list>tbody").html(html);
+		}
+		// 담당자 팝업 이벤트 할당
+		function setEmpEvent() {
+			// 검색 버튼 클릭 Event
+			$("#empSearchBtn").on("click", function() {
+				$("#page").val("1");
+				getEmpList();
+			});
+			// 검색 엔터키 입력 Event
+			$("#searchTxt").on("keypress", function(event) {
+				if(event.keyCode == 13) {
+					$("#empSearchBtn").click();
+					return false;
+				}
+			});
+			// 검색 초기화 버튼 클릭 Event
+			$("#empCancelBtn").on("click", function() {
+				$("#searchTxt").val("");
+				getEmpList();
+			});	
+			// Paging 버튼 클릭 이벤트
+			$(".list_paging_area").on("click", "div", function() {
+				if(!isNaN($(this).attr("name") * 1)) {
+					$("#page").val($(this).attr("name"));
+					getEmpList();
+				}
+			});
+			/* // 담당자 값 선택 Event
+			$(".pop_list>tbody").on("click", "tr", function() {
+				var select = $(this).attr("name");
+				var array = select.split("_");
+				$("#mgr_no").val(array[0]);
+				$("#mgr_name").val(array[1]);
+				$("#mgr_email").val(array[2]);
+				$("#depart_name").val(array[3]);
+				$("#depart_no").val(array[4]);
+				closePopup(1);
+			}); */
+		}
+		
+		// 리스트 Paging draw
+		function drawListPaging(pb) {
+			var html = "";
+			
+			html += "<div class=\"btn_paging\" name=\"1\">&lt;&lt;</div>";
+			
+			html += "<div class=\"btn_paging\"name=\"";
+			html += ($("#page").val() == "1")? "1" : ($("#page").val() * 1 - 1);
+			html += "\">&lt;</div>";
+
+			for(var i = pb.startPcount; i <= pb.endPcount; i++) {
+				html += "<div class=\"btn_paging";
+				html += ($("#page").val() == i)? "_on\">" : "\" name=\"" + i + "\">";
+				html += i + "</div>";
+			}
+			
+			html += "<div class=\"btn_paging\"name=\"";
+			html += ($("#page").val() == (pb.maxPcount))? pb.maxPcount : ($("#page").val() * 1 + 1);
+			html += "\">&gt;</div>";
+
+			html += "<div class=\"btn_paging\" name=\"" + pb.maxPcount + "\">&gt;&gt;</div>";
+			
+			$(".list_paging_area").html(html);
+		}
 		$("#cardViewTitle").on("click","div[name=departno]>div", function(){
 			if($(this).attr("class") == "card_view_stat"){
 			$("#depart_no").val($(this).attr("name"));
@@ -318,54 +470,18 @@ var sum = 0;
 			}
 		});
 		
-		$(".card_view_title").on("click", ".card_view_stat_plus",function() {
+		$("#departAdd").on("click",function() {
 			departPop();
-			makeTwoBtnPopup(1, "부서등록", departPop() , true, 600, 300, function(){
-				$("#empSearchBtn").on("click", function() {
-					var html = "";
-					
-					html += "<form action=\"#\" method=\"post\" id=\"searchForm\">";
-					html += "<div>";
-					html += "<input type=\"text\" class=\"input_search\" id=\"searchTxt\" name=\"searchTxt\" placeholder=\"Ex) 홍길동\" />";
-					html += "<img src =\"resources/images/button/icon_search_gray.png\" alt=\"\" width=\"30px\" class=\"search_icon\" id=\"empSearchBtn\">";
-					html += "<img src =\"resources/images/button/icon_cancel_gray.png\" alt=\"\" width=\"20px\" class=\"cancel_icon\" id=\"empCancelBtn\">";
-					html += "</div>";
-					html += "<input type=\"hidden\" name=\"page\" id=\"page\" value=\"1\" />";
-					html += "</form>";
-					html += "<table class=\"pop_list\">";
-					html += "<colgroup><col width=\"15%\"/><col width=\"20%\"/><col width=\"15%\"/><col width=\"25%\"/><col width=\"25%\"/>";
-					html += "<thead>";
-					html += "<tr class = \"table_list_header\">";
-					html += "<td>번호</td>";
-					html += "<td>부서</td>";
-					html += "<td>팀</td>";
-					html += "<td>이름</td>";
-					html += "<td>직급</td>";
-					html += "</tr>";
-					html += "</thead>";
-					html += "<tbody>";
-					html += "<tr class=\"list_contents\" style=\"height: 350px;\">";
-					html += "<td colspan=\"7\">조회된 데이터가 없습니다.</td>";
-					html += "</tr>";
-					html += "</tbody>";
-					html += "</table>";
-					html += "<div class=\"list_paging_area\" style=\"margin-top: 0px;\">";
-			        html += "</div>";
-			        makeNoBtnPopup(2, "담당자 검색", html, true, 600, 600, function() {
-			        	getEmpList();
-			        	setEmpEvent();
-			        	
-					});
-			});
+			makeTwoBtnPopup(1, "부서등록", departPop() , true, 600, 350, function(){
 		}, "확인", function() {
 	    	if ($.trim($("#DepartName").val()) == "") {
 	    		makeAlert(2, "알림", "부서명을 입력하시오.", null);
 	    		$("#DepartName").focus();
 	    	} 
-	    	else if ($.trim($("#newDepartMgr").val()) == "") {
+	    	/* else if ($.trim($("#newDepartMgr").val()) == "") {
 	    		makeAlert(2, "알림", "부서장을 입력하시오.", null);
 	    		$("#newDepartMgr").focus();
-	    	}
+	    	} */
 	    	else if ($.trim($("#DepartTask").val()) == "") {
 	    		makeAlert(2, "알림", "업무를 입력하시오.", null);
 	    		$("#DepartTask").focus();
@@ -375,6 +491,7 @@ var sum = 0;
 	    		$("#DepartCall").focus();
 	    	}else {
 
+				$("#newInAndOut").val($("#inAndOut").val());
 				$("#newDepartName").val($("#DepartName").val());
 				$("#newDepartTask").val($("#DepartTask").val());
 				$("#newDepartCall").val($("#DepartCall").val());
@@ -386,7 +503,7 @@ var sum = 0;
 	    			dataType : "json", //데이터 전송규격
 	    			data : params, //보낼 데이터
 	    			success : function(result) {
-	    				makeAlert(2, "성공", "부서가 등록되었습니다.", null);
+	    				makeAlert(2, "성공", "새로운 부서가 등록되었습니다.", null);
 	    				closePopup(1);
 	    				reloadList();
 	    			},
@@ -401,119 +518,57 @@ var sum = 0;
 				closePopup(1);
 			});
 		});
-		
+		$("#teamAdd").on("click", function() {
+				teamPop();
+				reloadList();
+				makeTwoBtnPopup(1, "팀등록", teamPop() , true, 600, 350, function(){
+				}, "확인", function() {
+			    	if ($.trim($("#TeamName").val()) == "") {
+			    		makeAlert(2, "알림", "팀명을 입력하시오.", null);
+			    		$("#TeamName").focus();
+			    	} 
+			    	else if ($.trim($("#TeamTask").val()) == "") {
+			    		makeAlert(2, "알림", "업무를 입력하시오.", null);
+			    		$("#TeamTask").focus();
+			    	}
+			    	else if ($.trim($("#TeamCall").val()) == "") {
+			    		makeAlert(2, "알림", "전호번호를 입력하시오.", null);
+			    		$("#TeamCall").focus();
+			    	}else {
+			    		$("#departNo").val($("#searchDepart").val());
+						$("#newTeamName").val($("#TeamName").val());
+						$("#newTeamTask").val($("#TeamTask").val());
+						$("#newTeamCall").val($("#TeamCall").val());
+			    		var params = $("#actionForm").serialize();
+
+			    		$.ajax({
+			    			type : "post", //데이터 전송방식
+			    			url : "insertTeamAjax", //주소
+			    			dataType : "json", //데이터 전송규격
+			    			data : params, //보낼 데이터
+			    			success : function(result) {
+			    				makeAlert(2, "성공", "새로운 팀이 등록되었습니다.", null);
+			    				closePopup(1);
+			    				reloadList();
+			    			},
+			    			error : function(request, status, error) {
+			    				console.log("status : " + request.status);
+			    				console.log("text : " + request.responseText);
+			    				console.log("error : " + error);
+			    			}
+			    		});
+			    	}
+				},"취소", function() {
+					closePopup(1);
+				});
+				
+			});
 	});
-	// 담당자 목록 Get
-	function getEmpList() {
-		var params = $("#searchForm").serialize();
-
-		$.ajax({
-			type: "post",
-			url: "empPopAjax",
-			dataType: "json",
-			data: params,
-			success: function(result) {
-				drawListPaging(result.pb);
-				drawEmpList(result.list);
-			},
-			error : function(request, status, error) {
-				console.log("status : " + request.status);
-				console.log("text : " + request.responseTest);
-				console.log("error : " + error);
-			}
-		});
-	}
-	// 담당자 목록 draw
-	function drawEmpList(list) {
-		var html = "";
-		
-		if(list.length > 0) {
-			for(var i in list) {
-				html += "<tr class=\"list_contents\" name=\"" + list[i].EMP_NO + "_" + list[i].EMP_NAME + "_" + list[i].EMP_EMAIL + "_" + list[i].DEPART_NAME + "_" + list[i].DEPART_NO + "\">";
-		  		html += "<td>" + list[i].EMP_NO + "</td>";
-		  		html += "<td>" + list[i].DEPART_NAME + "</td>";
-		  		html += "<td>" + list[i].TEAM_NAME + "</td>";
-		  		html += "<td>" + list[i].EMP_NAME + "</td>";
-		  		html += "<td>" + list[i].POSI_NAME + "</td>";
-				html += "</tr>";
-			}
-		}
-		else {
-			html += "<tr class=\"list_contents\" style=\"height: 350px;\">";
-			html += "<td colspan=\"7\">조회된 데이터가 없습니다.</td>";
-			html += "</tr>";
-			$(".list_paging_area").html("");
-		}
-		
-		$(".pop_list>tbody").html(html);
-	}
-	// 담당자 팝업 이벤트 할당
-	function setEmpEvent() {
-		// 검색 버튼 클릭 Event
-		  $("#empSearchBtn").on("click", function() {
-			getEmpList();
-		});  
-		// 검색 엔터키 입력 Event
-		$("#searchTxt").on("keypress", function(event) {
-			if(event.keyCode == 13) {
-				$("#empSearchBtn").click();
-				return false;
-			}
-		});
-		// 검색 초기화 버튼 클릭 Event
-		$("#empCancelBtn").on("click", function() {
-			$("#searchTxt").val("");
-			getEmpList();
-		});	
-		// Paging 버튼 클릭 이벤트
-		$(".list_paging_area").on("click", "div", function() {
-			if(!isNaN($(this).attr("name") * 1)) {
-				$("#page").val($(this).attr("name"));
-				getEmpList();
-			}
-		});
-		// 담당자 값 선택 Event
-		$(".pop_list>tbody").on("click", "tr", function() {
-			var select = $(this).attr("name");
-			var array = select.split("_");
-			$("#mgr_no").val(array[0]);
-			$("#newDepartMgr").val(array[1]);
-			$("#newTeamMgr").val(array[1]);
-			$("#mgr_email").val(array[2]);
-			$("#depart_name").val(array[3]);
-			$("#newDepartNo").val(array[0]);
-			closePopup(2);
-		});
-	}
-	
-	// 리스트 Paging draw
-	function drawListPaging(pb) {
-		var html = "";
-		
-		html += "<div class=\"btn_paging\" name=\"1\">&lt;&lt;</div>";
-		
-		html += "<div class=\"btn_paging\"name=\"";
-		html += ($("#page").val() == "1")? "1" : ($("#page").val() * 1 - 1);
-		html += "\">&lt;</div>";
-
-		for(var i = pb.startPcount; i <= pb.endPcount; i++) {		
-			html += "<div class=\"btn_paging";
-			html += ($("#page").val() == i)? "_on\">" : "\" name=\"" + i + "\">";
-			html += i + "</div>";
-		}
-		
-		html += "<div class=\"btn_paging\"name=\"";
-		html += ($("#page").val() == (pb.maxPcount))? pb.maxPcount : ($("#page").val() * 1 + 1);
-		html += "\">&gt;</div>";
-
-		html += "<div class=\"btn_paging\" name=\"" + pb.maxPcount + "\">&gt;&gt;</div>";
-		
-		$(".list_paging_area").html(html);
-	}
 	
 		function departPop(){
 			var html = "";
 			html += "	<form action=\"#\" id=\"saveForm\" method=\"post\">";
+			html += "	<input type=\"hidden\" id=\"sAuthorNo\" name=\"sAuthorNo\" value=\""+${sAuthorNo}+"\"/>	";
 			html += "	<table class=\"pop_tbl\">";
 			html += "	<colgroup>";
 			html += "		<col width=\"10%\" />";
@@ -523,19 +578,26 @@ var sum = 0;
 			html += "	</colgroup>";
 			html += "	<tbody>";
 			html += "		<tr>";
+			html += "		<td class=\"table_list_header font_color\">내/외부</td>";
+			html += "		<td colspan=\"3\"><select class=\"input_short\" style=\"width: 98%;\" name=\"inAndOut\" id=\"inAndOut\">";
+			html += "		<option value=\"0\">내부</option>";
+			html += "		<option value=\"1\">외부</option>";
+			html += "		</select></td>";
+			html += "		</tr>";
+			html += "		<tr>";
 			html += "		<td class=\"table_list_header font_color\">부서명</td>";
 			html += "		<td colspan=\"3\"><input type=\"text\" class=\"input_normal\" style=\"width: 98%;\" id=\"DepartName\" name=\"DepartName\"></td>";
 			html += "		</tr>";
 			html += "		<tr>";
 			html += "		<td class=\"table_list_header font_color\">연락처</td>";
-			html += "		<td><input type=\"text\" class=\"input_normal\" style=\"width: 95%;\" id=\"DepartCall\" name=\"DepartCall\"></td>";
-			html += "		<td class=\"table_list_header font_color\">부서장</td>";
-			html += "		<td><input type=\"text\" class=\"input_short input_readonly\" readonly=\"readonly\" id=\"newDepartMgr\">";
-			html += "		<div class=\"btn_black btn_size_normal\" id=\"empSearchBtn\">검색</div></td>";
+			html += "		<td colspan=\"3\"><input type=\"text\" class=\"input_normal\" style=\"width: 98%;\" id=\"DepartCall\" name=\"DepartCall\"></td>";
+			/* html += "		<td class=\"table_list_header font_color\">부서장</td>";
+			html += "		<td><input type=\"text\" class=\"input_short input_readonly\" readonly=\"readonly\" id=\"newDepartMgr\" name=\"newDepartMgr\">";
+			html += "		<div class=\"btn_black btn_size_normal\" id=\"empSearchBtn\">검색</div></td>"; */
 			html += "		</tr>";
 			html += "		<tr>";
 			html += "		<td class=\"table_list_header font_color\" rowspan=\"2\">업무</td>";
-			html += "		<td colspan=\"3\" rowspan=\"2\"><input type=\"text\" class=\"input_normal\" style=\"width: 98%; height : 90px;\" id=\"DepartTask\" name=\"DepartTask\"></td>";
+			html += "		<td colspan=\"3\" rowspan=\"2\"><input type=\"text\" class=\"input_normal\" style=\"width: 98%; height : 85px;\" id=\"DepartTask\" name=\"DepartTask\"></td>";
 			html += "		</tr>";
 			html += "		<tr>";
 			html += "		<td></td>";
@@ -549,6 +611,7 @@ var sum = 0;
 		function teamPop(){
 			var html = "";
 			html += "	<form action=\"#\" id=\"saveForm\" method=\"post\">";
+			html += "	<input type=\"hidden\" id=\"sAuthorNo\" name=\"sAuthorNo\" value=\""+${sAuthorNo}+"\"/>	";
 			html += "	<table class=\"pop_tbl\">";
 			html += "	<colgroup>";
 			html += "		<col width=\"10%\" />";
@@ -558,19 +621,23 @@ var sum = 0;
 			html += "	</colgroup>";
 			html += "	<tbody>";
 			html += "		<tr>";
+			html += "		<td class=\"table_list_header font_color\">부서</td>";
+			html += "		<td colspan=\"3\"><select class=\"input_short\" style=\"width: 98%;\" name=\"searchDepart\" id=\"searchDepart\"></select></td>";
+			html += "		</tr>";
+			html += "		<tr>";
 			html += "		<td class=\"table_list_header font_color\">팀명</td>";
-			html += "		<td colspan=\"3\"><input type=\"text\" class=\"input_normal\" style=\"width: 98%;\"></td>";
+			html += "		<td colspan=\"3\"><input type=\"text\" class=\"input_normal\" style=\"width: 98%;\" id=\"TeamName\" name=\"TeamName\"></td>";
 			html += "		</tr>";
 			html += "		<tr>";
 			html += "		<td class=\"table_list_header font_color\">연락처</td>";
-			html += "		<td><input type=\"text\" class=\"input_normal\" style=\"width: 95%;\" id=\"newTeamCall\" name=\"newTeamCall\"></td>";
-			html += "		<td class=\"table_list_header font_color\">팀장</td>";
+			html += "		<td colspan=\"3\"><input type=\"text\" class=\"input_normal\" style=\"width: 98%;\" id=\"TeamCall\" name=\"TeamCall\"></td>";
+			/* html += "		<td class=\"table_list_header font_color\">팀장</td>";
 			html += "		<td><input type=\"text\" class=\"input_short input_readonly\" readonly=\"readonly\" id=\"newTeamMgr\">";
-			html += "		<div class=\"btn_black btn_size_normal\" id=\"empSearchBtn\">검색</div></td>";
+			html += "		<div class=\"btn_black btn_size_normal\" id=\"empSearchBtn\">검색</div></td>"; */
 			html += "		</tr>";
 			html += "		<tr>";
 			html += "		<td class=\"table_list_header font_color\" rowspan=\"2\">업무</td>";
-			html += "		<td colspan=\"3\" rowspan=\"2\"><input type=\"text\" class=\"input_normal\" style=\"width: 98%; height : 90px;\" id=\"newTeamTask\" name=\"newTeamTask\"></td>";
+			html += "		<td colspan=\"3\" rowspan=\"2\"><input type=\"text\" class=\"input_normal\" style=\"width: 98%; height : 85px;\" id=\"TeamTask\" name=\"TeamTask\"></td>";
 			html += "		</tr>";
 			html += "		<tr>";
 			html += "		<td></td>";
@@ -579,7 +646,6 @@ var sum = 0;
 			html += "		</tbody>";
 			html += "	</table>";
 			html += "	</form>";
-			
 	return html;
 	}
 	
@@ -593,54 +659,7 @@ var sum = 0;
 
 			success : function(result) {
 				departCardList(result.Departlist, result.Teamlist);
-				$(".card2").on("click", function() {
-					teamPop();
-					makeTwoBtnPopup(1, "팀등록", teamPop() , true, 600, 300, function(){
-						$("#empSearchBtn").on("click", function() {
-								var html = "";
-								
-								html += "<form action=\"#\" method=\"post\" id=\"searchForm\">";
-								html += "<div>";
-								html += "<input type=\"text\" class=\"input_search\" id=\"searchTxt\" name=\"searchTxt\" placeholder=\"Ex) 홍길동\" />";
-								html += "<img src =\"resources/images/button/icon_search_gray.png\" alt=\"\" width=\"30px\" class=\"search_icon\" id=\"empSearchBtn\">";
-								html += "<img src =\"resources/images/button/icon_cancel_gray.png\" alt=\"\" width=\"20px\" class=\"cancel_icon\" id=\"empCancelBtn\">";
-								html += "</div>";
-								html += "<input type=\"hidden\" name=\"page\" id=\"page\" value=\"1\" />";
-								html += "</form>";
-								html += "<table class=\"pop_list\">";
-								html += "<colgroup><col width=\"15%\"/><col width=\"20%\"/><col width=\"15%\"/><col width=\"25%\"/><col width=\"25%\"/>";
-								html += "<thead>";
-								html += "<tr class = \"table_list_header\">";
-								html += "<td>번호</td>";
-								html += "<td>부서</td>";
-								html += "<td>팀</td>";
-								html += "<td>이름</td>";
-								html += "<td>직급</td>";
-								html += "</tr>";
-								html += "</thead>";
-								html += "<tbody>";
-								html += "<tr class=\"list_contents\" style=\"height: 350px;\">";
-								html += "<td colspan=\"7\">조회된 데이터가 없습니다.</td>";
-								html += "</tr>";
-								html += "</tbody>";
-								html += "</table>";
-								html += "<div class=\"list_paging_area\" style=\"margin-top: 0px;\">";
-						        html += "</div>";
-						        makeNoBtnPopup(2, "담당자 검색", html, true, 600, 600, function() {
-						        	getEmpList();
-						        	setEmpEvent();
-						        	
-								});
-						});
-					}, "확인", function() {
-						makeAlert(3, "성공", "팀이 등록되었습니다.", null);
-						closePopup(1);
-						reloadList();
-					},"취소", function() {
-						closePopup(1);
-					});
-					
-				});
+				departList(result.departList);
 			},
 			error : function(request, status, error) {
 				console.log("text : " + request.responseText);
@@ -651,77 +670,59 @@ var sum = 0;
 	
  	function departCardList(Departlist, Teamlist){
 		var html = "<div class=\"vertical_line\"></div>";
-		if(Departlist.length == ""){
-			html += "<div class=\"card_view_title_stat\" id=\"0\">";
-			html += "<div class=\"card_view_stat_plus\">";
-			html += "	<img alt=\"plus\" src=\"resources/images/bss/plus_btn.png\"/>";
+		
+		for(var i in Departlist){
+			html += "<div class=\"card_view_title_stat\" id=\"" + Departlist[i].DEPART_NO +"\" name=\"departno\">";
+			html += "<div class=\"card_view_stat\" name=\"" + Departlist[i].DEPART_NO +"\">";
+			html += Departlist[i].DEPART_NAME+"("+Departlist[i].PEOPLE+")";
+			html += "</div>";
+			html += "<div class=\"card_wrap\">";
 			html += "</div>";
 			html += "</div>";
 			html += "<div class=\"vertical_line\"></div>";
 		}
-		else {
-			for(var i in Departlist){
-				html += "<div class=\"card_view_title_stat\" id=\"" + Departlist[i].DEPART_NO +"\" name=\"departno\">";
-				html += "<div class=\"card_view_stat\" name=\"" + Departlist[i].DEPART_NO +"\">";
-				html += Departlist[i].DEPART_NAME+"("+Departlist[i].PEOPLE+")";
-				html += "</div>";
-				html += "</div>";
-				html += "<div class=\"vertical_line\"></div>";
-			}
-			html += "<div class=\"card_view_title_stat\" id=\"0\">";
-			html += "<div class=\"card_view_stat_plus\">";
-			html += "	<img alt=\"plus\" src=\"resources/images/bss/plus_btn.png\"/>";
-			html += "</div>";
-			html += "</div>";
-			html += "<div class=\"vertical_line\"></div>";
-		}
+		
 		$("#cardViewTitle").html(html);
-
- 		if(Teamlist.length == ""){
-			html = "";
-			html += "<div class=\"card2\">";
-			html += "	<img alt=\"plus\" src=\"resources/images/bss/plus_btn.png\"/>";
-			html += "</div>";
-		}
- 		
-		else {
+		
+		
+		
+		
+		
 			for(var i in Teamlist) {
-				sum += Teamlist[i].PEOPLE;
-				if(i > 0 && sum == Teamlist[i].SUM) {
-					sum = 0;
+				if(Teamlist[i].TEAM_NO != 0){
 					html = "";
-					html += "<div class=\"card\">";
+					html += "<div class=\"card\" name=\""+Teamlist[i].TEAM_NO+"\">";
 					html += "<div class=\"card_area\" id=\"0\">";
 					html += "	<div class=\"card_name_title\">";
 					html += "		<div class=\"card_name\">" + Teamlist[i].TEAM_NAME + "</div>";
 					html += "	</div>";
-					html += "	<div class=\"card_emp\">" + Teamlist[i].EMP_NAME + "</div>";
-					html += "	<div class=\"card_people\">" + Teamlist[i].PEOPLE + "</div>";
+					if(Teamlist[i].EMP_NAME != null){
+					html += "	<div class=\"card_emp\">팀장 : <b>" + Teamlist[i].EMP_NAME + "</b></div>";
+					}
+					else
+						{
+						html += "	<div class=\"card_emp\">팀장 : </div>";
+						}
+					html += "	<div class=\"card_people\">사원수 : " + Teamlist[i].CNT + "</div>";
 					html += "</div>";
 					html += "</div>";
-					$("#" + Teamlist[i].DEPART_NO).append(html);
-					html = "";
-					html += "<div class=\"card2\">";
-					html += "	<img alt=\"plus\" src=\"resources/images/bss/plus_btn.png\"/>";
-					html += "</div>";
+					$("#" + Teamlist[i].DEPART_NO+">.card_wrap").append(html);
+					
+					
 				}
-				
-				else {
-						
-					html = "";
-					html += "<div class=\"card\">";
-					html += "<div class=\"card_area\" id=\"0\">";
-					html += "	<div class=\"card_name_title\">";
-					html += "		<div class=\"card_name\">" + Teamlist[i].TEAM_NAME + "</div>";
-					html += "	</div>";
-					html += "	<div class=\"card_emp\">" + Teamlist[i].EMP_NAME + "</div>";
-					html += "	<div class=\"card_people\">" + Teamlist[i].PEOPLE + "</div>";
-					html += "</div>";
-					html += "</div>";		
-				}					
-					$("#" + Teamlist[i].DEPART_NO).append(html);		
-			}			
+			}
+			$(".card_wrap").slimscroll({ 
+				 width: '225px',
+				 height: '650px',
+				 axis: 'y'
+			});
 		}	
+	function departList(list){
+		var html = "";	
+		for(i in list){
+				html += "<option value = \""+ list[i].DEPART_NO +"\">"+ list[i].DEPART_NAME +"</option>";
+		}
+		$("#searchDepart").html(html);
 	}
 </script>
 </head>
@@ -734,17 +735,29 @@ var sum = 0;
 		<div class="list_wrap">
 			<!-- 검색영역 -->
 			<form action="#" id="srchForm" method="post">
+			<input type="hidden" id="sAuthorNo" name="sAuthorNo" value="${sAuthorNo}"/>	
 			<!-- 카드영역시작 -->
 				<!-- 검색영역 -->
-				<div class="content_srch">
+				<div class="top_btn_area no_drag" style="width: 1200px;">
+				<c:if test="${sAuthorNo eq 0 or sAuthorNo eq 1}">
+				<div class="btn_yellow btn_size_normal" id="departAdd">부서 등록</div>
+				<div class="btn_yellow btn_size_normal" id="teamAdd">팀 등록</div>
+				</c:if>
 				</div>
 			</form>
 			<form action="#" id="actionForm" method="post">
+			<input type="hidden" id="sAuthorNo" name="sAuthorNo" value="${sAuthorNo}"/>	
 			<input type="hidden" name="depart_no" id="depart_no"/>
+			<input type="hidden" name="team_no" id="team_no"/>
+			<input type="hidden" name="departNo" id="departNo"/>
 			<input type="hidden" name="newDepartNo" id="newDepartNo"/>
+			<input type="hidden" name="newInAndOut" id="newInAndOut"/>
 			<input type="hidden" name="newDepartName" id="newDepartName"/>
 			<input type="hidden" name="newDepartCall" id="newDepartCall"/>
 			<input type="hidden" name="newDepartTask" id="newDepartTask"/>
+			<input type="hidden" name="newTeamName" id="newTeamName"/>
+			<input type="hidden" name="newTeamCall" id="newTeamCall"/>
+			<input type="hidden" name="newTeamTask" id="newTeamTask"/>
 			<div id="card_area">
 				<div class="div_line_yellow"></div>
 				<div class="card_view_title" id="cardViewTitle">

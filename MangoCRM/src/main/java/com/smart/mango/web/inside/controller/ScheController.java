@@ -17,6 +17,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.smart.mango.common.bean.PagingBean;
 import com.smart.mango.common.service.IPagingService;
+import com.smart.mango.util.Utils;
 import com.smart.mango.web.common.service.ICommonService;
 import com.smart.mango.web.inside.service.IBssDetService;
 import com.smart.mango.web.inside.service.IClientService;
@@ -46,7 +47,7 @@ public class ScheController {
 
 	/* 일정 달력 View */
 	@RequestMapping(value = "/scheCalendar")
-	public ModelAndView scheCalendar(ModelAndView mav) throws Throwable {
+	public ModelAndView scheCalendar(ModelAndView mav,HttpSession session) throws Throwable {
 
 		mav.setViewName("sche/scheCalendar");
 
@@ -55,8 +56,7 @@ public class ScheController {
 
 	/* 일정 조회 View */
 	@RequestMapping(value = "/scheList")
-	public ModelAndView scheList(ModelAndView mav) throws Throwable {
-
+	public ModelAndView scheList(ModelAndView mav,HttpSession session) throws Throwable {
 		mav.setViewName("sche/scheList");
 
 		return mav;
@@ -64,7 +64,7 @@ public class ScheController {
 
 	/* 일정 조회 View Test용 - 김현 */
 	@RequestMapping(value = "/scheListTest")
-	public ModelAndView scheListTest(ModelAndView mav) throws Throwable {
+	public ModelAndView scheListTest(ModelAndView mav,HttpSession session) throws Throwable {
 
 		mav.setViewName("sche/scheListTest");
 
@@ -175,7 +175,11 @@ public class ScheController {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 
 		List<HashMap<String, String>> radio = iScheService.getRadioList(params);
-
+		
+		if(params.get("scheDivNoM") == "") {
+			params.put("scheDivNoM","10");
+		}
+		
 		List<HashMap<String, String>> option = iScheService.getOptionList(params);
 
 		modelMap.put("radio", radio);
@@ -187,7 +191,7 @@ public class ScheController {
 	/* 고객,리드,기회 검색 ( 일정 등록,수정 ) */
 	@RequestMapping(value = "scheClientSearchAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String scheClientSearchAjax(@RequestParam HashMap<String, String> params, ModelAndView modelAndView)
+	public String scheClientSearchAjax(@RequestParam HashMap<String, String> params,HttpSession session, ModelAndView modelAndView)
 			throws Throwable {
 
 		ObjectMapper mapper = new ObjectMapper();
@@ -235,22 +239,20 @@ public class ScheController {
 	}
 
 	/* 일정 세부사항, 수정 화면 데이터 출력 */
-	@RequestMapping(value = "scheDataAajx", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@RequestMapping(value = "scheDataAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String scheDataAajx(@RequestParam HashMap<String, String> params) throws Throwable {
+	public String scheDataAjax(@RequestParam HashMap<String, String> params,HttpSession session) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> modelMap = new HashMap<String, Object>();
-
 		
 		 String address = iScheService.getScheFixData(params);
 		  
 		 modelMap.put("address",address);
-		 System.out.println("address"+ address);
 
 		HashMap<String, String> scheData = iScheService.getScheData(params);
 
 		if (Integer.parseInt(params.get("scheDivNoM")) == 0) {
-			HashMap<String, String> scheDivData = iScheService.getCiData(params);
+			HashMap<String, String> scheDivData = iScheService.getCiData(params);	
 			modelMap.put("scheDivData", scheDivData);
 		} else if (Integer.parseInt(params.get("scheDivNoM")) == 1) {
 			HashMap<String, String> scheDivData = iScheService.getLeadData(params);
@@ -277,7 +279,7 @@ public class ScheController {
 	 */
 	/* 일정 등록 View */
 	@RequestMapping(value = "/scheAdd")
-	public ModelAndView scheAdd(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+	public ModelAndView scheAdd(@RequestParam HashMap<String, String> params, ModelAndView mav,HttpSession session) throws Throwable {
 
 		if (params.get("client_no") != null) {
 			HashMap<String, String> client = iClientService.getClientData(params);
@@ -340,11 +342,9 @@ public class ScheController {
 
 	/* 일정 수정 View */
 	@RequestMapping(value = "/scheFix")
-	public ModelAndView scheFix(ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
+	public ModelAndView scheFix(ModelAndView mav, @RequestParam HashMap<String, String> params,HttpSession session) throws Throwable {
 		
 		mav.setViewName("sche/scheFix");
-		
-		System.out.println(params.get("scheDivNoM")+"나완로아ㅣㄹㄴㅁ일이나린ㅇㄹㄴ얼리ㅓ");
 		
 		return mav;
 	}
@@ -364,10 +364,6 @@ public class ScheController {
 			
 			if (Integer.parseInt(params.get("scheDivNoM")) == 0) {
 				try {
-					
-					System.out.println(params.get("cNo"));
-							System.out.println(params.get("sche_ci_participant"));
-							
 					iScheService.updateScheClient(params);
 				}catch(Exception e) {
 					e.printStackTrace();
@@ -426,6 +422,7 @@ public class ScheController {
 		try {
 
 			iScheService.insertScheAttach(params);
+			
 			modelMap.put("res", "SUCCESS");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -483,7 +480,7 @@ public class ScheController {
 	/* 일정 수정_회의록 선택 데이터 출력 Ajax */
 	@RequestMapping(value = "scheMinutesDetAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String scheMinutesDetAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+	public String scheMinutesDetAjax(@RequestParam HashMap<String, String> params,HttpSession session) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 
@@ -544,7 +541,7 @@ public class ScheController {
 	/* 일정 수정_일정상품 데이터 리스트 출력 Ajax */
 	@RequestMapping(value = "loadProdListAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
-	public String loadProdListAjax(@RequestParam HashMap<String, String> params) throws Throwable {
+	public String loadProdListAjax(@RequestParam HashMap<String, String> params,HttpSession session) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 
@@ -600,11 +597,53 @@ public class ScheController {
 	
 	/* 일정 세부사항 View */
 	@RequestMapping(value = "/scheDet")
-	public ModelAndView scheDet(ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
+	public ModelAndView scheDet(ModelAndView mav,HttpSession session, @RequestParam HashMap<String, String> params) throws Throwable {
 
 		mav.setViewName("sche/scheDet");
 
 		return mav;
 	}
 
+	/*-----------------------------------------일정 List----------------------------------*/
+	@RequestMapping(value = "scheListAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String scheListAjax(@RequestParam HashMap<String, String> params,HttpSession session, ModelAndView modelAndView)
+			throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		int cnt = iScheService.getScheListCnt(params);
+		
+		PagingBean pb = iPagingService.getPagingBean(Integer.parseInt(params.get("page")), cnt, 10, 5);
+		
+		params.put("startCnt", Integer.toString(pb.getStartCount()));
+		params.put("endCnt", Integer.toString(pb.getEndCount()));
+		
+		try {
+			List<HashMap<String, String>> list = iScheService.getScheList(params);
+			modelMap.put("list", list);	
+		} catch (Exception e) {
+			e.printStackTrace();			
+		}
+		modelMap.put("pb", pb);
+		
+		return mapper.writeValueAsString(modelMap);
+	}
+	/*-------------------------------일정 Calendar------------------------------------*/
+	@RequestMapping(value="scheCalendarAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String scheCalendarAjax(@RequestParam HashMap<String, String> params,HttpSession session, ModelAndView modelAndView) throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		try {
+			List<HashMap<String, String>> list = iScheService.getScheCalendar(params);
+			
+			modelMap.put("list", Utils.toLowerListMapKey(list));
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		return mapper.writeValueAsString(modelMap);
+	}
 }

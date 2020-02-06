@@ -682,7 +682,9 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-	<c:import url="/topLeft"></c:import>
+	<c:import url="/topLeft">
+		<c:param name="menuNo">5</c:param>
+	</c:import>
 	
 
 	<div class="title_area">리드 수정</div>

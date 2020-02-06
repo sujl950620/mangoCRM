@@ -13,22 +13,56 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	
+	$("#cmpType").change(function(){
+		console.log($("#cmpType").val());
+		getCmptype();
+	});
 	// 다음 버튼 클릭 Event
 	$("#next_Btn").on("click", function() {
-		$("#actionForm").attr("action","targetSelect");
-		$("#actionForm").submit();
+		$("#typeNo").val($("#cmpType option:selected").val());
+//		console.log($("#cmpType option:selected").val());
+		
+		var params = $("#actionForm").serialize();
+		
+		$.ajax({
+			type : "post", 
+			url : "cmpAddAjax", 
+			dataType : "json", 
+			data : params,
+			
+			success : function(result){
+				if(result.res == "SUCCESS"){
+					$("#seq").val(result.seq);
+					console.log(result.seq);
+					alert("등록을 완료하였습니다.")
+					$("#actionForm").attr("action","targetSelect");
+					$("#actionForm").submit(); 
+				}
+				else{
+					alert("등록에 실패하였습니다.");
+				}
+			},
+			error : function(request,status, error){
+				console.log("status : " + request.status);
+				console.log("text : " + request.responseText);
+				console.log("error : " + error);
+			}
+		});
+		
+		
 	});
+});
 
 });
 	</script>
 <body>
 	<c:import url="/topLeft">
-		<c:param name="menuNo">10</c:param>
+		<c:param name="menuNo">9</c:param>
 	</c:import>
+	
 	<div class="title_area">캠페인 등록</div>
 	<div class="content_area">
 		<div class="contents_wrap">
-			
 
 			<div class="btn_area">
 				<div class="next_Btn" id="next_Btn">다음</div>
@@ -43,11 +77,17 @@ $(document).ready(function() {
 				&nbsp;&nbsp;
 
 			</div>
-
-
+			
+			<form action="#" id="actionForm" method="post">
+				<input type="hidden" id="seq" name="seq"/>
 			<div class="tbl">
-				<form action="#" id="actionForm" method="post">
-				
+					
+					<input type="hidden" id="cmpNo" name="cmpNo" />
+					<!-- 유형번호 -->
+					<input type="hidden" id="typeNo" name="typeNo"/>
+					<input type="hidden" id="empNm" name="empNm" value="${sEmpName}"/>
+					<input type="hidden" id="empNo" name="empNo" value="${sEmpNo}"/>
+					
 					<table>
 						<colgroup>
 							<!-- 테이블열들의 너비입니다. -->
@@ -58,99 +98,66 @@ $(document).ready(function() {
 						</colgroup>
 						<tr>
 							<th>캠페인 명</th>
-							<td><input type="text" class="table_txt" name="cmpName"/></td>
+							<td><input type="text" class="table_txt" name="cmpName" id="cmpName"/></td>
 							<th>담당자</th>
-							<td><input type="text" class="table_txt" name="mgrName"/></td>
+							<td><input type="text" class="table_txt" name="mgrName" id="mgrName" value="${sEmpName}" readonly/></td>
 						</tr>
 						<tr>
 							<th>시작일</th>
-							<td><input type="text" class="table_txt" name="sdate"/></td>
+							<td><input type="date" class="table_txt" name="sDate" id="sDate"/></td>
 							<th>종료일</th>
-							<td><input type="text" class="table_txt" name="edate"/></td>
+							<td><input type="date" class="table_txt" name="eDate" id="eDate"/></td>
 						</tr>
 						<tr>
 							<th>캠페인 유형</th>
-							<td colspan="3"><select class="content_srch_DD2">
-									<option class="content_srch_DD1">00캠페인</option>
-									<option >나중순</option>
-									<option>입맛별로</option>
-							</select></td>
+							<td colspan="3">
+								<select class="content_srch_DD2" name="cmpType" id="cmpType">
+										<option class="content_srch_DD1">유형을 고르시오.</option>
+										<option value="0">A 캠페인</option>
+										<option value="1">B 캠페인</option>
+										<option value="2">C 캠페인</option>
+										<option value="3">D 캠페인</option>
+								</select>
+							</td>
 						</tr>
 					</table>
-				</form>
 			</div>
+
 			<br />
-			<table>
-				<tr class="sample_1">
-
-					<td class="sample_title1">일련번호</td>
-					<td class="sample_title2">캠페인명</td>
-					<td class="sample_title3">진행기간</td>
-					<td class="sample_title4">진행상태</td>
-					<td class="sample_title5">담당자</td>
-				</tr>
-				<tr class="sample_2">
-
-					<td>1</td>
-					<td><input class="sample1_txt" type="text" readonly="readonly" /></td>
-					<td><input class="sample2_txt" type="text" readonly="readonly" /></td>
-					<td><input class="sample3_txt" type="text" readonly="readonly" /></td>
-					<td><input class="sample4_txt" type="text" readonly="readonly" /></td>
-
-				</tr>
-				<tr class="sample_2">
-
-					<td>2</td>
-					<td><input class="sample1_txt" type="text" readonly="readonly" /></td>
-					<td><input class="sample2_txt" type="text" readonly="readonly" /></td>
-					<td><input class="sample3_txt" type="text" readonly="readonly" /></td>
-					<td><input class="sample4_txt" type="text" readonly="readonly" /></td>
-
-				</tr>
-				<tr class="sample_2">
-
-					<td>3</td>
-					<td><input class="sample1_txt" type="text" readonly="readonly" /></td>
-					<td><input class="sample2_txt" type="text" readonly="readonly" /></td>
-					<td><input class="sample3_txt" type="text" readonly="readonly" /></td>
-					<td><input class="sample4_txt" type="text" readonly="readonly" /></td>
-
-				</tr>
-				<tr class="sample_2">
-
-					<td>4</td>
-					<td><input class="sample1_txt" type="text" readonly="readonly" /></td>
-					<td><input class="sample2_txt" type="text" readonly="readonly" /></td>
-					<td><input class="sample3_txt" type="text" readonly="readonly" /></td>
-					<td><input class="sample4_txt" type="text" readonly="readonly" /></td>
-
-				</tr>
+				<table>
+					<tr class="sample_1">
+	
+						<td class="sample_title1">일련번호</td>
+						<td class="sample_title2">캠페인명</td>
+						<td class="sample_title3">진행기간</td>
+						<td class="sample_title4">진행상태</td>
+						<td class="sample_title5">담당자</td>
+					</tr>
+					<tr class="sample_2">
+	
+						<td>1</td>
+						<td><input class="sample1_txt" type="text" readonly /></td>
+						<td><input class="sample2_txt" type="text" readonly/></td>
+						<td><input class="sample3_txt" type="text" readonly /></td>
+						<td><input class="sample4_txt" type="text" readonly /></td>
+	
+					</tr>
 				</table>
+				
+				
+				
 				<br />
 				<br />
-				<div class="tbl">
-
-					<table>
-						<colgroup>
-							<!-- 테이블열들의 너비입니다. -->
-							<col width="10%" />
-							<col width="40%" />
-							<col width="10%" />
-							<col width="40%" />
-						</colgroup>
-						<div class="title_area">상세 설명</div>
-						<tr>
-							<th></th>
-							<td colspan="3"><textarea rows="3" cols="3"
-									class="table_txt2"></textarea> <!-- resize="none" --></td>
-						</tr>
-					</table>
+				
+				
+				<div class="title_area">상세 설명</div>
+				<textarea rows="3" cols="3"	class="table_txt2" id ="con" name="con"></textarea>
+				
+				</form>		
+					
+				</div>
 				</div>
 
-
-				</div>
-				</div>
-				</div>
 				<c:import url="/bottom"></c:import>
 </body>
 </html>

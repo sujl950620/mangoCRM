@@ -30,4 +30,16 @@ public class AppDao implements IAppDao{
 		sqlSession.update("cmp.Appday",params);
 		
 	}
+
+	@Override
+	public HashMap<String, String> getapp(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("cmp.getapp",params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> get_sim(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("cmp.get_sim",params);
+	}
 }

@@ -101,7 +101,13 @@ public class CommonController {
 	}
 	
 	@RequestMapping(value = "/topLeft")
-	public ModelAndView topLeft(ModelAndView mav) {
+	public ModelAndView topLeft(@RequestParam HashMap<String, String> params,
+								HttpSession session, ModelAndView mav) throws Throwable {
+		
+		String authorType = iCommonService.menuAuthorCheck(String.valueOf(session.getAttribute("sAuthorNo")), String.valueOf(params.get("menuNo")));
+		
+		mav.addObject("authorType", authorType);
+		
 		mav.setViewName("common/topLeft");
 		
 		return mav;

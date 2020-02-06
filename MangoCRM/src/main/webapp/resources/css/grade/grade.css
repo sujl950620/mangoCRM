@@ -63,7 +63,6 @@
 .grade_name_edit {
 	width: 250px;
 	height: 30px;
-	font-size : 11pt;
 	border : 1px solid #ccc;
 	border-radius : 5px;
 	padding: 10px;
@@ -73,15 +72,12 @@
 	color: #cacaca;
 }
 
-.grade_name_edit:focus {
-	border : 1px solid #F2CB07;
-}
-
 .grade_color_btn {
 	display: inline-block;
 	height: 25px;
 	width: 25px;
 	cursor: pointer;
+	background-color: #000;
 }
 
 .edit_table {

@@ -93,6 +93,10 @@ public interface IScheService {
 
 	void deleteAttach(HashMap<String, String> params)  throws Throwable;
 
+	int getScheListCnt(HashMap<String, String> params) throws Throwable;
+
+	List<HashMap<String, String>> getScheList(HashMap<String, String> params) throws Throwable;
+
 	void insertScheMinutes(HashMap<String, String> params) throws Throwable;
 
 	void deleteMinutes(HashMap<String, String> params) throws Throwable;
@@ -106,6 +110,8 @@ public interface IScheService {
 	void insertScheProd(HashMap<String, String> params) throws Throwable;
 
 	void deleteProd(HashMap<String, String> params) throws Throwable;
+
+	List<HashMap<String, String>> getScheCalendar(HashMap<String, String> params) throws Throwable;
 
 
 	

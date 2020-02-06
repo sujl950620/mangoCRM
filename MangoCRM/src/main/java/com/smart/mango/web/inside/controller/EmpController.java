@@ -66,7 +66,8 @@ public class EmpController {
 	// 사원 등록 페이지
 	@RequestMapping(value = "/empMgtAdd")
 	public ModelAndView empMgtAdd(HttpSession session, @RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
-		List<HashMap<String, String>> posi = iEmpService.getPosiList();
+		params.put("flag", "INSERT");
+		List<HashMap<String, String>> posi = iEmpService.getPosiList(params);
 		List<HashMap<String, String>> form = iEmpService.getFormList();
 		List<HashMap<String, String>> depart = iEmpService.getDepartList();
 		List<HashMap<String, String>> author = iEmpService.getAuthorList();
@@ -161,7 +162,7 @@ public class EmpController {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		
 		try {
-			if(params.get("emp_pw") != null) {
+			if(params.get("emp_pw") != null && !params.get("emp_pw").equals("")) {
 				params.put("emp_pw", Utils.encryptAES128(params.get("emp_pw")));
 			}
 			iEmpService.updateEmp(params);
@@ -233,7 +234,8 @@ public class EmpController {
 	// 사원 수정 페이지
 	@RequestMapping(value = "/empMgtEdit")
 	public ModelAndView empMgtEdit(HttpSession session, @RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
-		List<HashMap<String, String>> posi = iEmpService.getPosiList();
+		params.put("flag", "UPDATE");
+		List<HashMap<String, String>> posi = iEmpService.getPosiList(params);
 		List<HashMap<String, String>> form = iEmpService.getFormList();
 		List<HashMap<String, String>> depart = iEmpService.getDepartList();
 		List<HashMap<String, String>> author = iEmpService.getAuthorList();

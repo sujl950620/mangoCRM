@@ -31,6 +31,18 @@ public class AppService implements IAppService{
 		iAppdao.Appday(params);
 	}
 
+	@Override
+	public HashMap<String, String> getapp(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iAppdao.getapp(params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> get_sim(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iAppdao.get_sim(params);
+	}
+
 	
 
 

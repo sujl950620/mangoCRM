@@ -39,7 +39,7 @@ $(document).ready(function() {
 	});
 	
 	// 사원 데이터 클릭 이벤트
-	$("tbody").on("dblclick", "tr", function() {
+	$("tbody").on("dblclick", ".list_contents", function() {
 		$("#emp_no").val($(this).attr("name"));
 		$("#dataForm").attr("action", "empMgtDetail");
 		$("#dataForm").submit();
@@ -144,7 +144,7 @@ $(document).ready(function() {
 			$("#chkcnt_all").html(cnt_leng);
 		}
 		else {
-			html += "<tr class=\"list_contents no_drag\" style=\"height: 500px;\">";
+			html += "<tr class=\"no_drag\" style=\"height: 500px; font-size: 10pt\">";
    			html += "<td colspan=\"10\">조회된 데이터가 없습니다.</td>";
    			html += "</tr>";
    			$(".list_paging_area").html("");
@@ -277,7 +277,7 @@ $(document).ready(function() {
                     </c:if>
                	</div>
                	<div class="top_title_area no_drag">
-                	<div>
+                	<div style="">
 		            	<span id="chkcnt_all"></span>개 항목중 <span id="chkcnt">0</span>개 선택 
                 	</div>
                 </div>

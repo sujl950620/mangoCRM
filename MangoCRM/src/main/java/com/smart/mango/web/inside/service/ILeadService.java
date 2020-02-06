@@ -55,5 +55,7 @@ public interface ILeadService {
 
 	public void leadchkreset() throws Throwable;
 
+	public List<HashMap<String, String>> getLeadCard(HashMap<String, String> params) throws Throwable;
+
 
 }

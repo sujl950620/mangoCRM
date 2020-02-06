@@ -35,9 +35,44 @@ public class DepartDao implements IDepartDao {
 		sqlSession.insert("depart.insertDepart",params);
 	}
 	@Override
-	public void updateDepart(HashMap<String, String> params) throws Throwable {
+	public HashMap<String, String> getDepartMgr(HashMap<String, String> params) throws Throwable {
 		// TODO Auto-generated method stub
-		sqlSession.update("depart.updateDepart",params);
+		return sqlSession.selectOne("depart.getDepartMgr",params);
+	}
+	@Override
+	public void insertTeam(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlSession.insert("depart.insertTeam",params);
+	}
+	@Override
+	public HashMap<String, String> getTeamMgr(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("depart.getTeamMgr",params);
+	}
+	@Override
+	public int getEmpDepartCnt(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("depart.getEmpDepartCnt",params);
+	}
+	@Override
+	public List<HashMap<String, String>> getEmpDepartList(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("depart.getEmpDepartList",params);
+	}
+	@Override
+	public void departEdit(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlSession.update("depart.departEdit",params);
+	}
+	@Override
+	public void departMgrEdit(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlSession.update("depart.departMgrEdit",params);
+	}
+	@Override
+	public HashMap<String, String> getMgr(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("depart.getMgr",params);
 	}
 
 }

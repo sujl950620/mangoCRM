@@ -423,7 +423,9 @@ $(document).ready(function() {
 			makeAlert(1, "필수조건 미입력", "필수조건을 입력해야합니다.", null);
 		}
 		else if(!regPhone.test($("#comp_ph").val())) {
-			makeAlert(1, "전화번호 유효성 위반", "전화번호가 유효하지 않습니다. 다시 입력해주세요.", null);
+			makeAlert(1, "전화번호 유효성 위반", "전화번호가 유효하지 않습니다. 다시 입력해주세요.", function() {
+				$("#comp_ph").focus();
+			});
 		}
 		else if($("#comp_stat option:selected").val() == 0 && $("#alert_chk").val() == 0) {
 			makeTwoBtnPopup(1, "비활성화 경고", "상태를 비활성화로 설정시 목록에 노출되지 않습니다. 계속하시겠습니까?", false, 400, 200, null, "확인", function() {
@@ -434,8 +436,8 @@ $(document).ready(function() {
 				closePopup(1);
 			});
 		}
-		else if($.trim($("comp_zc").val()) == "" && $.trim($("comp_det_addr").val()) != "" ) {
-			makeAlert(1, "주소 입력 위반", "기본 주소가 선택되지 않았습니다.", null);
+		else if($.trim($("#comp_zc").val()) == "" && $.trim($("#comp_det_addr").val()) != "" ) {
+			makeAlert(1, "주소 입력 오류", "기본 주소가 선택되지 않았습니다.", null);
 		}
 		else {
 			var params = "&comp_name=" + $("#comp_name").val();

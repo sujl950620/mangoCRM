@@ -72,23 +72,26 @@ $(document).ready(function() {
 		|| $.trim($("#emp_email").val()) == "" || $.trim($("#emp_jdate").val()) == "") {
 			makeAlert(1, "필수조건 미입력", "필수조건을 입력해야합니다.", null);
 		}
-		else if($("#email_chk").val() == 2) {
+		else if($("#email_chk").val() == 0) {
 			makeAlert(1, "이메일 중복", "이메일이 중복되었습니다.", null);
 		}
 		else if(!regPhone.exec($("#emp_ph").val())) {
-			makeAlert(1, "전화번호 유효성 위반", "전화번호가 유효하지 않습니다. 다시 입력해주세요.", null);
-			$("#emp_ph").focus();
+			makeAlert(1, "전화번호 유효성 위반", "전화번호가 유효하지 않습니다. 다시 입력해주세요.", function() {
+				$("#emp_ph").focus();
+			});
 		}
 		else if(!regEmail.test($("#emp_email").val())) {
-			makeAlert(1, "이메일 유효성 위반", "이메일이 유효하지 않습니다. 다시 입력해주세요.", null);
-			$("#emp_email").focus();
+			makeAlert(1, "이메일 유효성 위반", "이메일이 유효하지 않습니다. 다시 입력해주세요.", function() {
+				$("#emp_email").focus();
+			});
 		}
 		else if(!regBirth.test($("#emp_birth").val())) {
-			makeAlert(1, "생년월일 유효성 위반", "생년월일이 유효하지 않습니다. 다시 입력해주세요.", null);
-			$("#emp_birth").focus();
+			makeAlert(1, "생년월일 유효성 위반", "생년월일이 유효하지 않습니다. 다시 입력해주세요.", function() {
+				$("#emp_birth").focus();
+			});
 		}
-		else if($.trim($("emp_zc").val()) == "" && $.trim($("emp_det_addr").val()) != "" ) {
-			makeAlert(1, "주소 입력 위반", "기본 주소가 선택되지 않았습니다.", null);
+		else if($.trim($("#emp_zc").val()) == "" && $.trim($("#emp_det_addr").val()) != "" ) {
+			makeAlert(1, "주소 입력 오류", "기본 주소가 선택되지 않았습니다.", null);
 		}
 		else {
 			$("#emp_id").val($("#emp_email").val());
@@ -110,7 +113,7 @@ $(document).ready(function() {
 						});
 					}
 					else {
-						makeAlert(1, "등록 실패", "이메일이 중복되었거나 데이터가 유효하지 않아 등록에 실패했습니다. ", null);
+						makeAlert(1, "등록 실패", "데이터가 유효하지 않아 등록에 실패했습니다.", null);
 					}
 				},
 				error : function(request, status, error) {
@@ -230,7 +233,7 @@ $(document).ready(function() {
                     </td>
                     <td class="field_name no_drag">생년월일 <span class="acc_txt">*</span></td>
                     <td class="field_contents">
-                        <input type="text" class="input_normal" id="emp_birth" name="emp_birth" />
+                        <input type="text" class="input_normal" id="emp_birth" name="emp_birth" placeholder="ex) 081216" />
                     </td>
                     <td class="field_name last_field_name" rowspan="4">
                         <div class="attach_image"></div>

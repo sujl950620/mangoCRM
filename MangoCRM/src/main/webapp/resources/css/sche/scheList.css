@@ -168,58 +168,8 @@
 }
 /* ------------테이블---------- */
 table {
-	font-size: 10pt;
+	font-size: 10pt !important;
 	text-align: center;
 	border-collapse: collapse;
 	width : 1200px;
-}
-
-thead {
-	font-weight: bold;
-	color: #f2f2f2;
-	background-color: #595959;
-	border-bottom: 1px solid #f2f2f2;
-}
-
-thead>tr {
-	height: 50px;
-}
-
-tbody>tr {
-	height: 50px;
-	border-bottom: 1px solid #f2f2f2;
-	color: #595959;
-	cursor: pointer;
-}
-
-tbody>tr:hover {
-	font-weight: bold;
-	background-color: #f2cb0729;
-}
-
-/* ---------페이징--------- */
-.paging_area>span {
-   display : inline-block;
-   width : 40px;
-   height : 40px;
-   margin-left : 2px;
-   border : 0px;
-   background-color : #595959;
-   color: #F2F2F2;
-}
-.paging_area>span:hover {
-   background-color: #F2CB07;
-   color: #595959;
-   cursor : pointer;
-}
-
-.paging_area_on {
-   display : inline-block;
-   width : 40px;
-   height : 40px;
-   margin-left : 2px;
-   border : 0px;
-   background-color: #F2CB07;
-   color: #595959;
-   cursor : pointer;
 }

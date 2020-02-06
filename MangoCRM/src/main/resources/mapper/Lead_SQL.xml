@@ -8,7 +8,7 @@
 		SELECT L.LEAD_NO AS L_NO, L.LEAD_NAME AS L_NM, C1.CLIENT_NAME AS C1_NM,
 			   C2.COMP_NAME AS C2_NM, CP.CONG_PATH_NAME CP_NM, C1.CLIENT_PH AS PH,
 			   LS.LEAD_STAT_NAME AS LS_NM, E.EMP_NAME AS E_NM, TO_CHAR(L.LEAD_DATE,'YYYY-MM-DD') AS L_DT,
-			   ROW_NUMBER() OVER(ORDER BY L.LEAD_NO DESC) AS RNUM, L.HISTORY_CHK AS L_CHK
+			   ROW_NUMBER() OVER(ORDER BY L.LEAD_NO DESC) AS RNUM, L.HISTORY_CHK AS L_CHK, E.EMP_NO AS E_NO
 		FROM LEAD L INNER JOIN CLIENT C1
 							ON L.CLIENT_NO = C1.CLIENT_NO
 					INNER JOIN COMP C2
@@ -20,8 +20,16 @@
 					INNER JOIN CONG_PATH CP
 							ON L.CONG_PATH_NO = CP.CONG_PATH_NO
 							AND L.DEL_YN = 1
+							
 		<if test="searchTxt != null and searchTxt != ''">
 			<choose>
+				<when test="searchGbn2 eq 4">
+					AND C1.CLIENT_NAME LIKE '%' || #{searchTxt} || '%'
+					OR C2.COMP_NAME LIKE '%' || #{searchTxt} || '%'
+					OR E.EMP_NAME LIKE'%' || #{searchTxt} || '%'
+					OR LS.LEAD_STAT_NAME LIKE'%' || #{searchTxt} || '%'
+					OR L.LEAD_NAME LIKE'%' || #{searchTxt} || '%'
+				</when>
 				<when test="searchGbn2 eq 0">
 					AND C1.CLIENT_NAME LIKE '%' || #{searchTxt} || '%'
 				</when>
@@ -33,6 +41,9 @@
 				</when>
 				<when test="searchGbn2 eq 3">
 					AND LS.LEAD_STAT_NAME LIKE'%' || #{searchTxt} || '%'
+				</when>
+				<when test="searchGbn2 eq 5">
+					AND L.LEAD_NAME LIKE'%' || #{searchTxt} || '%'
 				</when>
 			</choose>
 		</if>
@@ -72,6 +83,13 @@
 							AND L.DEL_YN = 1
 		<if test="searchTxt != null and searchTxt != ''">
 			<choose>
+				<when test="searchGbn2 eq 4">
+					AND C1.CLIENT_NAME LIKE '%' || #{searchTxt} || '%'
+					OR C2.COMP_NAME LIKE '%' || #{searchTxt} || '%'
+					OR E.EMP_NAME LIKE'%' || #{searchTxt} || '%'
+					OR LS.LEAD_STAT_NAME LIKE'%' || #{searchTxt} || '%'
+					OR L.LEAD_NAME LIKE'%' || #{searchTxt} || '%'
+				</when>
 				<when test="searchGbn2 eq 0">
 					AND C1.CLIENT_NAME LIKE '%' || #{searchTxt} || '%'
 				</when>
@@ -83,6 +101,9 @@
 				</when>
 				<when test="searchGbn2 eq 3">
 					AND LS.LEAD_STAT_NAME LIKE'%' || #{searchTxt} || '%'
+				</when>
+				<when test="searchGbn2 eq 5">
+					AND L.LEAD_NAME LIKE'%' || #{searchTxt} || '%'
 				</when>
 			</choose>
 		</if>
@@ -295,4 +316,24 @@
 	<update id = "leadchkreset" parameterType = "hashmap">
 		UPDATE LEAD SET HISTORY_CHK = 0
 	</update>
+	<select id="getLeadCard" parameterType="hashmap" resultType="hashmap">
+		SELECT *
+		FROM (
+		SELECT L.LEAD_NO AS L_NO, L.LEAD_NAME AS L_NM, C1.CLIENT_NAME AS C1_NM,
+			   C2.COMP_NAME AS C2_NM, CP.CONG_PATH_NAME CP_NM, C1.CLIENT_PH AS PH,
+			   LS.LEAD_STAT_NAME AS LS_NM, E.EMP_NAME AS E_NM, TO_CHAR(L.LEAD_DATE,'YYYY-MM-DD') AS L_DT,
+			   ROW_NUMBER() OVER(ORDER BY L.LEAD_NO DESC) AS RNUM, L.HISTORY_CHK AS L_CHK, E.EMP_NO AS E_NO
+		FROM LEAD L INNER JOIN CLIENT C1
+							ON L.CLIENT_NO = C1.CLIENT_NO
+					INNER JOIN COMP C2
+							ON C1.COMP_NO = C2.COMP_NO
+					INNER JOIN EMP_INFO E
+							ON L.EMP_NO = E.EMP_NO
+					INNER JOIN LEAD_STAT LS
+							ON L.LEAD_STAT_NO = LS.LEAD_STAT_NO
+					INNER JOIN CONG_PATH CP
+							ON L.CONG_PATH_NO = CP.CONG_PATH_NO
+							AND L.DEL_YN = 1
+		) SQ
+	</select>
 </mapper>

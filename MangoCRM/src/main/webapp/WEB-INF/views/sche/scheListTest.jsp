@@ -60,7 +60,7 @@ function reloadList(list){
 			html +=		"<td style=\"text-align:center\">리드</td>";
 		}
 		else if(list[i].SCHE_DIV_NO == 2){
-			html +=		"<td style=\"text-align:center\">기회</td>";
+			html +=		"<td style=\"text-align:center\">영업</td>";
 		}
 		html +=		"<td style=\"text-align:center\" id=\"scheDivNo\" name=\""+list[i].SCHE_DIV_NO+"\">"+list[i].SCHE_ACTI_NO+"</td>";
 		html +=		"<td style=\"text-align:center\">"+list[i].SCHE_IMPORTANCE+"</td>";

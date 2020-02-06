@@ -33,7 +33,7 @@ $(document).ready(function() {
 
 function cmpList(){
 	var params = $("#actionForm").serialize();
-	console.log(params);
+	
 	$.ajax({
 		type : "post",     // 데이터 전송방식
 		url : "cmpListAjax", // 주소
@@ -74,15 +74,53 @@ function redrawCmpList(list){
 			html += "<td>" + list[i].RNUM + "</td>";
 			html += "<td>"+ list[i].CMP_NAME + "</td>";
 			html += "<td>"+ list[i].SDATE + " ~ " + list[i].EDATE +"</td>";
-			if(list[i].PROG_STAT ==1){
-				html +="<td>2단계</td>"
+			if(list[i].PROG_STAT == 1){
+				html +="<td class=\"grade\" name=\"" + list[i].PROG_STAT + "\">2단계</td>"
 			}
-			else{
-				html +="<td>완료</td>"
+			else if(list[i].PROG_STAT == 2){
+				html +="<td class=\"grade\" name=\"" + list[i].PROG_STAT + "\">3단계</td>"
+			}
+			else if(list[i].PROG_STAT == 3){
+				html +="<td class=\"grade\" name=\"" + list[i].PROG_STAT + "\">4단계</td>"
+			}
+			else if(list[i].PROG_STAT == 0){
+				html +="<td class=\"grade\" name=\"" + list[i].PROG_STAT + "\">종료</td>"
+			}
+			else if(list[i].PROG_STAT == 4){
+				html +="<td class=\"grade\" name=\"" + list[i].PROG_STAT + "\">결재대기</td>"
+			}
+			else if(list[i].PROG_STAT == 5){
+				html +="<td class=\"grade\" name=\"" + list[i].PROG_STAT + "\">수행대기</td>"
+			}
+			else if(list[i].PROG_STAT == 6){
+				html +="<td class=\"grade\" name=\"" + list[i].PROG_STAT + "\">완료</td>"
 			}
 			html += "<td>"+ list[i].EMP_NAME+"</td>";
 			html += "</tr>";
 		}
+		
+		$("tbody").on("dblclick", "tr", function(){
+			$("#seq").val($(this).attr("name"));
+			if($(this).find(".grade").attr("name") == 1){
+				$("#actionForm").attr("action", "targetSelect");
+				$("#actionForm").submit();
+				
+			}else if($(this).find(".grade").attr("name") == 2){
+				$("#actionForm").attr("action", "channelSelect");
+				$("#actionForm").submit();
+			}else if($(this).find(".grade").attr("name") == 3){
+				$("#actionForm").attr("action", "simResult");
+				$("#cmpNo").val($(this).attr("name"));
+				$("#actionForm").submit();
+			}else if($(this).find(".grade").attr("name") == 0){
+				$("#actionForm").attr("action", "cmpAdd");
+				$("#actionForm").submit();
+			} else if($(this).find(".grade").attr("name") == 6) {
+				$("#actionForm").attr("action", "perfAnalyze");
+				$("#cmpNo").val($(this).attr("name"));
+				$("#actionForm").submit();
+			}
+		});
 	}
 	
 	$("tbody").html(html);
@@ -128,34 +166,37 @@ function redrawCmpList(list){
 
 <body>
 <c:import url="/topLeft">
-		<c:param name="menuNo">10</c:param>
+		<c:param name="menuNo">9</c:param>
 	</c:import>
+	
 	<div class="title_area">캠페인 목록</div>
 	<div class="content_area">
 		<div class="contents_wrap">
-
-		
+		<form action="#" method="post" id="actionForm" >
+			<input type="hidden" id="page" name="page" value="1"/>
+			<input type="hidden" id="seq" name="seq" />
+			<input type="hidden" id="cmpNo" name="cmpNo" />
 		<div class="write_btn">
-            
-            <div class="write_Btn" id="write_Btn">글쓰기</div>
+            <c:choose>
+					<c:when test="${!empty sEmpNo}">
+			            <div class="write_Btn" id="write_Btn">등록</div>
+					</c:when>
+			</c:choose>
             
          </div>
-         	<form action="#" method="post" id="actionForm" >
-			<input type="hidden" id="page" name="page" value="1"/>
-			<input type="hidden" name="cmpNo" id="cmpNo" />
+         
 	         <div class="search_srch">
 	            <div class="search_srch_btn">
-	                <div id="searchBtn">검색</div>
-	                  <input type="text" class="textbox_srch_txt" name="textbox_srch_txt" id="textbox_srch_txt" />
-	            <select	class="content_srch_DD" id ="content_srch_DD" name="content_srch_DD">
-						<option class="content_srch_DD1">선택</option>
-						<option value="0">캠페인 명</option>
-						<option value="1">진행상태</option>
-						<option value="2">담당자</option>
-					</select> 
-	
-	               </div>
+						<div id="searchBtn">검색</div>
+						<input type="text" class="textbox_srch_txt" name="textbox_srch_txt" id="textbox_srch_txt" />
+							<select	class="content_srch_DD" id ="content_srch_DD" name="content_srch_DD">
+								<option class="content_srch_DD1">선택</option>
+								<option value="0">캠페인 명</option>
+								<option value="1">진행상태</option>
+								<option value="2">담당자</option>
+							</select> 
 	             </div>
+	        </div>
 
 		 <table>
 		 	<thead>
@@ -167,6 +208,9 @@ function redrawCmpList(list){
 	               <td class="table_title5">담당자</td>
             </tr>
             </thead>
+            
+            
+            
             <tbody>
 	            <tr class="title_2">
 	              <td></td>

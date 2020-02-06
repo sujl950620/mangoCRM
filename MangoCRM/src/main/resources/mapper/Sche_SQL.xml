@@ -8,7 +8,7 @@
 	<!-- 의견 등록 -->
 	<insert id="insertOpin" parameterType="hashmap">
 		INSERT INTO SCHE_OPIN(SCHE_OPIN_NO, EMP_NO, SCHE_NO, SCHE_OPIN_CON)
-		VALUES (SCHE_OPIN_SEQ.NEXTVAL, #{sEmpNo}, #{sche_no} , #{sche_opin_con})
+		VALUES (SCHE_OPIN_SEQ.NEXTVAL, #{sEmpNo}, #{sche_no_opin} , #{sche_opin_con})
 	</insert>
 	
 	<!-- 의견 삭제 -->
@@ -63,6 +63,14 @@
 	SELECT CODE_S_CATE, CODE_NAME
 	FROM COMMON_CODE 
 	WHERE CODE_L_CATE = 3
+	<choose>
+		<when test="scheDivNoM eq 0">
+			AND CODE_S_CATE IN(0,1,2,3)
+		</when>
+		<when test="scheDivNoM eq 1">
+			AND CODE_S_CATE IN(0,1,2,3)
+		</when>
+	</choose>
 	</select>
 	
 	<!-- 고객 검색 Cnt -->
@@ -143,13 +151,15 @@
 	
 	<!-- 일정 데이터 출력-->
 	<select id="getScheData" parameterType="hashmap" resultType="hashmap">
-	SELECT CC.CODE_NAME AS CN ,CD.CODE_NAME AS DN, '(' || SUBSTR(SCHE_PLACE,'0','5') || ')' || REPLACE(SUBSTR(SCHE_PLACE,'6'),',',' ') AS ADDR, SCHE_CON, SCHE_RES ,  TO_CHAR(SCHE_SDATE,'YYYY-MM-DD') AS SDATE, TO_CHAR(SCHE_SDATE,'HH24:MI:SS') AS STIME,TO_CHAR(SCHE_EDATE,'YYYY-MM-DD') AS EDATE,TO_CHAR(SCHE_EDATE,'HH24:MI:SS') AS ETIME, SCHE_IMPORTANCE
+	SELECT CC.CODE_NAME AS CN ,CD.CODE_NAME AS DN, EI.TEAM_NO,'(' || SUBSTR(SCHE_PLACE,'0','5') || ')' || REPLACE(SUBSTR(SCHE_PLACE,'6'),',',' ') AS ADDR, SCHE_CON, SCHE_RES ,  TO_CHAR(SCHE_SDATE,'YYYY-MM-DD') AS SDATE, TO_CHAR(SCHE_SDATE,'HH24:MI:SS') AS STIME,TO_CHAR(SCHE_EDATE,'YYYY-MM-DD') AS EDATE,TO_CHAR(SCHE_EDATE,'HH24:MI:SS') AS ETIME, SCHE_IMPORTANCE
 	FROM SCHE SC INNER JOIN COMMON_CODE CC
                          ON SC.SCHE_DIV_NO = CC.CODE_S_CATE
                          AND CC.CODE_L_CATE = 2
                  INNER JOIN COMMON_CODE CD
                          ON SCHE_ACTI_NO = CD.CODE_S_CATE
                          AND CD.CODE_L_CATE = 3
+                 INNER JOIN EMP_INFO EI
+                         ON SC.EMP_NO = EI.EMP_NO
 	WHERE SCHE_NO = #{sche_no}
 	</select>
 	
@@ -196,7 +206,7 @@
 	
 	<!-- 일정 세부사항, 수정 첨부자료 리스트 출력 -->
 	<select id="getAttachList" parameterType="hashmap" resultType="hashmap">
-	SELECT SCHE_ATTACH_NO,SCHE_ATTACH_NAME, EMP_NAME || ' ' || EMP_POSI_NAME AS EMP,EI.EMP_NO,
+	SELECT SCHE_ATTACH_NO,EI.TEAM_NO,SCHE_ATTACH_NAME, EMP_NAME || ' ' || EMP_POSI_NAME AS EMP,EI.EMP_NO,
 	TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS') AS DT
 	FROM SCHE_ATTACH SA INNER JOIN SCHE SC
                             ON SA.SCHE_NO = SC.SCHE_NO
@@ -217,7 +227,7 @@
 	
 	<!-- 일정 세부사항, 수정 회의록 리스트 출력 -->
 	<select id="getMinutesList" parameterType="hashmap" resultType="hashmap">
-		SELECT ML_NO,ML_NAME,EMP_NAME || ' ' || EMP_POSI_NAME AS EMP,TO_CHAR(ML_DATE,'YYYY-MM-DD HH24:MI:SS') AS ML_DATE,EMP_INFO.EMP_NO
+		SELECT ML_NO,ML_NAME,EMP_NAME || ' ' || EMP_POSI_NAME AS EMP,TO_CHAR(ML_DATE,'YYYY-MM-DD HH24:MI:SS') AS ML_DATE,EMP_INFO.EMP_NO,TEAM_NO
 		FROM ML INNER JOIN EMP_INFO
 	                ON ML.EMP_NO = EMP_INFO.EMP_NO
        			INNER JOIN EMP_POSI
@@ -235,7 +245,7 @@
 	
 	<!-- 일정 세부사항, 수정 일정상품 리스트 출력 -->
 	<select id="getProdList" parameterType="hashmap" resultType="hashmap">
-	SELECT SCHE_PROD_NO, PROD_NAME,EMP_NAME || ' ' || EMP_POSI_NAME AS EMP, TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS') AS DT,EI.EMP_NO
+	SELECT GOODS_NO,SERVICE_NO,EI.TEAM_NO ,PROD_NAME,EMP_NAME || ' ' || EMP_POSI_NAME AS EMP, TO_CHAR(SYSDATE,'YYYY-MM-DD HH24:MI:SS') AS DT,EI.EMP_NO, PR.DIV_NO,SP.SCHE_PROD_NO
 	FROM SCHE_PROD SP INNER JOIN SCHE SC
                           ON SP.SCHE_NO = SC.SCHE_NO
                   INNER JOIN EMP_INFO EI
@@ -244,6 +254,10 @@
                           ON EI.EMP_POSI_NO = EP.EMP_POSI_NO
                   INNER JOIN PROD PR
                           ON SP.PROD_NO = PR.PROD_NO
+                  LEFT OUTER JOIN GOODS GD
+                  		  ON PR.PROD_NO = GD.PROD_NO
+                  LEFT OUTER JOIN SERVICE SR
+                  		  ON PR.PROD_NO = SR.PROD_NO
     WHERE SP.SCHE_NO = #{sche_no}
 	ORDER BY SP.SCHE_PROD_NO DESC
 	</select>
@@ -370,7 +384,7 @@
 	
 	<insert id="insertScheAttach" parameterType="hashmap">
 	INSERT INTO SCHE_ATTACH(SCHE_ATTACH_NO, SCHE_NO, SCHE_ATTACH_NAME)
-	VALUES (SCHE_ATTACH_SEQ.NEXTVAL,#{sche_no},#{attachFile})
+	VALUES (SCHE_ATTACH_SEQ.NEXTVAL,#{sche_no_attach},#{attachFile})
 	</insert>
 	
 	<delete id="deleteAttach" parameterType="hashmap">
@@ -445,4 +459,83 @@
 	
 	<!-- ///////////////////////////////////////일정 수정end///////////////////////////////////  -->
 	
+	<!-- /////////////////////////////////// 일정 list ////////////////////////////////// -->
+	<!-- 일정리스트 갯수 -->
+	<select id="getScheListCnt" parameterType="hashmap" resultType="Integer">
+		SELECT COUNT(*) AS CNT
+		FROM SCHE SC 
+            LEFT OUTER JOIN SCHE_CLIENT_INFO CI ON SC.SCHE_NO = CI.SCHE_NO 
+            LEFT OUTER JOIN CLIENT CL ON CI.CLIENT_NO = CL.CLIENT_NO
+            LEFT OUTER JOIN COMP CO ON CL.COMP_NO = CO.COMP_NO
+            INNER JOIN COMMON_CODE C1 ON SC.SCHE_DIV_NO = C1.CODE_S_CATE AND C1.CODE_L_CATE = 2
+            INNER JOIN COMMON_CODE C2 ON SC.SCHE_ACTI_NO = C2.CODE_S_CATE AND C2.CODE_L_CATE = 3
+		WHERE SC.DEL_YN = 1
+		<if test="date != null and date != ''">
+				<![CDATA[
+					AND TO_CHAR(SC.SCHE_SDATE, 'YYYYMMDD') <= #{date} 
+	                AND TO_CHAR(SC.SCHE_EDATE, 'YYYYMMDD') >= #{date}
+                ]]>
+		</if>
+		<if test="srchText != null and srchText != ''">
+				<choose>
+					<when test="srchSelect eq 0">
+						AND COMP_NAME LIKE '%' || #{srchText} || '%'
+					</when>
+					<when test="srchSelect eq 1">
+						AND CLIENT_NAME LIKE '%' || #{srchText} || '%'
+					</when>
+					<when test="srchSelect eq 2">
+						AND (COMP_NAME LIKE '%' || #{srchText} || '%'
+						OR CLIENT_NAME LIKE '%' || #{srchText} || '%')
+					</when>
+				</choose>
+			</if>
+	</select>
+	<!-- 일정리스트 -->
+	<select id="getScheList" parameterType="hashmap" resultType="hashmap">
+		SELECT SCHE_NO, SDATE, EDATE, SCHE, TASKDIV, COMP_NAME, CLIENT_NAME
+		FROM (
+			SELECT SC.SCHE_NO, TO_CHAR(SC.SCHE_SDATE, 'YY-MM-DD HH24:MI:SS') AS SDATE,
+	        		TO_CHAR(SC.SCHE_EDATE, 'YY-MM-DD HH24:MI:SS') AS EDATE,
+	        		C1.CODE_NAME AS SCHE, C2.CODE_NAME AS TASKDIV, 
+	                NVL(COMP_NAME, '-') AS COMP_NAME, NVL(CLIENT_NAME, '-') AS CLIENT_NAME,
+	                ROW_NUMBER() OVER(ORDER BY SC.SCHE_NO DESC) AS RNUM
+			FROM SCHE SC 
+	            LEFT OUTER JOIN SCHE_CLIENT_INFO CI ON SC.SCHE_NO = CI.SCHE_NO 
+	            LEFT OUTER JOIN CLIENT CL ON CI.CLIENT_NO = CL.CLIENT_NO
+	            LEFT OUTER JOIN COMP CO ON CL.COMP_NO = CO.COMP_NO
+	            INNER JOIN COMMON_CODE C1 ON SC.SCHE_DIV_NO = C1.CODE_S_CATE AND C1.CODE_L_CATE = 2
+	            INNER JOIN COMMON_CODE C2 ON SC.SCHE_ACTI_NO = C2.CODE_S_CATE AND C2.CODE_L_CATE = 3
+			WHERE SC.DEL_YN = 1
+			<if test="date != null and date != ''">
+				<![CDATA[
+					AND TO_CHAR(SC.SCHE_SDATE, 'YYYYMMDD') <= #{date} 
+	                AND TO_CHAR(SC.SCHE_EDATE, 'YYYYMMDD') >= #{date}
+                ]]>
+			</if>
+			<if test="srchText != null and srchText != ''">
+				AND
+				<choose>
+					<when test="srchSelect eq 0">
+						COMP_NAME LIKE '%' || #{srchText} || '%'
+					</when>
+					<when test="srchSelect eq 1">
+						CLIENT_NAME LIKE '%' || #{srchText} || '%'
+					</when>
+					<when test="srchSelect eq 2">
+						(COMP_NAME LIKE '%' || #{srchText} || '%'
+						OR CLIENT_NAME LIKE '%' || #{srchText} || '%')
+					</when>
+				</choose>
+			</if>
+		)
+		WHERE RNUM BETWEEN #{startCnt} AND #{endCnt}
+	</select>
+	<!-- 일정 캘린더 -->
+	<select id="getScheCalendar" parameterType="hashmap" resultType="hashmap">
+		SELECT SCHE_NO AS NO, SCHE_CON AS TITLE, SCHE_DIV_NO AS DIV_NO,
+        		TO_CHAR(SCHE_SDATE, 'YYYY-MM-DD') || 'T' || TO_CHAR(SCHE_SDATE, 'HH24:MI:SS') AS "START",
+        		TO_CHAR(SCHE_EDATE, 'YYYY-MM-DD') || 'T' || TO_CHAR(SCHE_EDATE, 'HH24:MI:SS') AS "END"
+		FROM SCHE
+	</select>
 </mapper>

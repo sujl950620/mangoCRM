@@ -258,10 +258,6 @@
 <script type="text/javascript">
 $(document).ready(function() {
 	ClientSet();
-	$("#btn_client_add").on("click", function() {
-		$("#actionForm").attr("action","client_add");
-		$("#actionForm").submit();
-	});
 	
 	$("#btn_client_cancel").on("click", function() {
 		history.back();

@@ -434,7 +434,7 @@ $(document).ready(function() {
 				closePopup(1);
 			});
 		}
-		else if($.trim($("comp_zc").val()) == "" && $.trim($("comp_det_addr").val()) != "" ) {
+		else if($.trim($("#comp_zc").val()) == "" && $.trim($("#comp_det_addr").val()) != "" ) {
 			makeAlert(1, "주소 입력 위반", "기본 주소가 선택되지 않았습니다.", null);
 		}
 		else {

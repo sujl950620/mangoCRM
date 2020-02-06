@@ -128,10 +128,10 @@ function updateGrade() {
 		});
 	}
 	if(updateFlag = true){
-		makeAlert(1, "등급변경 성공", "등급이 변경 되었습니다.", null);
+		makeAlert(1, "변경 성공", "등급이 변경 되었습니다.", null);
 		reloadGradeList();
 	}else {
-		makeAlert(1, "등급변경 실패", "등급변경에 실패 하였습니다.", null);
+		makeAlert(1, "변경 실패", "등급변경에 실패 하였습니다.", null);
 	}
 }
 
@@ -183,7 +183,7 @@ function redrawGradeList(list){
 }
 
 function redrawPaging(pb) {
-	var html = "";
+	/* var html = "";
 	if(pb.startPcount > "1") {
 		//처음
 		html += "<div class=\"btn_paging\" name=\"1\"><<</div>";	
@@ -208,6 +208,27 @@ function redrawPaging(pb) {
 		//마지막
 		html += "<div class=\"btn_paging\" name=\"" + pb.maxPcount + "\">>></div>";
 	}
+	
+	$(".list_paging_area").html(html); */
+	
+	var html = "";
+	html += "<div class=\"btn_paging\" name=\"1\">&lt;&lt;</div>";
+
+	html += "<div class=\"btn_paging\"name=\"";
+	html += ($("#page").val() == "1")? "1" : ($("#page").val() * 1 - 1);
+	html += "\">&lt;</div>";
+
+	for(var i = pb.startPcount; i <= pb.endPcount; i++) {		
+		html += "<div class=\"btn_paging";
+		html += ($("#page").val() == i)? "_on\">" : "\" name=\"" + i + "\">";
+		html += i + "</div>";
+	}
+	
+	html += "<div class=\"btn_paging\"name=\"";
+	html += ($("#page").val() == (pb.maxPcount))? pb.maxPcount : ($("#page").val() * 1 + 1);
+	html += "\">&gt;</div>";
+
+	html += "<div class=\"btn_paging\" name=\"" + pb.maxPcount + "\">&gt;&gt;</div>";
 	
 	$(".list_paging_area").html(html);
 }
@@ -246,7 +267,7 @@ function redrawPaging(pb) {
 			                <option>회사명</option>
 			                <option>업종</option>
 			                <option>상태</option>
-			                <option>최근거래일</option>
+			                <option>담당자</option>
 			            </select>
 			            <input type="text" class="input_wfix input_search" id="grade_srch_txt" name="grade_srch_txt" placeholder="현재목록 내 검색"/>
 	        			<div class="btn btn_black btn_size_normal" id="grade_srch_btn">검색</div>

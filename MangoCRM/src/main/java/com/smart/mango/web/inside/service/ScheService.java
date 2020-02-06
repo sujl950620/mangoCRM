@@ -247,6 +247,18 @@ public class ScheService implements IScheService{
 	}
 
 	@Override
+	public int getScheListCnt(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iScheDao.getScheListCnt(params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getScheList(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iScheDao.getScheList(params);
+	}
+
+	@Override
 	public void insertScheMinutes(HashMap<String, String> params) throws Throwable {
 		// TODO Auto-generated method stub
 		iScheDao.insertScheMinutes(params);
@@ -286,6 +298,12 @@ public class ScheService implements IScheService{
 	public void deleteProd(HashMap<String, String> params) throws Throwable {
 		// TODO Auto-generated method stub
 		iScheDao.deleteProd(params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getScheCalendar(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iScheDao.getScheCalendar(params);
 	}
 
 	

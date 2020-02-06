@@ -240,6 +240,19 @@ public class ScheDao implements IScheDao{
 		// TODO Auto-generated method stub
 		sqlSession.delete("sche.deleteAttach",params);
 	}
+	
+	
+	@Override
+	public int getScheListCnt(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("sche.getScheListCnt", params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getScheList(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("sche.getScheList", params);
+	}
 
 	@Override
 	public void insertScheMinutes(HashMap<String, String> params) throws Throwable {
@@ -281,6 +294,12 @@ public class ScheDao implements IScheDao{
 	public void deleteProd(HashMap<String, String> params) throws Throwable {
 		// TODO Auto-generated method stub
 		sqlSession.delete("sche.deleteProd",params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getScheCalendar(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("sche.getScheCalendar", params);
 	}
 
 	

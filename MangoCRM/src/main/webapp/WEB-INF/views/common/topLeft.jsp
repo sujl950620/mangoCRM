@@ -129,6 +129,7 @@ function drawLeftMenu(menu) {
 	$("#gnb_txt").html(gnb);
 }
 </script>
+<input type="hidden" id="authorType" name="authorType" value="${authorType}" />
 <form action="#" id="locationForm" method="post">
 		<input type="hidden" id="menuNo" name="menuNo" value="${param.menuNo}" />
 	</form>

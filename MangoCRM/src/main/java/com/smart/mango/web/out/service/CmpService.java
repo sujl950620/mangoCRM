@@ -204,8 +204,7 @@ public class CmpService implements ICmpService{
 
 
 	@Override
-	public int clientCnt(HashMap<String, String> params) throws Throwable {
-		return iCmpdao.clientCnt(params);
+	public int clientCnt(HashMap<String, String> params) throws Throwable {		return iCmpdao.clientCnt(params);
 	}
 
 
@@ -223,16 +222,101 @@ public class CmpService implements ICmpService{
 	@Override
 	public void channelSelect(HashMap<String, String> params) throws Throwable {
 		iCmpdao.channelSelect(params);
-		
+	}
+
+	@Override
+	public List<HashMap<String, String>> getCmpList(HashMap<String, String> params) throws Throwable {
+		return iCmpdao.getCmpList(params);
+	}
+
+	@Override
+	public void cmpAdd(HashMap<String, String> params) throws Throwable {
+		iCmpdao.cmpAdd(params);	
+	}
+
+	@Override
+	public void updateS(HashMap<String, String> params) throws Throwable {
+		iCmpdao.updateS(params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getsms(HashMap<String, String> params) throws Throwable {
+		return iCmpdao.getsms(params);
 	}
 
 
 	@Override
-	public List<HashMap<String, String>> getCmpList(HashMap<String, String> params) throws Throwable {
-		
-		return iCmpdao.getCmpList(params);
+	public List<HashMap<String, String>> getmms(HashMap<String, String> params) throws Throwable {
+		return iCmpdao.getmms(params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getemail(HashMap<String, String> params) throws Throwable {
+		return iCmpdao.getemail(params);
 	}
 
 
+	@Override
+	public void save(HashMap<String, String> params) throws Throwable {
+		 iCmpdao.save(params);
+		
+	}
+
+
+
+
+	@Override
+	public List<HashMap<String, String>> getSim_result(HashMap<String, String> params) throws Throwable {
+		return iCmpdao.getSim_result(params);
+	}
+
+
+	
+
+
+	@Override
+	public int searchClientCnt(HashMap<String, String> params) throws Throwable {
+		return iCmpdao.searchClientCnt(params);
+	}
+
+
+	@Override
+	public HashMap<String, String> getCmpS(HashMap<String, String> params) throws Throwable {
+		return iCmpdao.getCmpS(params);
+	}
+
+
+	@Override
+	public List<HashMap<String, String>> getCmpType(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCmpdao.getCmpType(params);
+	}
+
+
+	@Override
+	public List<HashMap<String, String>> cmpTypeList(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iCmpdao.cmpTypeList(params);
+	}
+
+
+	@Override
+	public void insertT(HashMap<String, String> params) throws Throwable {
+		iCmpdao.insertT(params);
+	}
+
+
+	@Override
+	public List<HashMap<String, String>> selectCbox(HashMap<String, String> params) throws Throwable {
+		
+		return iCmpdao.selectCbox(params);
+	}
+
+
+	@Override
+	public List<HashMap<String, String>> selectCh(HashMap<String, String> params) throws Throwable {
+		
+		return iCmpdao.selectCh(params);
+	}
 
 }

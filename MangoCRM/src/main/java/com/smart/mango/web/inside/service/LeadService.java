@@ -163,4 +163,10 @@ public class LeadService implements ILeadService{
 	public void leadchkreset() throws Throwable {
 		iLeadDao.leadchkreset();
 	}
+
+	@Override
+	public List<HashMap<String, String>> getLeadCard(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iLeadDao.getLeadCard(params);
+	}
 }

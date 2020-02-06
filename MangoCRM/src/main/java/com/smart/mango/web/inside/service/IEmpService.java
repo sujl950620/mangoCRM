@@ -7,7 +7,7 @@ public interface IEmpService {
 
 	public List<HashMap<String, String>> getEmpList(HashMap<String, String> params) throws Throwable;
 	public int getEmpCnt(HashMap<String, String> params) throws Throwable;
-	public List<HashMap<String, String>> getPosiList() throws Throwable;
+	public List<HashMap<String, String>> getPosiList(HashMap<String, String> params) throws Throwable;
 	public List<HashMap<String, String>> getFormList() throws Throwable;
 	public List<HashMap<String, String>> getDepartList() throws Throwable;
 	public List<HashMap<String, String>> getAuthorList() throws Throwable;

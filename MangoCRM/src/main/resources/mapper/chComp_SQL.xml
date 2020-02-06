@@ -10,6 +10,7 @@
 	        CC.CHANNEL_COMP_NO AS CHANNEL_COMP , CC.COMPANY_NAME AS COMPANY_NAME , 
 	        TO_CHAR(CC.SDATE,'YY/MM/DD') AS SDATE , TO_CHAR(CC.EDATE,'YY/MM/DD') AS EDATE  , CC.MONEY AS MONEY
 	        ,ROW_NUMBER() OVER (ORDER BY CC.CHANNEL_COMP_NO DESC) AS RNUM
+	        ,CC.CHANNEL_COMP_NO AS CHANNEL_COMP_NO
 		FROM CHANNEL CH INNER JOIN CHANNEL_COMP CC ON CH.CHANNEL_NO = CC.CHANNEL_NO
 			<choose>
 		        <when test="content_srch_txt != null and content_srch_txt != '' and content_srch_DD != 3">
@@ -38,7 +39,7 @@
 	
 	<select id="CompCnt" parameterType="hashmap" resultType="Integer">
 	
-	SELECT COUNT(A.CHANNEL_COMP) AS CNT
+	SELECT COUNT(*) AS CNT
 	FROM (
 		SELECT CH.CHANNEL_NAME AS CHANNEL_NAME , CH.CHANNEL_NO AS CHANNEL_NO ,
 	        CC.CHANNEL_COMP_NO AS CHANNEL_COMP , CC.COMPANY_NAME AS COMPANY_NAME , 
@@ -65,7 +66,6 @@
 					</if>
 				</when>
 				</choose>
-		        
         )A
 	</select>
 	<select id="getCh" parameterType="hashmap" resultType="hashmap">

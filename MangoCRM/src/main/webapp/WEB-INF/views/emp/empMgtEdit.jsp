@@ -147,22 +147,26 @@ $(document).ready(function() {
 			makeAlert(1, "필수조건 미입력", "필수조건을 입력해야합니다.", null);
 		}
 		else if($("#id_chk").val() == 0) {
-			makeAlert(1, "아이디 유효성 위반", "아이디가 유효하지 않습니다. 다시 입력해주세요.", null);
-			$("#emp_id").focus();
+			makeAlert(1, "아이디 유효성 위반", "아이디가 유효하지 않습니다. 다시 입력해주세요.", function() {
+				$("#emp_id").focus();				
+			});
 		}
 		else if($("#email_chk").val() == 0) {
-			makeAlert(1, "이메일 유효성 위반", "이메일이 유효하지 않습니다. 다시 입력해주세요.", null);
-			$("#emp_email").focus();
+			makeAlert(1, "이메일 유효성 위반", "이메일이 유효하지 않습니다. 다시 입력해주세요.", function() {
+				$("#emp_email").focus();				
+			});
 		}
 		else if(!regPhone.exec($("#emp_ph").val())) {
-			makeAlert(1, "전화번호 유효성 위반", "전화번호가 유효하지 않습니다. 다시 입력해주세요.", null);
-			$("#emp_ph").focus();
+			makeAlert(1, "전화번호 유효성 위반", "전화번호가 유효하지 않습니다. 다시 입력해주세요.", function() {
+				$("#emp_ph").focus();				
+			});
 		}
 		else if(!regBirth.test($("#emp_birth").val())) {
-			makeAlert(1, "생년월일 유효성 위반", "생년월일이 유효하지 않습니다. 다시 입력해주세요.", null);
-			$("#emp_birth").focus();
+			makeAlert(1, "생년월일 유효성 위반", "생년월일이 유효하지 않습니다. 다시 입력해주세요.", function() {
+				$("#emp_birth").focus();				
+			});
 		}
-		else if($.trim($("emp_zc").val()) == "" && $.trim($("emp_det_addr").val()) != "" ) {
+		else if($.trim($("#emp_zc").val()) == "" && $.trim($("#emp_det_addr").val()) != "" ) {
 			makeAlert(1, "주소 입력 위반", "기본 주소가 선택되지 않았습니다.", null);
 		}
 		else {

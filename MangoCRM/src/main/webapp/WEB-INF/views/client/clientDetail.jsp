@@ -499,6 +499,13 @@ $(document).ready(function() {
 			}
 		});
 	}
+	
+	// 고객사 관련 활동일정 클릭 Event
+	$("#acti_area").on("click", "tr", function() {
+		$("#sche_no").val($(this).attr("id"));
+		$("#dataForm").attr("action", "scheDet");
+		$("#dataForm").submit();	
+	});
 });
 
 function getSche() {
@@ -556,7 +563,7 @@ function drawSche(sche) {
 			html += "            <img src=\"resources/images/activity/" + icon + "_icon.png\" alt=\"\" />";
 			html += "        </div>";
 			html += "    </td>";
-			html += "    <td class=\"activity_right\" colspan=\"" + ((sche[i].EDATE == null) ? "2": "1") +"\">";
+			html += "    <td class=\"activity_right\" colspan=\"" + ((sche[i].SCHE_RES == null) ? "2": "1") +"\">";
 			html += "        <div class=\"activity_bg\">";
 			html += "            <div>";
 			html += "                <div class=\"activity_cg\">" + sche[i].CODE_NAME +"</div>";
@@ -574,7 +581,7 @@ function drawSche(sche) {
 	            html += "            <div class=\"activity_cg\">결과</div>";
 	            html += "            <div class=\"activity_uploadtime\">" + sche[i].EDATE + "</div>";
 	            html += "        </div>";
-	            html += "        <div class=\"activity_contents\">" + sche[i].LEAD_NAME + " | " + sche[i].CLIENT_PNM +"</div>";
+	            html += "        <div class=\"activity_contents\">" + sche[i].CLIENT_NAME + " | " + sche[i].CLIENT_PNM +"</div>";
 	            html += "        <div class=\"activity_contents\">" + sche[i].SCHE_RES +"</div>";
 	            html += "        <div class=\"activity_contents\">" + sche[i].EMP_NAME + " " + sche[i].EMP_PNM +" 담당</div>";
 	            html += "    </div>";
@@ -599,6 +606,7 @@ function drawSche(sche) {
 			<input type="hidden" id="client_no" name="client_no" value="${data.CLIENT_NO}"  />
 			<input type="hidden" id="cNo" name="cNo" value="${data.CLIENT_NO}"  />
 			<input type="hidden" id="view_no" name="view_no" value="${data.CLIENT_NO}" />
+			<input type="hidden" id="sche_no" name="sche_no" value="${data.CLIENT_NO}" />
 			<input type="hidden" id="scheDivNoM" name="scheDivNoM" value="0"/>
 			<div class="contents_wrap">
 				<div class="table_top_area">

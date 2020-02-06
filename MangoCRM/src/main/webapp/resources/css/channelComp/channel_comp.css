@@ -5,6 +5,10 @@
 .td_font:hover{
 	background-color:#EEEEEE;
 }
+.td_font1{
+	font-size:11pt;
+}
+
 .circle{
 	display:inline-block;
 	width:30px;

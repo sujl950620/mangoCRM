@@ -42,6 +42,7 @@ compListdraw();
 			$("#content_srch_date2").hide();
 		}
 	});
+
 	$("#content_srch_date1").hide();
 	$("#content_srch_date2").hide();
 	
@@ -57,27 +58,27 @@ compListdraw();
 		html +="<col width=\"40%\" />";
 		html +="</colgroup>";
 		html +="<tr>";
-		html +="<th class=\"td_font\">채널</th>";
+		html +="<th class=\"td_font1\">채널</th>";
 		html +="<td>";
 		html +="<select name=\"channel1\" class=\"channel1\" id=\"channel1\">";
 		html +="</select>";
 		html +="</td>";
 		html +="</tr>";
 		html +="<tr>";
-		html +="<th class=\"td_font\">업체명</th>";
+		html +="<th class=\"td_font1\">업체명</th>";
 		html +="<td>";
 		html +="<input type=\"text\" class=\"table_txt\" id=\"compNM\" name=\"compNM\" />";
 		html +="</td>";
 		html +="</tr>";
 		html +="<tr>";
-		html +="<th class=\"td_font\">기간</th>";
+		html +="<th class=\"td_font1\">기간</th>";
 		html +="<td>";
 		html +=" <input type=\"date\" class=\"sdate\"/ id=\"sdate\" name=\"sdate\"><span class=\"wave\">~</span>";
 		html +=" <input type=\"date\" class=\"edate\"  id=\"edate\" name=\"edate\"/>";
 		html +="</td>";
 		html +="</tr>";
 		html +="<tr>";
-		html +="<th class=\"td_font\">금액</th>";
+		html +="<th class=\"td_font1\">금액</th>";
 		html +="<td>";
 		html +="<input type=\"text\" class=\"table_txt\" id=\"money\" name=\"money\"/>";
 		html +="</td>";
@@ -184,8 +185,8 @@ function compList(list){
 	}
 	else{
 		for(var i in list){
-		html += "<tr class =\"td_font\" name=\""+list[i].CHANNEL_COMP+ "\">";
-		html += "<td>"+list[i].CHANNEL_COMP +"</td>";
+		html += "<tr class =\"td_font\" name=\""+list[i].CHANNEL_COMP_NO+ "\">";
+		html += "<td>"+list[i].CHANNEL_COMP_NO +"</td>";
 		html += "<td>"+list[i].COMPANY_NAME+"</td>";
 		html += "<td>"+list[i].CHANNEL_NAME+"</td>";
 		html += "<td>"+list[i].SDATE +  " ~ "  + list[i].EDATE + "</td>";

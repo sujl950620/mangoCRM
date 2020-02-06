@@ -28,8 +28,8 @@ public class EmpService implements IEmpService {
 	}
 
 	@Override
-	public List<HashMap<String, String>> getPosiList() throws Throwable {
-		return iEmpDao.getPosiList();
+	public List<HashMap<String, String>> getPosiList(HashMap<String, String> params) throws Throwable {
+		return iEmpDao.getPosiList(params);
 	}
 
 	@Override

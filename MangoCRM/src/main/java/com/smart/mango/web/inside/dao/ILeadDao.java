@@ -55,4 +55,6 @@ public interface ILeadDao {
 
 	void leadchkreset() throws Throwable;
 
+	List<HashMap<String, String>> getLeadCard(HashMap<String, String> params) throws Throwable;
+
 }

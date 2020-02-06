@@ -9,17 +9,29 @@
 <c:import url="/header"></c:import>
 <script type="text/javascript">
 	$(document).ready(function(){
-		reloadList();		
+		reloadList();
 		$("#searchBtn").on("click", function() {
-			$("#page").val("1");
-			reloadList();
+			if($("#searchTxt").val()== "승인"){
+				$("#searchTxt").val(5);	
+				$("#page").val("1");
+				reloadList();
+				$("#searchTxt").val("");
+			} else if($("#searchTxt").val()== "미승인"){
+						$("#searchTxt").val(4);
+						$("#page").val("1");
+						reloadList();
+						$("#searchTxt").val("");
+			}
 		});
-		$("tbody").on("click", "tr", function() {
-			$("#appno").val($(this).attr("name"));
-			$("#app_empno").val($(this).attr("id"));
+		
+		$("tbody").on("dblclick", "tr", function() {
+			$("#appno").val($(this).attr("name"));			
+			$("#appstat").val($(this).attr("id"));
 			$("#actionForm").attr("action", "app");
 			$("#actionForm").submit();
+			
 		});
+		
 		$(".paging_area").on("click", "span", function() {
 			if ($(this).attr("name") != "") {
 				$("#page").val($(this).attr("name"));
@@ -32,7 +44,7 @@
 			console.log(params);
 			$.ajax({
 				type : "post",
-				url : "applistAjax",
+				url : "approvalAjax",
 				dataType : "json",
 				data : params,
 				success : function(result){
@@ -54,14 +66,21 @@
 					html += "</tr>";
 				}else {
 					for ( var i in list) {
-						html += "<tr  style=\"height:80px;\" name=\"" + list[i].APP_NO + "\"  id=\"" + list[i].EMP_NO + "\">";
+						html += "<tr  style=\"height:80px;\" name=\"" + list[i].CMP_NO+ "\" id=\"" + list[i].APP_STAT + "\">";
 						html += "<td>" + list[i].RNUM + "</td>";
 						html += "<td>"+ list[i].SDATE + " ~ " + list[i].EDATE +"</td>";
 						html += "<td>" + list[i].CMP_NAME + "</td>";
 						html += "<td>" + list[i].APP_DAY + "</td>";
-						html += "<td>" + list[i].EMP_NAME + "</td>";						
-						  if(list[i].APP_STAT == 0){
-		                        html += "<td> 미승인 </td>" ;
+						
+						if( list[i].EMP_NAME == undefined){
+							html += "<td>   </td>";
+						}
+						else{
+							html +="<td>" + list[i].EMP_NAME + "</td>"
+						}
+						
+						  if(list[i].APP_STAT == 4){
+		                        html += "<td> 미승인  </td>" ; 
 		                    }else
 		                        {
 		                    html += "<td> 승인 </td>";
@@ -446,7 +465,10 @@ display: inline-block;
 </script>
 </head>
 <body>
-	<c:import url="/topLeft"></c:import>
+	<c:import url="/topLeft">
+		<c:param name="menuNo">14</c:param>
+	</c:import>
+	<div class="title_area">결재목록</div>
 		<div class="content_area">
 			<!-- 여기에 내용을 구현 -->
 			<div class="content_btn">
@@ -454,10 +476,10 @@ display: inline-block;
             
          </div>
          <form action="#" id="actionForm" class="search" method="post">         	
-			<input type="hidden" name="page" id="page" value="1" />			
-			<input type="hidden" name="appno" id="appno" />
-			<input type="hidden" name="cmp_no" id="cmp_no" />
-			<input type="hidden" name="app_empno" id="app_empno" />       
+			<input type="hidden" name="page" id="page" value="1" />				 
+			<input type="hidden" name="appno" id="appno" value="" />
+			<input type="hidden" name="empno" id="empno" value="" />        
+			<input type="hidden" name="appstat" id ="appstat" value=""/>
 			
          <div class="content_srch">
             <div class="content_srch_btn">            
@@ -478,7 +500,7 @@ display: inline-block;
 					<th class="sample_title2">기간</th>
 					<th class="sample_title4">캠페인</th>
 					<th class="sample_title5">처리날짜</th>
-					<th class="sample_title6">담당자</th>
+					<th class="sample_title6">승인자</th>
 					<th class="sample_title7">승인여부</th>
 				</tr>
 			</thead>

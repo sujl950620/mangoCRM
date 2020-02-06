@@ -349,10 +349,6 @@ $(document).ready(function() {
 			makeAlert(7, "망고CRM관리자", "담당자를 입력해주세요.", null)
 				$("#table_txt3").focus();
 			}
-		else if ($.trim($("#addr3").val()) == "") {
-			makeAlert(7, "망고CRM관리자", "주소를 입력해주세요.", null)
-			$("#addr3").focus();
-		}
 			else {
 			var params = $("#popForm").serialize();
 			console.log(params);
@@ -375,7 +371,6 @@ $(document).ready(function() {
 			});
 		}
 	});
-	$("#mapBtn").postcodifyPopUp();
 	
 	$("#reg_cancel_Btn").on("click", function(){
 		history.back();
@@ -671,8 +666,9 @@ $(document).ready(function() {
 </script>
 </head>
 <body>
-	<c:import url="/topLeft"></c:import>
-	
+	<c:import url="/topLeft">
+		<c:param name="menuNo">5</c:param>
+	</c:import>
 
 	<div class="title_area">리드 등록</div>
 	<div class="content_area">
@@ -712,7 +708,7 @@ $(document).ready(function() {
 							<input type="button" id="client_Btn" class="text_btn" value="검색" /></td>
 					</tr>
 					<tr>
-						<th>리드상태</th>
+						<th>리드상태<span class="acc_txt">*</span></th>
 						<td>
 							<select class="input_style_normal input_size_normal" id = "lead_stat" name = "lead_stat">
 								<option value = "0" selected="selected">Unqualified</option>
@@ -727,7 +723,7 @@ $(document).ready(function() {
 						</td>
 					</tr>
 					<tr>
-						<th>인지경로</th>
+						<th>인지경로<span class="acc_txt">*</span></th>
 						<td><select class="input_style_normal input_size_normal" name = "cong_path" id = "cong_path">
 								<option value = "0" selected="selected">지인추천</option>
 								<option value = "1">웹검색</option>
@@ -741,12 +737,11 @@ $(document).ready(function() {
 					</tr>
 					<!-- 주소영역 -->
 					<tr class="tr_address">
-						<th>주소<span class="acc_txt">*</span></th>
+						<th>주소</th>
 						<td colspan="3"><input type="text" id="addr1"
 							class="table_txt3 is_read_only  postcodify_postcode5" readonly="readonly" />
-							<button id = "mapBtn"class="text_btn btn">검색</button> <input type="text"
-							class="table_txt2 is_read_only postcodify_address" id = "addr2" readonly="readonly" /> 
-							<input type="text" id = "addr3"class="table_txt2 postcodify_details" /></td>
+							 <input type="text" class="table_txt2 is_read_only postcodify_address" id = "addr2" readonly="readonly" /> 
+							<input type="text" id = "addr3"class="table_txt2 is_read_only postcodify_details" readonly="readonly"/></td>
 					</tr>
 				</table>
 			</div>

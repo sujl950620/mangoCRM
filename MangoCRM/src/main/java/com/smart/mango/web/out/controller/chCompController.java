@@ -43,7 +43,7 @@ public class chCompController {
 			produces = "text/json;charset=UTF-8")
 
 	@ResponseBody 
-	public String chcompListAjax(@RequestParam HashMap<String,String> params, ModelAndView mav) throws Throwable{
+	public String chcpListAjax(@RequestParam HashMap<String,String> params, ModelAndView mav) throws Throwable{
 	
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> modelMap = new HashMap<String, Object>();

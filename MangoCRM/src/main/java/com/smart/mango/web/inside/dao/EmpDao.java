@@ -23,8 +23,8 @@ public class EmpDao implements IEmpDao {
 	}
 
 	@Override
-	public List<HashMap<String, String>> getPosiList() throws Throwable {
-		return sqlSession.selectList("emp.getPosiList");
+	public List<HashMap<String, String>> getPosiList(HashMap<String, String> params) throws Throwable {
+		return sqlSession.selectList("emp.getPosiList", params);
 	}
 
 	@Override

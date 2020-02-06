@@ -5,7 +5,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>등급 수정</title>
+<title>등급 편집</title>
 <c:import url="/header"></c:import>
 <link rel="stylesheet" type="text/css" href="resources/css/grade/grade.css" />
 <script type="text/javascript">
@@ -228,7 +228,7 @@ function redrawGrade(grade) {
 	<c:import url="/topLeft">
 		<c:param name="menuNo">4</c:param>
 	</c:import>
-	<div class="title_area">등급수정</div>
+	<div class="title_area">등급편집</div>
 	<div class="content_area">
 		<div class="edit_btn_area no_drag">
 	        <div class="btn btn_black btn_size_normal" id="grade_add_btn">추가</div>
@@ -254,7 +254,7 @@ function redrawGrade(grade) {
 			<tbody>
 			</tbody>
 		</table>
-		<div class="palette">
+		<div class="palette no_drag">
 			<div class="color1"></div>
 			<div class="color2"></div>
 			<div class="color3"></div>

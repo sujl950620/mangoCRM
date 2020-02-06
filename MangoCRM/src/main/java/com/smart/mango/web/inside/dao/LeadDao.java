@@ -158,4 +158,10 @@ public class LeadDao implements ILeadDao {
 	public void leadchkreset() throws Throwable {
 		sqlSession.update("lead.leadchkreset");
 	}
+
+	@Override
+	public List<HashMap<String, String>> getLeadCard(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("lead.getLeadCard",params);
+	}
 }

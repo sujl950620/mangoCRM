@@ -11,4 +11,9 @@ public interface IAppService {
 
 	public void Appday(HashMap<String, String> params) throws Throwable;
 
+	public HashMap<String, String> getapp(HashMap<String, String> params)throws Throwable;
+
+	public List<HashMap<String, String>> get_sim(HashMap<String, String> params)throws Throwable;
+	
+
 }

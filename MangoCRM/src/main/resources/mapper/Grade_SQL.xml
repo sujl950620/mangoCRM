@@ -25,13 +25,22 @@
 		                                                  WHEN (C.COMP_NAME < '가' OR C.COMP_NAME > '힣') THEN 2
 		                                                  ]]>
 		                                                  ELSE 3
-		                                                 END ASC, C.COMP_NAME ASC) AS RNUM
+		                                               END ASC, C.COMP_NAME ASC) AS RNUM
 						</when>
 						<when test="srchVal eq '업종'">
 							ROW_NUMBER() OVER(ORDER BY SE.COMP_SECT_NO DESC) AS RNUM
 						</when>
 						<when test="srchVal eq '상태'">
 							ROW_NUMBER() OVER(ORDER BY ST.COMP_STAT_NO DESC) AS RNUM
+						</when>
+						<when test="srchVal eq '담당자'">
+							ROW_NUMBER() OVER(ORDER BY CASE
+		                                                  WHEN E.EMP_NAME BETWEEN '가' AND '힣' THEN 1
+		                                                  <![CDATA[
+		                                                  WHEN (E.EMP_NAME < '가' OR E.EMP_NAME > '힣') THEN 2
+		                                                  ]]>
+		                                                  ELSE 3
+		                                               END ASC, E.EMP_NAME ASC) AS RNUM
 						</when>
 					</choose>
 		       FROM COMP C INNER JOIN COMP_STAT ST
@@ -50,7 +59,8 @@
 							 UPPER(G.CC_GRADE_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%') OR
 							 UPPER(C.COMP_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%') OR
 							 UPPER(SE.COMP_SECT_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%') OR
-							 UPPER(ST.COMP_STAT_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%'))
+							 UPPER(ST.COMP_STAT_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%') OR
+							 UPPER(E.EMP_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%'))
 					</when>
 					<when test="srchVal eq '등급'">
 						AND UPPER(G.CC_GRADE_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%')
@@ -64,6 +74,9 @@
 					<when test="srchVal eq '상태'">
 						AND UPPER(ST.COMP_STAT_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%')
 					</when>
+					<when test="srchVal eq '담당자'">
+						AND UPPER(E.EMP_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%')
+					</when>
                	</choose>
                </if>)
 		WHERE RNUM BETWEEN #{startCnt} AND #{endCnt}
@@ -71,11 +84,13 @@
 	<select id="gradeListCnt" resultType="integer">
 		SELECT COUNT(*)
 		FROM COMP C INNER JOIN COMP_STAT ST
-				                           ON C.COMP_STAT_NO = ST.COMP_STAT_NO
-				                   INNER JOIN COMP_CLIENT_GRADE G
-				                           ON C.CC_GRADE_NO = G.CC_GRADE_NO
-				                   INNER JOIN COMP_SECT SE
-		                                   ON C.COMP_SECT_NO = SE.COMP_SECT_NO
+				            ON C.COMP_STAT_NO = ST.COMP_STAT_NO
+				    INNER JOIN COMP_CLIENT_GRADE G
+				            ON C.CC_GRADE_NO = G.CC_GRADE_NO
+				    INNER JOIN COMP_SECT SE
+		                    ON C.COMP_SECT_NO = SE.COMP_SECT_NO
+		            INNER JOIN EMP_INFO E
+                           	ON C.EMP_NO = E.EMP_NO
 		WHERE C.COMP_STAT_NO != 0
 		<if test="grade_srch_txt != '' and grade_srch_txt != null">
             <choose>
@@ -84,7 +99,8 @@
 						 UPPER(G.CC_GRADE_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%') OR
 						 UPPER(C.COMP_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%') OR
 						 UPPER(SE.COMP_SECT_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%') OR
-						 UPPER(ST.COMP_STAT_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%'))
+						 UPPER(ST.COMP_STAT_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%') OR
+						 UPPER(E.EMP_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%'))
 				</when>
 				<when test="srchVal eq '등급'">
 					AND UPPER(G.CC_GRADE_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%')
@@ -97,6 +113,9 @@
 				</when>
 				<when test="srchVal eq '상태'">
 					AND UPPER(ST.COMP_STAT_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%')
+				</when>
+				<when test="srchVal eq '담당자'">
+					AND UPPER(E.EMP_NAME) LIKE UPPER('%' || #{grade_srch_txt} || '%')
 				</when>
             </choose>
         </if>

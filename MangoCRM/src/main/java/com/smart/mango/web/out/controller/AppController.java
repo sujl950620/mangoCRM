@@ -30,10 +30,14 @@ public class AppController {
 	
 	//결재 페이지
 	@RequestMapping(value = "/app")
-	public ModelAndView app(ModelAndView mav) {
-		mav.setViewName("cmp/app");
+	public ModelAndView Bmain(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+
+		HashMap<String, String> data = iAppService.getapp(params);
+
+		mav.addObject("data", data);
+		mav.setViewName("cmp/app");		
 		return mav;
-	}
+	}	
 
 	//결재목록 페이지
 	@RequestMapping(value = "/approval")
@@ -42,7 +46,7 @@ public class AppController {
 		return mav;
 	}
 	//결재목록 페이지 Ajax
-	@RequestMapping(value = "/applistAjax", method = RequestMethod.POST, produces = "test/json; charset=UTF-8")
+	@RequestMapping(value = "/approvalAjax", method = RequestMethod.POST, produces = "test/json; charset=UTF-8")
 	@ResponseBody
 	public String applistAjax(@RequestParam HashMap<String, String> params, ModelAndView modelAndView) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
@@ -60,13 +64,12 @@ public class AppController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-
 		return mapper.writeValueAsString(modelMap);
 	}
 	//결재페이지 결재버튼
-	@RequestMapping(value = "/appbtnAjax", method = RequestMethod.POST, produces = "test/json; charset=UTF-8")
+	@RequestMapping(value = "/appdayAjax", method = RequestMethod.POST, produces = "test/json; charset=UTF-8")
 	@ResponseBody // spring은 View를 활용하여 구현하게 되어 있어 View인것으로 인식시켜 넘어가게 하는 어노테이션
-	public String appbtnAjax(@RequestParam HashMap<String, String> params, HttpSession session,
+	public String appdayAjax(@RequestParam HashMap<String, String> params, HttpSession session,
 			ModelAndView modelAndView) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -78,6 +81,22 @@ public class AppController {
 			modelMap.put("res", "FAILED");
 		}
 
+		return mapper.writeValueAsString(modelMap);
+	}
+	
+	@RequestMapping(value="/result_simAjax",
+			method = RequestMethod.POST,
+			produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String result_simAjax(@RequestParam HashMap<String, String> params,
+							ModelAndView modelAndView)
+	throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+					
+		List<HashMap<String, String>> list = iAppService.get_sim(params);
+		
+		modelMap.put("list", list);//writeValueAsString -> Map의 데이터를 문자열(JSON)으로 변환처리
 		return mapper.writeValueAsString(modelMap);
 	}
 	

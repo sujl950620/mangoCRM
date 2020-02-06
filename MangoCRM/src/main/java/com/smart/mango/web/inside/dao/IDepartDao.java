@@ -15,7 +15,21 @@ public interface IDepartDao {
 
 	public void insertDepart(HashMap<String, String> params) throws Throwable;
 
-	public void updateDepart(HashMap<String, String> params) throws Throwable;
+	public HashMap<String, String> getDepartMgr(HashMap<String, String> params) throws Throwable;
+	
+	public void insertTeam(HashMap<String, String> params) throws Throwable;
+	
+	public HashMap<String, String> getTeamMgr(HashMap<String, String> params) throws Throwable;
+
+	public int getEmpDepartCnt(HashMap<String, String> params) throws Throwable;
+
+	public List<HashMap<String, String>> getEmpDepartList(HashMap<String, String> params) throws Throwable;
+
+	public void departEdit(HashMap<String, String> params) throws Throwable;
+
+	public void departMgrEdit(HashMap<String, String> params) throws Throwable;
+
+	public HashMap<String, String> getMgr(HashMap<String, String> params) throws Throwable;
 
 
 }

@@ -33,6 +33,7 @@ $(document).ready(function() {
 	
 	$("#grade_srch_align").on("click", function() {
 		if($("#srchVal").val() != $(this).val()){
+			$("#page").val(1);
 			$("#srchVal").val($(this).val());
 			reloadGradeList();
 		}
@@ -109,9 +110,6 @@ function redrawChart(grade) {
 	
 	$("#grade_chart").highcharts({
 	    chart: {
-	        plotBackgroundColor: null,
-	        plotBorderWidth: null,
-	        plotShadow: false,
 	        type: 'pie',
 	        height: '300',
 	    },
@@ -122,6 +120,13 @@ function redrawChart(grade) {
 	        pointFormat: '<b>{point.percentage:.1f}%</b>'
 	    },
 	    plotOptions: {
+	    	/* series: {
+	            states: {
+	                hover: {
+	                    enabled: false
+	                }
+	            }
+	        }, */
 	        pie: {
 	            allowPointSelect: true,
 	            cursor: 'pointer',
@@ -129,7 +134,7 @@ function redrawChart(grade) {
 	                enabled: false
 	            },
 	            showInLegend: false
-	        }
+	        },
 	    },
 	    series: [{
 	        data: chart
@@ -145,6 +150,15 @@ function redrawChart(grade) {
 			$(this).remove();
 		}
 	});
+	
+	/* $(".highcharts-series").on("mouseenter", "path", function() {
+		$("path").attr("style", "opacity: 0.4");
+		$(this).attr("style", "opacity: 1");
+	});
+	
+	$(".highcharts-series").on("mouseleave", "path", function() {
+		$("path").attr("style", "opacity: 1");
+	}); */
 }
 
 function reloadGradeList() {
@@ -204,7 +218,7 @@ function redrawGradeList(list){
 }
 
 function redrawPaging(pb) {
-	var html = "";
+	/* var html = "";
 	if(pb.startPcount > "1") {
 		//처음
 		html += "<div class=\"btn_paging\" name=\"1\"><<</div>";	
@@ -230,6 +244,27 @@ function redrawPaging(pb) {
 		html += "<div class=\"btn_paging\" name=\"" + pb.maxPcount + "\">>></div>";
 	}
 	
+	$(".list_paging_area").html(html); */
+	
+	var html = "";
+	html += "<div class=\"btn_paging\" name=\"1\">&lt;&lt;</div>";
+
+	html += "<div class=\"btn_paging\"name=\"";
+	html += ($("#page").val() == "1")? "1" : ($("#page").val() * 1 - 1);
+	html += "\">&lt;</div>";
+
+	for(var i = pb.startPcount; i <= pb.endPcount; i++) {		
+		html += "<div class=\"btn_paging";
+		html += ($("#page").val() == i)? "_on\">" : "\" name=\"" + i + "\">";
+		html += i + "</div>";
+	}
+	
+	html += "<div class=\"btn_paging\"name=\"";
+	html += ($("#page").val() == (pb.maxPcount))? pb.maxPcount : ($("#page").val() * 1 + 1);
+	html += "\">&gt;</div>";
+
+	html += "<div class=\"btn_paging\" name=\"" + pb.maxPcount + "\">&gt;&gt;</div>";
+	
 	$(".list_paging_area").html(html);
 }
 </script>
@@ -243,7 +278,7 @@ function redrawPaging(pb) {
 	<c:import url="/topLeft">
 		<c:param name="menuNo">4</c:param>
 	</c:import>
-	<div class="title_area">등급관리</div>
+	<div class="title_area">등급목록</div>
 	<div class="content_area">
    		<div class="grade_chart_area">
 			<div class="grade_chart  no_drag">
@@ -261,10 +296,10 @@ function redrawPaging(pb) {
     	<div class="table_top_area">
     		<div class="top_title_area"></div>
 	        <div class="top_btn_area no_drag">
-	        	<%-- <c:if test="${sEmpPosiName eq '부장'}"> --%>
+	        	<c:if test="${sAuthorNo ne 3 and sAuthorNo ne 5}">
 		            <div class="btn btn_yellow btn_size_normal" id="gradeChangeBtn">등급 변경</div>
 		            <div class="btn btn_yellow btn_size_normal" id="gradeEditBtn">등급 편집</div>
-	        	<%-- </c:if> --%>
+	        	</c:if>
 	        </div>
 	        <div class="top_title_area">
 	        </div>
@@ -276,7 +311,7 @@ function redrawPaging(pb) {
 		                <option>회사명</option>
 		                <option>업종</option>
 		                <option>상태</option>
-		                <option>최근거래일</option>
+		                <option>담당자</option>
 		            </select>
 			        <input class="input_wfix input_search no_drag" id="grade_srch_txt" name="grade_srch_txt" type="text" placeholder="현재목록 내 검색"/>	            
 		            <div class="btn btn_black btn_size_normal no_drag" id="grade_srch_btn">검색</div>

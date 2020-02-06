@@ -5,7 +5,7 @@
 	<select id="getBssList" parameterType="hashmap"
 		resultType="hashmap">
 		SELECT BC.CHN_NAME, CP.COMP_NAME, EI.EMP_NAME,
-		BC.PROG_NO, L.LEAD_NO
+		BC.PROG_NO, L.LEAD_NO, CHN_NO
 		FROM BSS_CHN BC INNER JOIN LEAD L
 		ON BC.LEAD_NO = L.LEAD_NO
 		INNER JOIN CLIENT C
@@ -17,18 +17,18 @@
 		<if test="searchTxt != null and searchTxt !=''">
 			<choose>
 				<when test="searchGbn2 eq 0">
-					WHERE (CHN_NAME LIKE '%' || #{searchTxt} || '%'
-					OR COMP_NAME LIKE '%' || #{searchTxt} || '%'
-					OR EMP_NAME LIKE '%' || #{searchTxt} || '%')
+					WHERE (UPPER(CHN_NAME) LIKE '%' || UPPER(#{searchTxt}) || '%'
+					OR UPPER(COMP_NAME) LIKE '%' || UPPER(#{searchTxt}) || '%'
+					OR UPPER(EMP_NAME) LIKE '%' || UPPER(#{searchTxt}) || '%')
 				</when>
 				<when test="searchGbn2 eq 1">
-					WHERE CHN_NAME LIKE '%' || #{searchTxt} || '%'
+					WHERE UPPER(CHN_NAME) LIKE '%' || UPPER(#{searchTxt}) || '%'
 				</when>
 				<when test="searchGbn2 eq 2">
-					WHERE COMP_NAME LIKE '%' || #{searchTxt} || '%'
+					WHERE UPPER(COMP_NAME) LIKE '%' || UPPER(#{searchTxt}) || '%'
 				</when>
 				<when test="searchGbn2 eq 3">
-					WHERE EMP_NAME LIKE '%' || #{searchTxt} || '%'
+					WHERE UPPER(EMP_NAME) LIKE '%' || UPPER(#{searchTxt}) || '%'
 				</when>
 			</choose>
 		</if>
@@ -48,18 +48,18 @@
         <if test="searchTxt != null and searchTxt !=''">
 			<choose>
 				<when test="searchGbn2 eq 0">
-					WHERE (LEAD_NAME LIKE '%' || #{searchTxt} || '%'
-					OR COMP_NAME LIKE '%' || #{searchTxt} || '%'
-					OR EMP_NAME LIKE '%' || #{searchTxt} || '%')
+					WHERE (UPPER(LEAD_NAME) LIKE '%' || UPPER(#{searchTxt}) || '%'
+					OR UPPER(COMP_NAME) LIKE '%' || UPPER(#{searchTxt}) || '%'
+					OR UPPER(EMP_NAME) LIKE '%' || UPPER(#{searchTxt}) || '%')
 				</when>
 				<when test="searchGbn2 eq 1">
-					WHERE LEAD_NAME LIKE '%' || #{searchTxt} || '%'
+					WHERE UPPER(LEAD_NAME) LIKE '%' || UPPER(#{searchTxt}) || '%'
 				</when>
 				<when test="searchGbn2 eq 2">
-					WHERE COMP_NAME LIKE '%' || #{searchTxt} || '%'
+					WHERE UPPER(COMP_NAME) LIKE '%' || UPPER(#{searchTxt}) || '%'
 				</when>
 				<when test="searchGbn2 eq 3">
-					WHERE EMP_NAME LIKE '%' || #{searchTxt} || '%'
+					WHERE UPPER(EMP_NAME) LIKE '%' || UPPER(#{searchTxt}) || '%'
 				</when>
 			</choose>
 		</if>
@@ -77,7 +77,7 @@
 		INNER JOIN COMP C
 		ON C.COMP_NO = CL.COMP_NO
 		INNER JOIN EMP_INFO E
-		ON L.EMP_NO = E.EMP_NO
+		ON B.EMP_NO = E.EMP_NO
 		INNER JOIN TEAM T
 		ON E.TEAM_NO = T.TEAM_NO
 		INNER JOIN DEPART D
@@ -115,28 +115,28 @@
 					</when>
 				</choose>
 				<if test="startDate != null and startDate != ''">
-					AND B.CHN_DATE BETWEEN #{startDate} AND #{endDate}
+					WHERE CHN_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD') + 0.99999
 				</if>
 			</when>
 			<when test="startDate != null and startDate != ''">
 				<choose>
 					<when test="searchGbn eq 0">
-						WHERE B.CHN_DATE BETWEEN #{startDate} AND #{endDate}
+						WHERE CHN_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD') + 0.99999
 					</when>
 					<when test="searchGbn eq 1">
-						WHERE B.CHN_DATE BETWEEN #{startDate} AND #{endDate}
+						WHERE CHN_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD') + 0.99999
 						AND B.PROG_NO BETWEEN 1 AND 4
 					</when>
 					<when test="searchGbn eq 2">
-						WHERE B.CHN_DATE BETWEEN #{startDate} AND #{endDate}
+						WHERE CHN_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD') + 0.99999
 						AND B.PROG_NO = 5
 					</when>
 					<when test="searchGbn eq 3">
-						WHERE B.CHN_DATE BETWEEN #{startDate} AND #{endDate}
+						WHERE CHN_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD') + 0.99999
 						AND B.PROG_NO = 6
 					</when>
 					<when test="searchGbn eq 4">
-						WHERE B.CHN_DATE BETWEEN #{startDate} AND #{endDate}
+						WHERE CHN_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD') + 0.99999
 						AND B.PROG_NO = 7
 					</when>
 				</choose>
@@ -167,7 +167,7 @@
 		INNER JOIN COMP C
 		ON C.COMP_NO = CL.COMP_NO
 		INNER JOIN EMP_INFO E
-		ON L.EMP_NO = E.EMP_NO
+		ON B.EMP_NO = E.EMP_NO
 		INNER JOIN TEAM T
 		ON E.TEAM_NO = T.TEAM_NO
 		INNER JOIN DEPART D
@@ -211,22 +211,22 @@
 			<when test="startDate != null and startDate != ''">
 				<choose>
 					<when test="searchGbn eq 0">
-						WHERE B.CHN_DATE BETWEEN #{startDate} AND #{endDate}
+						WHERE CHN_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD') + 0.99999
 					</when>
 					<when test="searchGbn eq 1">
-						WHERE B.CHN_DATE BETWEEN #{startDate} AND #{endDate}
+						WHERE CHN_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD') + 0.99999
 						AND B.PROG_NO BETWEEN 1 AND 4
 					</when>
 					<when test="searchGbn eq 2">
-						WHERE B.CHN_DATE BETWEEN #{startDate} AND #{endDate}
+						WHERE CHN_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD') + 0.99999
 						AND B.PROG_NO = 5
 					</when>
 					<when test="searchGbn eq 3">
-						WHERE B.CHN_DATE BETWEEN #{startDate} AND #{endDate}
+						WHERE CHN_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD') + 0.99999
 						AND B.PROG_NO = 6
 					</when>
 					<when test="searchGbn eq 4">
-						WHERE B.CHN_DATE BETWEEN #{startDate} AND #{endDate}
+						WHERE CHN_DATE BETWEEN TO_DATE(#{startDate}, 'YYYY/MM/DD') AND TO_DATE(#{endDate}, 'YYYY/MM/DD') + 0.99999
 						AND B.PROG_NO = 7
 					</when>
 				</choose>

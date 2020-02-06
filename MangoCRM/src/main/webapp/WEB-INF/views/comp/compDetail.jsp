@@ -610,7 +610,7 @@ $(document).ready(function() {
 	function drawCompSche(sche) {
 		var html = "";
 		if(sche == ""){
-			html += "<tr class=\"activity_row\">";
+			html += "<tr>";
 			html += "<td class=\"field_contents\" colspan=\"3\" style=\"text-align:center; height: 70px;\">조회된 데이터가 없습니다.</td>";
 			html += "</tr>";
 		} 
@@ -643,7 +643,7 @@ $(document).ready(function() {
 				html += "<div class=\"activity_cg\">" + sche[i].CODE_NAME +"</div>";
 				html += "<div class=\"activity_uploadtime\">" + sche[i].SDATE + "</div>";
 				html += "</div>";
-				html += "<div class=\"activity_contents\">" + sche[i].LEAD_NAME + " | " + sche[i].CLIENT_PNM +"</div>";
+				html += "<div class=\"activity_contents\">" + sche[i].CLIENT_NAME + " | " + sche[i].CLIENT_PNM +"</div>";
 				html += "<div class=\"activity_contents\">" + sche[i].SCHE_CON +"</div>";
 				html += "<div class=\"activity_contents\">" + sche[i].EMP_NAME + " " + sche[i].EMP_PNM +" 담당</div>";
 				html += "</div>";
@@ -655,8 +655,13 @@ $(document).ready(function() {
 		            html += "<div class=\"activity_cg\">결과</div>";
 		            html += "<div class=\"activity_uploadtime\">" + sche[i].EDATE + "</div>";
 		            html += "</div>";
-		            html += "<div class=\"activity_contents\">" + sche[i].LEAD_NAME + " | " + sche[i].CLIENT_PNM +"</div>";
-		            html += "<div class=\"activity_contents\">" + sche[i].SCHE_RES +"</div>";
+		            html += "<div class=\"activity_contents\">" + sche[i].CLIENT_NAME + " | " + sche[i].CLIENT_PNM +"</div>";
+		            if(typeof sche[i].SCHE_RES != "undefined") {
+		            	html += "<div class=\"activity_contents\">" + sche[i].SCHE_RES +"</div>";
+		            }
+		            else {
+		            	html += "<div class=\"activity_contents\"></div>";
+		            }
 		            html += "<div class=\"activity_contents\">" + sche[i].EMP_NAME + " " + sche[i].EMP_PNM +" 담당</div>";
 		            html += "</div>";
 		            html += "</td>";
@@ -686,8 +691,8 @@ $(document).ready(function() {
 	});
 	
 	// 고객사 관련 활동일정 클릭 Event
-	$("#acti_area").on("click", "tr", function() {
-		$("#view_no").val($(this).attr("name"));
+	$("#acti_area").on("click", ".activity_row", function() {
+		$("#sche_no").val($(this).attr("name"));
 		$("#dataForm").attr("action", "scheDet");
 		$("#dataForm").submit();	
 	});
@@ -705,6 +710,7 @@ $(document).ready(function() {
 			<input type="hidden" id="lead_no" name="lead_no" />
 			<input type="hidden" id="chnNo" name="chnNo" />
 			<input type="hidden" id="sche_no" name="sche_no" />
+			<input type="hidden" id="scheDivNoM" name="scheDivNoM" value="0"/>
 			<input type="hidden" id="view_no" name="view_no" value="${data.COMP_NO}" />
 			<div class="contents_wrap">
 				<div class="table_top_area">
@@ -893,7 +899,7 @@ $(document).ready(function() {
 						<col width="46%" />
 						<col width="46%" />
 					</colgroup>
-					<tbody id="acti_area no_drag">
+					<tbody class="no_drag" id="acti_area">
 						<tr class="activity_row">
 							<td class="field_contents" colspan="3" style="text-align:center; height: 70px;">조회된 데이터가 없습니다.</td>
 						</tr>

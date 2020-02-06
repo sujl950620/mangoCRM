@@ -13,9 +13,224 @@
 	margin-bottom: 5px;
 }
 
-
 .opin_add_data {
 	color: #a0a0a0;
+}
+
+/*영업팀 css 추가사항*/
+.btn_left_input {
+	width: calc(100% - 94px);
+}
+/*윤제추가*/
+.bss_category {
+	height: 50px;
+	box-shadow: 0px 0px 5px #ccc;
+	font-size: 0px;
+	vertical-align: middle;
+	text-indent: 10px;
+}
+
+.category_content {
+	line-height: 50px;
+	display: inline-block;
+	font-size: 15pt;
+	font-weight: bold;
+}
+
+.category_img_area {
+	height: 0px;
+	display: inline-block;
+	float: right;
+	padding: 15.5px;
+}
+/**** 추가 css */
+/* border : 0*/
+.input_border_0 {
+	width: 100%;
+	height: 30px;
+	border: 0;
+	font-size: 10pt;
+	text-indent: 5px;
+}
+
+.input_border_0:focus {
+	border: 0;
+}
+
+.category_img_area>img {
+	cursor: pointer;
+}
+/*팝업*/
+.pop_tbl {
+	text-align: center;
+	border-collapse: collapse;
+	font-size: 10pt;
+	font-weight: bold;
+	width: 100%;
+	height: 100%;
+}
+
+.td_font {
+	font-size: 11pt;
+}
+
+.pop_tbl>tbody>tr {
+	border-bottom: 1px solid #cacaca;
+}
+/* 담당자 검색 영역 */
+.pop_manager_select {
+	width: 100%;
+	padding: 10px;
+	height: 80px;
+	display: inline-block;
+	vertical-align: top;
+}
+
+.pop_btn_manager {
+	display: inline-block;
+	width: 130px;
+	padding: 8px 25px 8px 8px;
+	color: #333;
+	text-align: left;
+	border: 1px solid #E1E6EB;
+	background-color: #FBFCFD;
+	border-radius: 2px;
+	font-size: 14px;
+	margin-right: 10px;
+	cursor: pointer;
+}
+
+.pop_column {
+	height: 40px;
+}
+
+.pop_column td:hover {
+	cursor: pointer;
+}
+
+.address_contents_card {
+	height: 550px;
+}
+
+.company_contents_card {
+	height: 100%;
+}
+
+/* 담당자검색 */
+.input_search {
+	width: 100%;
+	height: 50px;
+	font-size: 13pt;
+	text-indent: 10px;
+	border: 1px solid #cacaca;
+	border-radius: 5px;
+}
+
+.input_search::placeholder {
+	font-size: 13pt;
+	color: #cacaca;
+}
+
+.search_icon {
+	float: right;
+	position: relative;
+	top: -40px;
+	left: -10px;
+	cursor: pointer;
+}
+
+.add_icon {
+	float: right;
+	position: relative;
+	top: -40px;
+	left: -20px;
+	cursor: pointer;
+}
+
+.cancel_icon {
+	float: right;
+	position: relative;
+	top: -35px;
+	left: -20px;
+	cursor: pointer;
+}
+
+.pop_list {
+	width: 100%;
+	text-align: center;
+	border-collapse: collapse;
+	font-size: 10pt;
+	position: relative;
+	top: -20px;
+}
+
+.pop_list>tbody>tr {
+	cursor: pointer;
+}
+
+.vali_area {
+	font-size: 10pt;
+	color: #ff0000;
+	margin-top: 5px;
+}
+/* POPUP */
+/*상품등록팝업*/
+.prod_left {
+	display: inline-block;
+	float: left;
+	font-size: 0px;
+	width: 400px;
+	vertical-align: top;
+}
+
+.prod_left_top {
+	display: inline-block;
+	width: 100%;
+	height: 100px;
+}
+
+.prod_left_bottom {
+	display: inline-block;
+	width: 100%;
+	height: 400px;
+}
+
+.prod_middle {
+	display: inline-block;
+	width: 100px;
+	height: 500px;
+}
+
+.prod_right {
+	display: inline-block;
+	width: 400px;
+	height: 500px;
+	float: right;
+}
+
+.prod_middle_btn {
+	display: inline-block;
+	width: 60px;
+	margin-left: 25px;
+	margin-top: 200px;
+}
+
+.pop_list_top_none {
+	top: 0 !important;
+}
+
+.prod_middle_btn>img {
+	cursor: pointer;
+	display: inline-block;
+}
+
+#popDefaultProdList {
+	width: 400px;
+}
+/* 의견 */
+.opin_cnt {
+	font-size: 10pt;
+	color: #555555;
 }
 
 /* 활동 일정 파트 */
@@ -140,206 +355,253 @@
 	padding: 10px 15px;
 	cursor: pointer;
 }
-/*영업팀 css 추가사항*/
-.btn_left_input {
-	width: calc(100% - 94px);
-}
-/*윤제추가*/
-.bss_category {
-	height: 50px;
-	box-shadow: 0px 0px 5px #ccc;
-	font-size: 0px;
-	vertical-align: middle;
-	text-indent: 10px;
+
+/* 첨부파일 */
+.sgtAttachUpload, .ngtAttachUpload, .ctractAttachUpload {
+	display: none;
 }
 
-.category_content {
-	line-height: 50px;
-	display: inline-block;
-	font-size: 15pt;
-	font-weight: bold;
-}
-
-.category_img_area {
-	height: 0px;
-	display: inline-block;
-	float: right;
-	padding: 15.5px;
-}
-/**** 추가 css */
-/* border : 0*/
-.input_border_0 {
-	width: 100%;
-	height: 30px;
-	border: 0;
-	font-size: 10pt;
-	text-indent: 5px;
-}
-
-.input_border_0:focus {
-	border: 0;
-}
-.category_img_area>img{
-	cursor : pointer;
-}
-/*팝업*/
-.pop_tbl{
-	text-align : center;
-	border-collapse : collapse;
-	font-size : 10pt;
-	font-weight : bold;
-	width : 100%;
-	height : 100%;
-}
-.td_font{
-	font-size : 11pt;
-}
-.pop_tbl>tbody>tr{
-	border-bottom : 1px solid #cacaca;
-}
-/* 담당자 검색 영역 */
-.pop_manager_select{
-	width : 100%;
-    padding: 10px;
-    height: 80px;
-    display: inline-block;
-    vertical-align: top;
-}
-.pop_btn_manager {
-    display: inline-block;
-    width: 130px;
-    padding: 8px 25px 8px 8px;
-    color: #333;
-    text-align: left;
-    border: 1px solid #E1E6EB;
-    background-color: #FBFCFD;
-    border-radius: 2px;
-    font-size: 14px;
-    margin-right: 10px;
-    cursor: pointer;
-}
-.pop_column {
-	height : 40px;
-}
-
-.pop_column td:hover {
-    cursor: pointer;
-}
-
-.address_contents_card {
-	height : 550px;
-}
-
-.company_contents_card {
-	height : 100%;
-}
-
-/* 담당자검색 */
-.input_search {
-	width: 100%;
-    height: 50px;
-    font-size: 13pt;
-    text-indent: 10px;
-    border: 1px solid #cacaca;
-    border-radius : 5px;
-}
-.input_search::placeholder {
-    font-size: 13pt;
-    color: #cacaca;
-}
-.search_icon {
-	float: right;
-    position: relative;
-    top: -40px;
-    left: -10px;
-    cursor: pointer;
-}
-.add_icon {
-	float: right;
-    position: relative;
-    top: -40px;
-    left: -20px;
-    cursor: pointer;
-}
-.cancel_icon {
-	float: right;
-    position: relative;
-    top: -35px;
-    left: -20px;
-    cursor: pointer;
-}
-.pop_list {
-	width: 100%;
-	text-align: center;
-    border-collapse: collapse;
-    font-size: 10pt;
-    position: relative;
-    top: -20px;
-}
-.pop_list>tbody>tr {
-	cursor: pointer;
-}
-.vali_area {
-	font-size: 10pt;
-	color: #ff0000;
-	margin-top: 5px;
-}
-/* POPUP */
-/*상품등록팝업*/
-.prod_left{
-	display : inline-block;
-	float : left;
-	font-size : 0px;
-	width : 400px;
-	vertical-align : top;
-}
-.prod_left_top{
-	display : inline-block;
-	width : 100%;
-	height : 100px;
-}
-.prod_left_bottom{
-	display : inline-block;
-	width : 100%;
-	height : 400px;
-}
-.prod_middle{
-	display : inline-block;
-	width : 100px;
-	height : 500px;
-}
-.prod_right{
-	display : inline-block;
-	width : 400px;
-	height : 500px;
-	float : right;
-}
-.prod_middle_btn{
-	display : inline-block;
-	width : 60px;
-	margin-left : 25px;
-	margin-top : 200px;
-}
-.pop_list_top_none{
-	top : 0 !important;
-}
-.prod_middle_btn>img{
-	cursor : pointer;
-	display : inline-block;
-}
-
-/* 의견 */
-.opin_cnt {
-	font-size: 10pt;
-	color: #555555;
+.two_btn_left_input {
+	width: calc(100% - 187px);
 }
 </style>
 
 <script type="text/javascript">
+/*진행번호가져오기*/
+function bssFirst(){
+	var params = $("#actionForm").serialize();
+	$.ajax({
+		type : "post",
+		url : "getFirstAjax",
+		dataType : "json",
+		data : params,
+		success : function(result) {
+			$("#bssProgNo").val(result.data.PROG_NO)
+			/*상세보기 표 만들기*/
+			if($("#bssProgNo").val() *1 > 0){
+				/*기회파트*/
+				$("#ChnBtn").on("click", function(){
+					var params = $("#actionForm").serialize();
+					$.ajax({
+						type : "post",
+						url : "getChnAjax",
+						dataType : "json",
+						data : params,
+						success : function(result) {
+							redrawChn(result.data);
+							chnEvent();
+						},
+						error : function(request, status, error) {
+							console.log("text : " + request.responseText);
+							console.log("error : " + error);
+						}
+					});
+				});
+			}
+			if($("#bssProgNo").val() *1 > 1){
+				/*제안파트*/
+				$("#SgtBtn").on("click", function(){
+					redrawSgt();
+					SgtEvent();
+				});
+			}
+			if($("#bssProgNo").val() *1 > 2){
+				/*협상파트*/
+				$("#NgtBtn").on("click", function(){
+					redrawNgt();
+					NgtEvent();
+				});
+			}
+			if($("#bssProgNo").val() *1 > 3){
+				/*계약파트*/
+				$("#ctrackBtn").on("click", function(){
+					redrawCtrack();
+					ctrackEvent();
+				});
+			}
+			if($("#bssProgNo").val() *1 > 4){
+				$("#registerBtn").css("display", "none");
+			}
+			console.log($("#bssProgNo").val());
+		},
+		error : function(request, status, error) {
+			console.log("text : " + request.responseText);
+			console.log("error : " + error);
+		}
+	});
+}
+/*마감 진행상태 확인 함수*/
+function selectChk(){
+	/*마감시*/
+	var html = "";
+	if($("#selectChk").val() == "1"){
+		html += "마감을 하시면 현 진행상태에서는 <br/> 더이상 수정하실 수 없습니다. <br /> 계속하시겠습니까?";
+	}
+	/*실패시*/
+	else if ($("#selectChk").val() == "2"){
+		html += "실패 시 영업은 종료됩니다.<br /> 계속하시겠습니까?";
+	}
+	/*보류시*/
+	else {
+		html += "보류 시 영업은 현 진행상태에서 멈춤니다.<br /> 계속하시겠습니까?";
+	}
+	return html;
+}
+//영업진행상태확인
+function bssProgChk(){
+	//넘어가기 전에 처리해야할 것들 ... 다음 단계의 테이블 생성... 그 테이블을 생성한 값들 가져와서 상품 테이블 만들기..
+	//1. 다음 단계의 테이블 생성 + 다음 단계로 넘어갈때 현재 단계 마감시키기..
+	//DropDowList가 마감인  경우 실행합니다.
+	if($("#selectChk").val() * 1 == 1 && $("#bssProgEnd").val() * 1 != 4){
+		var params = $("#popupForm").serialize();
+		$.ajax({
+			type : "post",
+			url : "bssNextProgAjax",
+			dataType : "json",
+			data : params,
+			success : function(result) {
+				$("#bssNo").val(result.bssNo);
+				var list = result.list;
+				for(var i in list){
+					$("#bssProdNo").val(list[i].PROD_NO);
+					$("#bssProdCnt").val(list[i].CNT);
+					$("#bssProdPrice").val(list[i].PRICE);
+					console.log($("#bssProdNo").val());
+					console.log($("#bssProdCnt").val());
+					console.log($("#bssProdPrice").val());
+					console.log($("#bssNo").val());
+					var params = $("#popupForm").serialize();
+					console.log($("#bssProdNo").val());
+					console.log($("#bssProdCnt").val());
+					console.log($("#bssProdPrice").val());
+					console.log($("#bssNo").val());
+					console.log(params);
+					$.ajax({
+						type : "post",
+						url : "bssNextProgProdAjax",
+						dataType : "json",
+						data : params,
+						success : function(result) {
+							
+						},
+						error : function(request, status, error) {
+							console.log("text : " + request.responseText);
+							console.log("error : " + error);
+						}
+					});
+				}
+			},
+			error : function(request, status, error) {
+				console.log("text : " + request.responseText);
+				console.log("error : " + error);
+			}
+		});
+	} else{
+		alert("모르겠다. 좆댔다.");
+	}
+	//버튼 눌렀을 때 다음 단계로 넘어가기...
+	var params = $("#popupForm").serialize();
+	$.ajax({
+		type : "post",
+		url : "bssProgChkAjax",
+		dataType : "json",
+		data : params,
+		success : function(result) {
+			closePopup(2);
+			closePopup(1);
+			location.reload();
+		},
+		error : function(request, status, error) {
+			console.log("text : " + request.responseText);
+			console.log("error : " + error);
+		}
+	});
+}
+/*영업시작 팝업*/
+function bssStartPop(){
+	var html = "";
+	html +="<form action=\"#\" id=\"popupForm\"  method=\"post\">";
+	html += "<input type=\"hidden\" id=\"chnNo\" name=\"chnNo\" value=\"" + ${sChnNo} + "\">";
+	html += "<input type=\"hidden\" id=\"bssProgEnd\" name=\"bssProgEnd\" value=\"\"/>";
+	html += "<input type=\"hidden\" id=\"bssNo\" name=\"bssNo\" value=\"\"/>";
+	html += "<input type=\"hidden\" id=\"bssProdNo\" name=\"bssProdNo\" value=\"\"/>";
+	html += "<input type=\"hidden\" id=\"bssProdCnt\" name=\"bssProdCnt\" value=\"\"/>";
+	html += "<input type=\"hidden\" id=\"bssProdPrice\" name=\"bssProdPrice\" value=\"\"/>";
+	html += "	<table class=\"pop_tbl\">                                                    ";
+	html += "	<colgroup>                                                                 ";
+	html += "		<col width=\"20%\" />                   	                                 ";
+	html += "		<col width=\"80%\" />                                                    ";
+	html += "	</colgroup>                                                                ";
+	html += "	<tbody>                                                                    ";
+	html += "		<tr>                                                                   ";
+	html += "			<th class=\"td_font\">마감상태</th>                                      ";
+	html += "			<td  class=\"field_contents\"><select class=\"input_normal\" id=\"selectChk\" name=\"selectChk\"  >       ";
+	html += "							<option value=\"1\" selected=\"selected\">마감</option>              ";
+	html += "							<option value=\"3\">보류</option>                                  ";
+	html += "					</select></td>                                             ";
+	html += "		</tr>                                                                  ";
+	html += "		</tbody>                                                               ";
+	html += "	</table>              ";
+	html += "</form>";
+	
+	makeTwoBtnPopup(1, "영업시작", html, true, 400, 200, null, "확인", function() {
+		makeTwoBtnPopup(2, "결과확인", selectChk(), true, 400, 200, null, "마감", function() {
+			$("#bssProgEnd").val($("#bssProgNo").val());
+			console.log($("#bssProgEnd").val());
+			bssProgChk();
+		},"취소", function() {
+			closePopup(2);
+		});
+	},"취소", function() {
+		closePopup(1);
+	});
+}
+/*나머지영업종료 팝업*/
+function bssProgEndPop(){
+	var html = "";
+	html +="<form action=\"#\" id=\"popupForm\"  method=\"post\">";
+	html += "<input type=\"hidden\" id=\"chnNo\" name=\"chnNo\" value=\"" + ${sChnNo} + "\">";
+	html += "<input type=\"hidden\" id=\"bssProgEnd\" name=\"bssProgEnd\" value=\"\"/>";
+	html += "<input type=\"hidden\" id=\"bssNo\" name=\"bssNo\" value=\"\"/>";
+	html += "<input type=\"hidden\" id=\"bssProdNo\" name=\"bssProdNo\" value=\"\"/>";
+	html += "<input type=\"hidden\" id=\"bssProdCnt\" name=\"bssProdCnt\" value=\"\"/>";
+	html += "<input type=\"hidden\" id=\"bssProdPrice\" name=\"bssProdPrice\" value=\"\"/>";
+	html += "	<table class=\"pop_tbl\">                                                    ";
+	html += "	<colgroup>                                                                 ";
+	html += "		<col width=\"20%\" />                   	                                 ";
+	html += "		<col width=\"80%\" />                                                    ";
+	html += "	</colgroup>                                                                ";
+	html += "	<tbody>                                                                    ";
+	html += "		<tr>                                                                   ";
+	html += "			<th class=\"td_font\">마감상태</th>                                      ";
+	html += "			<td  class=\"field_contents\"><select class=\"input_normal\" id=\"selectChk\" name=\"selectChk\"  >       ";
+	html += "							<option value=\"1\" selected=\"selected\">마감</option>              ";
+	html += "							<option value=\"2\">실패</option>                                  ";
+	html += "							<option value=\"3\">보류</option>                                  ";
+	html += "					</select></td>                                             ";
+	html += "		</tr>                                                                  ";
+	html += "		</tbody>                                                               ";
+	html += "	</table>              ";
+	html += "</form>";
+	
+	makeTwoBtnPopup(1, "영업종료", html, true, 400, 200, null, "확인", function() {
+		makeTwoBtnPopup(2, "결과확인", selectChk(), true, 400, 200, null, "마감", function() {
+			$("#bssProgEnd").val($("#bssProgNo").val());
+			console.log($("#bssProgEnd").val());
+			bssProgChk();
+		},"취소", function() {
+			closePopup(2);
+		});
+	},"취소", function() {
+		closePopup(1);
+	});
+}
+
 	$(document).ready(function() {
+		//맨처음 화면로딩 = 기회번호 넘어왔을때 진행번호가져오기.
+		bssFirst();
 		getOpinList();
 		getBssSche();
-		
 		/*버튼 글자 수 늘어날때마다 길이 늘리기*/
 		$('button').each(function() {
 			if ($(this).html().length > 2) {
@@ -356,6 +618,7 @@
 		/*수정확인팝업*/
 		$("#registerBtn").on("click", function() {
 			makeTwoBtnPopup(1, "영업수정", "수정하시겠습니까?", true, 400, 200, null, "수정", function() {
+				bssRegisterEvent();
 				closePopup(1);
 			},"취소", function() {
 				closePopup(1);
@@ -366,66 +629,6 @@
 		$("#listBtn").on("click", function() {
 			history.back();
 		});
-		
-		// 일정 등록 버튼 클릭 Event
-		$("#actiAddBtn").on("click", function() {
-			$("#actionForm").attr("action", "scheAdd");
-			$("#actionForm").submit();
-		});
-		
-		/*상세보기 표 만들기*/
-		/*기회파트*/
-		$("#ChnBtn").on("click", function(){
-			var params = $("#actionForm").serialize();
-			$.ajax({
-				type : "post",
-				url : "getChnAjax",
-				dataType : "json",
-				data : params,
-				success : function(result) {
-					redrawChn(result.data);
-					chnEvent();
-				},
-				error : function(request, status, error) {
-					console.log("text : " + request.responseText);
-					console.log("error : " + error);
-				}
-			});
-		});
-		/*제안파트*/
-		$("#SgtBtn").on("click", function(){
-			redrawSgt();
-			SgtEvent();
-		});
-		/*협상파트*/
-		$("#NgtBtn").on("click", function(){
-			redrawNgt();
-			NgtEvent();
-		});
-		/*계약파트*/
-		$("#ctrackBtn").on("click", function(){
-			redrawCtrack();
-			ctrackEvent();
-		});
-		/* $("#bssStart").on("click", function() {
-			makeAlert(1, "시작", "확인버튼을 누르시면", null);
-		});
-		$("#twoBtn").on("click", function() {
-			makeTwoBtnPopup(1, "버튼둘팝업", "내용들감", true, 600, 400, null, "어라라", function() {
-				makeAlert(2, "하이", "내용임", null);
-			},"하이", function() {
-				closePopup(1);
-			});
-		});
-		$("#threeBtn").on("click", function() {
-			makeThreeBtnPopup(1, "버튼셋팝업", "내용들감", false, 400, 600, null, "어라라", function() {
-				closePopup(1);
-			},"하이", function() {
-				closePopup(1);
-			},"마지막", function() {
-				closePopup(1);
-			});
-		}); */
 		
 		/* ------------------------------의견-------------------------------- */
 		
@@ -588,6 +791,7 @@
 				data: params,
 				success: function(result) {
 					drawBssSche(result.list);
+					console.log(result.list);
 				},
 				error : function(request, status, error) {
 					console.log("status : " + request.status);
@@ -598,17 +802,18 @@
 		}
 		
 		// 영업 관련 활동일정 Draw
-		function drawBssSche(sche) {
+		function drawBssSche(list) {
 			var html = "";
-			if(sche == ""){
+			if(list == ""){
 				html += "<tr class=\"activity_row\">";
 				html += "<td class=\"field_contents\" colspan=\"3\" style=\"text-align:center; height: 70px;\">조회된 데이터가 없습니다.</td>";
 				html += "</tr>";
+				console.log(html);
 			} 
 			else {
-				for(var i in sche){
+				for(var i in list){
 					var icon = ""; 
-					switch(sche[i].CODE_S_CATE){
+					switch(list[i].CODE_S_CATE){
 					case 0:	
 						icon = "call";
 						break;
@@ -622,41 +827,48 @@
 						icon = "visit"
 						break;
 					}
-					html += "<tr class=\"activity_row\" name=\"" + sche[i].SCHE_NO +"\">";
+					html += "<tr class=\"activity_row\" name=\"" + list[i].SCHE_NO +"\">";
 					html += "<td class=\"activity_left\">";
 					html += "<div class=\"activity_cg_icon\">";
 					html += "<img src=\"resources/images/activity/" + icon + "_icon.png\" alt=\"\" />";
 					html += "</div>";
 					html += "</td>";
-					html += "<td class=\"activity_right\" colspan=\"" + ((sche[i].EDATE == null) ? "2": "1") +"\">";
+					html += "<td class=\"activity_right\" colspan=\"" + ((list[i].EDATE == null) ? "2": "1") +"\">";
 					html += "<div class=\"activity_bg\">";
 					html += "<div>";
-					html += "<div class=\"activity_cg\">" + sche[i].CODE_NAME +"</div>";
-					html += "<div class=\"activity_uploadtime\">" + sche[i].SDATE + "</div>";
+					html += "<div class=\"activity_cg\">" + list[i].CODE_NAME +"</div>";
+					html += "<div class=\"activity_uploadtime\">" + list[i].SDATE + "</div>";
 					html += "</div>";
-					html += "<div class=\"activity_contents\">" + sche[i].LEAD_NAME + " | " + sche[i].CLIENT_PNM +"</div>";
-					html += "<div class=\"activity_contents\">" + sche[i].SCHE_CON +"</div>";
-					html += "<div class=\"activity_contents\">" + sche[i].EMP_NAME + " " + sche[i].EMP_PNM +" 담당</div>";
+					html += "<div class=\"activity_contents\">" + list[i].CLIENT_NAME + " | " + list[i].CLIENT_PNM +"</div>";
+					html += "<div class=\"activity_contents\">" + list[i].SCHE_CON +"</div>";
+					html += "<div class=\"activity_contents\">" + list[i].EMP_NAME + " " + list[i].EMP_PNM +" 담당</div>";
 					html += "</div>";
 					html += "</td>";
-					if(sche[i].EDATE != null){
+					if(list[i].EDATE != null){
 						html += "<td class=\"activity_result\">";
 			            html += "<div class=\"activity_bg_right\">";
 			            html += "<div>";
 			            html += "<div class=\"activity_cg\">결과</div>";
-			            html += "<div class=\"activity_uploadtime\">" + sche[i].EDATE + "</div>";
+			            html += "<div class=\"activity_uploadtime\">" + list[i].EDATE + "</div>";
 			            html += "</div>";
-			            html += "<div class=\"activity_contents\">" + sche[i].LEAD_NAME + " | " + sche[i].CLIENT_PNM +"</div>";
-			            html += "<div class=\"activity_contents\">" + sche[i].SCHE_RES +"</div>";
-			            html += "<div class=\"activity_contents\">" + sche[i].EMP_NAME + " " + sche[i].EMP_PNM +" 담당</div>";
+			            html += "<div class=\"activity_contents\">" + list[i].CLIENT_NAME + " | " + list[i].CLIENT_PNM +"</div>";
+			            html += "<div class=\"activity_contents\">" + list[i].SCHE_RES +"</div>";
+			            html += "<div class=\"activity_contents\">" + list[i].EMP_NAME + " " + list[i].EMP_PNM +" 담당</div>";
 			            html += "</div>";
 			            html += "</td>";
 					}
 					html += "</tr>";
 				}
 			}
+			console.log(html);
 			$("#acti_area").html(html);
+			console.log(html);
 		}
+		
+		// 일정 등록 버튼 클릭 Event
+		$("#actiAddBtn").on("click", function() {
+			location.href = "scheAdd";
+		});
 		
 		// 영업 관련 활동일정 필터링
 		$("#allActi").click(function(){
@@ -678,52 +890,113 @@
 		
 		// 영업 관련 활동일정 클릭 Event
 		$("#acti_area").on("click", "tr", function() {
-			$("#view_no").val($(this).attr("name"));
+			$("#chnNo").val($(this).attr("name"));
 			$("#actionForm").attr("action", "scheDet");
 			$("#actionForm").submit();	
 		});
-		
 	});
-	/*영업시작 팝업*/
-	function bssStartPop(){
-		var html = "";
-		html +="<form action=\"#\" id=\"popupForm\"  method=\"post\">";
-		html += "	<table class=\"pop_tbl\">                                                    ";
-		html += "	<colgroup>                                                                 ";
-		html += "		<col width=\"20%\" />                   	                                 ";
-		html += "		<col width=\"80%\" />                                                    ";
-		html += "	</colgroup>                                                                ";
-		html += "	<tbody>                                                                    ";
-		html += "		<tr>                                                                   ";
-		html += "			<th class=\"td_font\">마감상태</th>                                      ";
-		html += "			<td  class=\"field_contents\"><select class=\"input_normal\" id=\"selectChk\" name=\"selectChk\"  >       ";
-		html += "							<option value=\"1\" selected=\"selected\">마감</option>              ";
-		html += "							<option value=\"2\">실패</option>                                  ";
-		html += "							<option value=\"3\">보류</option>                                  ";
-		html += "					</select></td>                                             ";
-		html += "		</tr>                                                                  ";
-		html += "		</tbody>                                                               ";
-		html += "	</table>              ";
-		html += "</form>";
-	return html;
+	
+	/* ------------------------------첨부자료---------------------------- */
+	/* 제안 첨부자료 목록 가져오기 */
+	function reloadSgtAttachList() {
+		var params = $("#actionForm").serialize();
+
+		$.ajax({
+			type : "post", //데이터 전송방식
+			url : "sgtAttatchListAjax", //주소
+			dataType : "json", //데이터 전송 규칙
+			data : params, //보낼 데이터
+			// {키:값, 키:값,...} -> json
+			success : function(result) {
+					redrawSgtAttachList(result.list);
+			},
+			error : function(request, status, error) {
+				console.log("text : " + request.reponseText);
+				console.log("error : " + error);
+			}
+		});
 	}
-	/*마감 진행상태 확인 함수*/
-	function selectChk(){
-		/*마감시*/
+		
+	/* 제안 첨부자료 목록 나타내기 */
+	function redrawSgtAttachList(list) {
 		var html = "";
-		if($("#selectChk").val() == "1"){
-			html += "마감을 하시면 현 진행상태에서는 <br/> 더이상 수정하실 수 없습니다. <br /> 계속하시겠습니까?";
-		}
-		/*실패시*/
-		else if ($("#selectChk").val() == "2"){
-			html += "실패 시 영업은 종료됩니다.<br /> 계속하시겠습니까?";
-		}
-		/*보류시*/
-		else {
-			html += "보류 시 영업은 현 진행상태에서 멈춤니다.<br /> 계속하시겠습니까?";
-		}
-		return html;
+		if (list.length > 0) {
+			for ( var i in list) {
+				html += "<option value=" + list[i].SGT_ATTACH_NO + ">" + list[i].SGT_ATTACH_NAME + "</option>";
+				}
+		} else {
+			html += "<option></option>";
+			}
+		$("#sgt_attach_name").html(html);
 	}
+	
+	/* 협상 첨부자료 목록 가져오기 */
+	function reloadNgtAttachList() {
+		var params = $("#actionForm").serialize();
+
+		$.ajax({
+			type : "post", //데이터 전송방식
+			url : "ngtAttatchListAjax", //주소
+			dataType : "json", //데이터 전송 규칙
+			data : params, //보낼 데이터
+			// {키:값, 키:값,...} -> json
+			success : function(result) {
+					redrawNgtAttachList(result.list);
+			},
+			error : function(request, status, error) {
+				console.log("text : " + request.reponseText);
+				console.log("error : " + error);
+			}
+		});
+	}
+		
+	/* 협상 첨부자료 목록 나타내기 */
+	function redrawNgtAttachList(list) {
+		var html = "";
+		if (list.length > 0) {
+			for ( var i in list) {
+				html += "<option value=" + list[i].NGT_ATTACH_NO + ">" + list[i].NGT_ATTACH_NAME + "</option>";
+				}
+		} else {
+			html += "<option></option>";
+			}
+		$("#ngt_attach_name").html(html);
+	}
+	
+	/* 계약 첨부자료 목록 가져오기 */
+	function reloadCtractAttachList() {
+		var params = $("#actionForm").serialize();
+
+		$.ajax({
+			type : "post", //데이터 전송방식
+			url : "ctractAttatchListAjax", //주소
+			dataType : "json", //데이터 전송 규칙
+			data : params, //보낼 데이터
+			// {키:값, 키:값,...} -> json
+			success : function(result) {
+					redrawCtractAttachList(result.list);
+			},
+			error : function(request, status, error) {
+				console.log("text : " + request.reponseText);
+				console.log("error : " + error);
+			}
+		});
+	}
+		
+	/* 계약 첨부자료 목록 나타내기 */
+	function redrawCtractAttachList(list) {
+		var html = "";
+		if (list.length > 0) {
+			for ( var i in list) {
+				html += "<option value=" + list[i].CTRACT_ATTACH_NO + ">" + list[i].CTRACT_ATTACH_NAME + "</option>";
+				}
+		} else {
+			html += "<option></option>";
+			}
+		$("#ctract_attach_name").html(html);
+		console.log($("#ctract_attach_name").html());
+	}
+	
 	/*기회 그리기*/
 	var htmlChn = "";
 	function redrawChn(data){
@@ -732,34 +1005,82 @@
 			$("#ChnBtn").attr("src", "resources/images/bss/close_tab.png");
 		}
 		else {
-			htmlChn += "<input type=\"hidden\" id=\"BssTypeNo\" name=\"BssTypeNo\" value=\""+data.BSS_TYPE_NO+"\">";
-			htmlChn += "<input type=\"hidden\" id=\"SalesDivNo\" name=\"SalesDivNo\" value=\""+data.SALES_DIV_NO+"\">";
+			if(data.BSS_TYPE_NO == null || data.BSS_TYPE_NO == ""){
+				htmlChn += "<input type=\"hidden\" id=\"BssTypeNo\" name=\"BssTypeNo\" value=\"\">";
+			}
+			else {
+				htmlChn += "<input type=\"hidden\" id=\"BssTypeNo\" name=\"BssTypeNo\" value=\""+data.BSS_TYPE_NO+"\">";
+			}
+			if(data.SALES_DIV_NO == null || data.SALES_DIV_NO == ""){
+				htmlChn += "<input type=\"hidden\" id=\"SalesDivNo\" name=\"SalesDivNo\" value=\"\">";
+			}
+			else {
+				htmlChn += "<input type=\"hidden\" id=\"SalesDivNo\" name=\"SalesDivNo\" value=\""+data.SALES_DIV_NO+"\">";
+			}
+			htmlChn += "<input type=\"hidden\" id=\"emp_no2\" name=\"emp_no2\" value=\""+data.EMP_NO+"\">";	
 	htmlChn += "		<tr>                                                                     ";
 	htmlChn += "		<td class=\"field_name first_field_name\">진행상태 <span                   ";
 	htmlChn += "			class=\"acc_txt\"></span>                                              ";
 	htmlChn += "		</td>                                                                    ";
 	htmlChn += "		<td class=\"field_contents\"><input type=\"text\" id=\"prog_name\" name=\"prog_name\" value=\""+data.PROG_NAME+"\"                             ";
 	htmlChn += "			class=\"input_border_0\" readonly=\"readonly\" /></td>                   ";
-	htmlChn += "		<td class=\"field_name\">영업기회명 <span class=\"acc_txt\"> *</span></td>   ";
-	htmlChn += "		<td class=\"field_contents\"><input type=\"text\" id=\"chn_name\" name=\"chn_name\" value=\""+data.CHN_NAME+"\"                            ";
-	htmlChn += "			class=\"input_normal\" placeholder=\"50자 이내로 작성부탁드립니다.\" /></td>";
+	
+	if(data.PROG_NO * 1 == 1){
+		htmlChn += "		<td class=\"field_name\">영업기회명 <span class=\"acc_txt\"> *</span></td>   ";
+		htmlChn += "		<td class=\"field_contents\"><input type=\"text\" id=\"chn_name\" name=\"chn_name\" value=\""+data.CHN_NAME+"\"                            ";
+		htmlChn += "			class=\"input_normal\" placeholder=\"50자 이내로 작성부탁드립니다.\" /></td>";
+	} else {
+		htmlChn += "		<td class=\"field_name\">영업기회명 <span class=\"acc_txt\"></span></td>   ";
+		htmlChn += "		<td class=\"field_contents\"><input type=\"text\" id=\"chn_name\" name=\"chn_name\" value=\""+data.CHN_NAME+"\"                            ";
+		htmlChn += "			class=\"input_border_0\" readonly=\"readonly\" placeholder=\"50자 이내로 작성부탁드립니다.\" /></td>";
+	}
+	
 	htmlChn += "		</tr>                                                                    ";
 	htmlChn += "		<tr>                                                                     ";
-	htmlChn += "			<td class=\"field_name first_field_name\">영업시작<span                ";
-	htmlChn += "				class=\"acc_txt\"> *</span>                                        ";
-	htmlChn += "			</td>                                                                ";
-	htmlChn += "			<td class=\"field_contents\"><input type=\"text\" id=\"CHN_DATE\" name=\"CHN_DATE\"   value=\""+data.CHN_DATE+"\"                      ";
-	htmlChn += "				class=\"input_short btn_left_input\" readonly=\"readonly\" />        ";
-	htmlChn += "				<div class=\"btn_black btn_size_normal select\" id=\"bssStart\" name=\"bssStart\">시작</div></td>    ";
+	                                                             
+	if(data.PROG_NO *1 == 1){
+		htmlChn += "			<td class=\"field_name first_field_name\">영업시작<span                ";
+		htmlChn += "				class=\"acc_txt\"> *</span>                                        ";
+		htmlChn += "			</td>   ";
+		htmlChn += "			<td class=\"field_contents\"><input type=\"text\" id=\"CHN_DATE\" name=\"CHN_DATE\"   value=\"\"                      ";
+		htmlChn += "				class=\"input_short btn_left_input\" readonly=\"readonly\" />        ";
+		htmlChn += "				<div class=\"btn_black btn_size_normal select\" id=\"bssStart\" name=\"bssStart\">시작</div></td>    ";
+	} else{
+		htmlChn += "			<td class=\"field_name first_field_name\">영업시작<span                ";
+		htmlChn += "				class=\"acc_txt\"></span>                                        ";
+		htmlChn += "			</td>   ";
+		htmlChn += "			<td class=\"field_contents\"><input type=\"text\" id=\"CHN_DATE\" name=\"CHN_DATE\"   value=\""+data.CHN_DATE+"\"                      ";
+		htmlChn += "				class=\"input_border_0\" readonly=\"readonly\" />        ";
+	}
 	htmlChn += drawBssType();
 	htmlChn += "		</tr>                                                                    ";
 	htmlChn += "		<tr>                                                                     ";
-	htmlChn += "			<td class=\"field_name first_field_name\">예상매출 <span               ";
-	htmlChn += "				class=\"acc_txt\"> *</span>                                        ";
-	htmlChn += "			</td>                                                                ";
-	htmlChn += "			<td class=\"field_contents\"><input type=\"text\" id=\"expect_sales\" name=\"expect_sales\" value=\""+data.EXPECT_SALES+"\"                        ";
-	htmlChn += "				class=\"input_normal\" /></td>                                     ";
-
+	
+	if(data.EXPECT_SALES == null || data.EXPECT_SALES == ""){
+		htmlChn += "			<td class=\"field_name first_field_name\">예상매출 <span               ";
+		htmlChn += "				class=\"acc_txt\"> *</span>                                        ";
+		htmlChn += "			</td>                                                                ";
+		htmlChn += "			<td class=\"field_contents\"><input type=\"text\" id=\"expect_sales\" name=\"expect_sales\"                   ";
+		htmlChn += "				class=\"input_normal\"/></td>                                     ";
+	} else {
+		if(data.PROG_NO *1 == 1){
+			htmlChn += "			<td class=\"field_name first_field_name\">예상매출 <span               ";
+			htmlChn += "				class=\"acc_txt\"> *</span>                                        ";
+			htmlChn += "			</td>                                                                ";
+			htmlChn += "			<td class=\"field_contents\"><input type=\"text\" id=\"expect_sales\" name=\"expect_sales\" value=\""+data.EXPECT_SALES+"\"                        ";
+			htmlChn += "				class=\"input_normal\"/></td>                                     ";
+		} else {
+			htmlChn += "			<td class=\"field_name first_field_name\">예상매출 <span               ";
+			htmlChn += "				class=\"acc_txt\"></span>                                        ";
+			htmlChn += "			</td>                                                                ";
+			htmlChn += "			<td class=\"field_contents\"><input type=\"text\" id=\"expect_sales\" name=\"expect_sales\" value=\""+data.EXPECT_SALES+"\"                        ";
+			htmlChn += "				class=\"input_border_0\" readonly=\"readonly\" /></td>                                     ";
+		}
+		
+		
+		
+	}
+	
 	htmlChn += drawSalesDiv();
 	htmlChn += "		</tr>                                                                    ";
 	htmlChn += "		<tr>                                                                     ";
@@ -803,28 +1124,86 @@
 	htmlChn += "		<tr>                                                                     ";
 	htmlChn += "			<td class=\"field_name first_field_name\">팩스 <span                   ";
 	htmlChn += "				class=\"acc_txt\"></span></td>                                     ";
-	htmlChn += "			<td class=\"field_contents\"><input type=\"text\"    id=\"client_fax\" name=\"client_fax\"   value=\""+data.CLIENT_FAX+"\"                 ";
+	if(data.CLIENT_FAX == null || data.CLIENT_FAX == ""){
+		htmlChn += "			<td class=\"field_contents\"><input type=\"text\"    id=\"client_fax\" name=\"client_fax\"   value=\"조회된 데이터가 없습니다.\"                 ";	
+	} else {
+		
+		htmlChn += "			<td class=\"field_contents\"><input type=\"text\"    id=\"client_fax\" name=\"client_fax\"   value=\""+data.CLIENT_FAX+"\"                 ";
+	}
+	
 	htmlChn += "				class=\"input_border_0\" readonly=\"readonly\" /></td>               ";
 	htmlChn += "			<td class=\"field_name\">이메일 <span class=\"acc_txt\"></span></td>     ";
-	htmlChn += "			<td class=\"field_contents\"><input type=\"text\"    id=\"client_email\" name=\"client_email\"   value=\""+data.CLIENT_EMAIL+"\"                 ";
+	if(data.CLIENT_EMAIL == null || data.CLIENT_EMAIL == ""){
+		htmlChn += "			<td class=\"field_contents\"><input type=\"text\"    id=\"client_email\" name=\"client_email\"   value=\"조회된 데이터가 없습니다.\"                 ";	
+	} else {
+		htmlChn += "			<td class=\"field_contents\"><input type=\"text\"    id=\"client_email\" name=\"client_email\"   value=\""+data.CLIENT_EMAIL+"\"                 ";
+		
+	}
+	
 	htmlChn += "				class=\"input_border_0\" readonly=\"readonly\" /></td>               ";
 	htmlChn += "		</tr>                                                                    ";
 	htmlChn += "		<tr>                                                                     ";
 	htmlChn += "			<td class=\"field_name first_field_name\">상품<span                    ";
 	htmlChn += "				class=\"acc_txt\"> *</span>                                        ";
 	htmlChn += "			</td>                                                                ";
-	htmlChn += "			<td colspan=\"3\" class=\"field_contents\"><select id=\"prod_name\" name=\"prod_name\"                      ";
-	htmlChn += "				class=\"input_normal btn_left_input\">                             ";
-	htmlChn += "					<option selected=\"selected\"></option>                        ";
-	htmlChn += "					<option></option>                                            ";
-	htmlChn += "					<option></option>                                            ";
-	htmlChn += "					<option></option>                                            ";
-	htmlChn += "			</select>                                                            ";
-	htmlChn += "				<div class=\"btn_black btn_size_normal select\" id=\"prodSaveBtn\" name=\"prodSaveBtn\">등록</div></td>    ";
+	htmlChn += drawProd();
+	
 	htmlChn += "		</tr>                                                                    ";
 	$("#ChnBtn").attr("src", "resources/images/bss/open_tab.png");
 		}
 		$("#ChnTbl>tbody").html(htmlChn);
+	}
+	/*상품목록*/
+	function drawProd(){
+		var html = "";
+		html += "			<td colspan=\"3\" class=\"field_contents\"><select id=\"prod_name\" name=\"prod_name\"  style = \"font-size : 10pt;\"                     ";
+		html += "				class=\"input_normal btn_left_input\">";
+		var params = $("#actionForm").serialize();
+		$.ajax({
+			type : "post",
+			url : "getProdAjax",
+			dataType : "json",
+			data : params,
+			success : function(result) {
+				drawProdAll(result.listGoods, result.listService);
+			},
+			error : function(request, status, error) {
+				console.log("text : " + request.responseText);
+				console.log("error : " + error);
+			}
+		});
+		html += "</select>                             ";
+		html += "				<div class=\"btn_black btn_size_normal select\" id=\"prodSaveBtn\" name=\"prodSaveBtn\">조회</div></td>    ";
+		return html;
+	}
+	function drawProdAll(list, list2){
+		var html = "";
+		html += drawProdGoods(list);
+		html += drawProdService(list2);
+		$("#prod_name").html(html);
+	}
+	/*상품목록리스트 불러오기.*/
+	function drawProdGoods(list){
+		var html = "";
+		if(list.length == 0){
+			
+		} else {
+			for (var i in list){
+				html += "<option id=\""+list[i].GOODS_NO+"\" name=\""+list[i].GOODS_NO+"\">상품코드 : "+list[i].GOODS_CODE +" / 상품명 : " + list[i].PROD_NAME + " / 사이즈 : " + list[i].GOODS_SIZE + " / REMARKS : " + list[i].REMARKS + " / 개당가격 : " + list[i].PRICE +" / 수량 : " + list[i].CNT +"</option>";
+			}
+			return html;
+		}
+	}
+	function drawProdService(list){
+		var html = "";
+		if(list.length == 0){
+			
+		} else {
+			for (var i in list){
+				html += "<option id=\""+list[i].SERVICE_NO+"\" name=\""+list[i].SERVICE_NO+"\">상품코드 : "+list[i].SERVICE_CODE +" / 상품명 : " + list[i].PROD_NAME + " / 기간 : " + list[i].SERVICE_PERIOD + " / REMARKS : " + list[i].REMARKS + " / 설치비용 : " + list[i].INSTALL_PRICE + " / 기간당비용: " + list[i].SERVICE_PRICE +" / 수량 : " + list[i].CNT +"</option>";
+			}
+			return html;
+		}
 	}
 	/*사업유형 select 만들기*/
 	function drawBssType(){
@@ -858,10 +1237,10 @@
 			
 			for(var i in list){
 				if($("#BssTypeNo").val() == list[i].BSS_TYPE_NO){
-					html += "<option selected=\"selected\" id=\""+list[i].BSS_TYPE_NO+"\">"+list[i].BSS_TYPE_NAME+"</option>";
+					html += "<option selected=\"selected\" id=\""+list[i].BSS_TYPE_NO+"\" name=\""+list[i].BSS_TYPE_NO+"\" value=\""+list[i].BSS_TYPE_NAME+"\">"+list[i].BSS_TYPE_NAME+"</option>";
 				}
 				else{
-					html += "<option id=\""+list[i].BSS_TYPE_NO+"\">"+list[i].BSS_TYPE_NAME+"</option>";
+					html += "<option id=\""+list[i].BSS_TYPE_NO+"\" name=\""+list[i].BSS_TYPE_NO+"\" value=\""+list[i].BSS_TYPE_NAME+"\">"+list[i].BSS_TYPE_NAME+"</option>";
 				}
 				
 			}
@@ -871,7 +1250,7 @@
 	/*매출구분 select만들기*/
 	function drawSalesDiv(){
 		var html = "";
-		html += "			<td class=\"field_name\">사업유형 <span class=\"acc_txt\"> *</span></td> ";
+		html += "			<td class=\"field_name\">매출구분 <span class=\"acc_txt\"> *</span></td> ";
 		html += "			<td class=\"field_contents\"><select class=\"input_normal\" id=\"sales_div_name\" name=\"sales_div_name\">   ";
 		html += "			</select></td>                                                       ";
 		var params = $("#actionForm").serialize();
@@ -900,30 +1279,25 @@
 			
 			for(var i in list){
 				if($("#SalesDivNo").val() == list[i].SALES_DIV_NO){
-					html += "<option selected=\"selected\" id=\""+list[i].SALES_DIV_NO+"\">"+list[i].SALES_DIV_NAME+"</option>";
+					html += "<option selected=\"selected\" value=\""+list[i].SALES_DIV_NAME+"\" name=\""+list[i].SALES_DIV_NO+"\" id=\""+list[i].SALES_DIV_NO+"\">"+list[i].SALES_DIV_NAME+"</option>";
 				}
 				else{
-					html += "<option id=\""+list[i].SALES_DIV_NO+"\">"+list[i].SALES_DIV_NAME+"</option>";
+					html += "<option id=\""+list[i].SALES_DIV_NO+"\"name=\""+list[i].SALES_DIV_NO+"\" value=\""+list[i].SALES_DIV_NAME+"\">"+list[i].SALES_DIV_NAME+"</option>";
 				}
 				
 			}
 		}
 		$("#sales_div_name").html(html);
 	}
+	/*상품명 쓰기*/
+	function drawProdName(list){
+		
+	}
 	/*기회파트 이벤트*/
 	function chnEvent(){
 		/*기회파트 영업시작*/
 		$("#bssStart").on("click", function(){
-			makeTwoBtnPopup(1, "영업시작", bssStartPop(), true, 400, 200, null, "확인", function() {
-				makeTwoBtnPopup(2, "결과확인", selectChk(), true, 400, 200, null, "마감", function() {
-					closePopup(2);
-					closePopup(1);
-				},"취소", function() {
-					closePopup(2);
-				});
-			},"취소", function() {
-				closePopup(1);
-			});
+			bssStartPop();
 		});
 		/*담당자 수정 팝업*/
 		$("#empRegisterBtn").on("click", function(){
@@ -959,7 +1333,7 @@
 				html += "<div class=\"list_paging_area\" style=\"margin-top: 0px;\">";
 		        html += "</div>";
 		        
-		        makeNoBtnPopup(1, "담당자 수정", html, true, 600, 600, function() {
+		        makeNoBtnPopup(1, "첨부파일", html, true, 600, 600, function() {
 		        	getEmpList();
 		        	setEmpEvent();
 				});
@@ -994,6 +1368,7 @@
 					var select = $(this).attr("name");
 					$("#emp_name").val(select.substring(select.indexOf("_") + 1));
 					$("#emp_no").val(select.substring(0, select.indexOf("_")));
+					$("#emp_no2").val(select.substring(0, select.indexOf("_")));
 					closePopup(1);
 				});
 			}
@@ -1002,6 +1377,7 @@
 		/*상품등록팝업*/
 		$("#prodSaveBtn").on("click", function(){
 			prodPop();
+			
 		});
 	}
 	//----------------------------기회에서 사용하는 함수------------------------------
@@ -1069,18 +1445,32 @@
 			html += "</tr>";
 			$(".list_paging_area").html("");
 		}
-		
 		$(".pop_list>tbody").html(html);
 	}
 	/*상품등록팝업*/
 	/*기본틀*/
 			function prodPop(){
 				var html = "";
-				html += "<form action=\"#\" method=\"post\" id=\"prodForm\">";
+				//기회번호
+				
+				html += "<form action=\"#\" method=\"post\" id=\"prodForm\" name=\"prodForm\">";
+				//기회
+				html += "<input type=\"hidden\" id=\"chnNo\" name=\"chnNo\" value=\""+${sChnNo}+"\"/>"
+				html += "<input type=\"hidden\" id=\"bssProgNo\" name=\"bssProgNo\" value=\""+$("#bssProgNo").val()+"\"/>"
+				//진행상태일때 그에 해당하는 영업번호가져오기
+				html += "<input type=\"hidden\" id=\"bssNo\" name=\"bssNo\" value=\"\"/>"
 				//기존 상품 표의 페이징
 				html += "<input type=\"hidden\" name=\"page1\" id=\"page1\" value=\"1\" />";
 				//현재 상품 표의 페이징
 				html += "<input type=\"hidden\" name=\"page2\" id=\"page2\" value=\"1\" />";
+				//기존 상품 표에서 상품눌렸을때 값.
+				html += "<input type=\"hidden\" name=\"prodDefaultNo\" id=\"prodDefaultNo\" />";
+				html += "<input type=\"hidden\" name=\"getProdPrice\" id=\"getProdPrice\"/>";
+				//현재 상품 표에서 상품을 눌렀을때의 값.
+				html += "<input type=\"hidden\" name=\"prodNowNo\" id=\"prodNowNo\" />";
+				//완료 버튼을 눌렀을 시 현재 상품 표에서의 상품들의 넘버값과 수량값.
+				html += "<input type=\"hidden\" name=\"prodNowEndNo\" id=\"prodNowEndNo\" />";
+				html += "<input type=\"hidden\" name=\"prodNowEndCnt\" id=\"prodNowEndCnt\" />";
 				html += prodDefaultPop();
 				html += "<div class=\"prod_middle\">";
 				html += prodBtnPop();
@@ -1089,12 +1479,166 @@
 				html += prodNowPop();
 				html += "</div>            ";
 				html += "</form>";
-				makeTwoBtnPopup(1, "상품등록", html, true, 920, 600, null, "완료", function() {
-					closePopup(1);
+				
+				makeTwoBtnPopup(1, "상품등록", html, true, 920, 600, function() {
+					prodPopEvent();
+					getProdNowList();
+				}, "완료", function() {
+					prodPopEndEvent();
+					//closePopup(1);
 				},"취소", function() {
 					closePopup(1);
 				});
+				
 			}
+	/*상품완료버튼 시 함수 = 수량 저장하기...*/
+	function prodPopEndEvent(){
+		var arr1 = new Array();
+		var arr2 = new Array();
+		$("#popNowProdList tr").each(function(i){
+			var td = $(this).children();
+			var input = td.children("#prodCnt");
+			arr2.push(input.val());
+			arr1.push($(this).attr("name"));
+		});
+		for(var i = 1; i < $("#popNowProdList tr").length; i++ ){
+			$("#prodNowEndNo").val(arr1[i]);
+			$("#prodNowEndCnt").val(arr2[i]);
+			console.log($("#prodNowEndNo").val());
+			console.log($("#prodNowEndCnt").val());
+			console.log($("#popNowProdList tr").length);
+				var params = $("#prodForm").serialize();
+	
+				$.ajax({
+					type: "post",
+					url: "updateNowProdEndAjax",
+					dataType: "json",
+					data: params,
+					success: function(result) {	
+						drawProd();
+					},
+					error : function(request, status, error) {
+						console.log("status : " + request.status);
+						console.log("text : " + request.responseTest);
+						console.log("error : " + error);
+					}
+				});
+			
+			}
+		alert("상품이 수정되었습니다.");
+		closePopup(1);
+	}
+	//상품함수이벤트
+	function prodPopEvent(){
+		console.log($("#bssProgNo").val());
+		// 검색 버튼 클릭 Event
+		$("#prodSearchBtn").on("click", function() {
+			getProdDefaultList();
+		});
+		// 검색 엔터키 입력 Event
+		$("#searchTxt").on("keypress", function(event) {
+			if(event.keyCode == 13) {
+				$("#prodSearchBtn").click();
+				return false;
+			}
+		});
+		// 검색 초기화 버튼 클릭 Event
+		$("#prodCancelBtn").on("click", function() {
+			$("#searchTxt").val("");
+			getProdDefaultList();
+		});
+		// 기존상품 페이징
+		$("#popDefaultProdListPage").on("click", "div", function() {
+			if(!isNaN($(this).attr("name") * 1)) {
+				$("#page1").val($(this).attr("name"));
+				getProdDefaultList();
+			}
+		});
+		// 현재상품 페이징
+		$("#popNowProdListPage").on("click", "div", function() {
+			if(!isNaN($(this).attr("name") * 1)) {
+				$("#page2").val($(this).attr("name"));
+				getProdNowList();
+			}
+		});
+		//상품등록
+		$("#prod_update").on("click", function(){
+			$("#popNowProdList>tbody>tr").css("background-color", "white");
+			$("#popNowProdList>tbody>tr").removeClass("prod_on");
+			
+				var params = $("#prodForm").serialize();
+
+				$.ajax({
+					type: "post",
+					url: "getPopBssNoProdAjax",
+					dataType: "json",
+					data: params,
+					success: function(result) {
+						if($("#bssProgNo").val() *1 > 1){
+							$("#bssNo").val(result.cnt);
+						}
+						var params = $("#prodForm").serialize();
+
+						$.ajax({
+							type: "post",
+							url: "updateNowProdAjax",
+							dataType: "json",
+							data: params,
+							success: function(result) {
+								getProdNowList();
+							},
+							error : function(request, status, error) {
+								console.log("status : " + request.status);
+								console.log("text : " + request.responseTest);
+								console.log("error : " + error);
+							}
+						});
+					},
+					error : function(request, status, error) {
+						console.log("status : " + request.status);
+						console.log("text : " + request.responseTest);
+						console.log("error : " + error);
+					}
+				});
+		});
+		//상품삭제
+		$("#prod_delete").on("click", function(){
+			var params = $("#prodForm").serialize();
+
+			$.ajax({
+				type: "post",
+				url: "getPopBssNoProdAjax",
+				dataType: "json",
+				data: params,
+				success: function(result) {
+					if($("#bssProgNo").val() *1 > 1){
+						$("#bssNo").val(result.cnt);
+					}
+						var params = $("#prodForm").serialize();
+			
+						$.ajax({
+							type: "post",
+							url: "deleteNowProdAjax",
+							dataType: "json",
+							data: params,
+							success: function(result) {
+								getProdNowList();
+							},
+							error : function(request, status, error) {
+								console.log("status : " + request.status);
+								console.log("text : " + request.responseTest);
+								console.log("error : " + error);
+							}
+						});
+				},
+				error : function(request, status, error) {
+					console.log("status : " + request.status);
+					console.log("text : " + request.responseTest);
+					console.log("error : " + error);
+				}
+			});
+		});
+	}
 			/*기존상품조회*/
 			function prodDefaultPop(){
 				var html = "";
@@ -1116,35 +1660,125 @@
 				html += "	</table>              ";
 				html += "		</div>                                    ";
 				html += "		<div class=\"prod_left_bottom\">";
-				html += "<form action=\"#\" method=\"post\" id=\"searchForm\">";
 				html += "<div>";
 				html += "<input type=\"text\" class=\"input_search\" id=\"searchTxt\" name=\"searchTxt\" placeholder=\"Ex) 홍길동\" />";
-				html += "<img src =\"resources/images/button/icon_search_gray.png\" alt=\"\" width=\"30px\" class=\"search_icon\" id=\"empSearchBtn\">";
-				html += "<img src =\"resources/images/button/icon_cancel_gray.png\" alt=\"\" width=\"20px\" class=\"cancel_icon\" id=\"empCancelBtn\">";
+				html += "<img src =\"resources/images/button/icon_search_gray.png\" alt=\"\" width=\"30px\" class=\"search_icon\" id=\"prodSearchBtn\">";
+				html += "<img src =\"resources/images/button/icon_cancel_gray.png\" alt=\"\" width=\"20px\" class=\"cancel_icon\" id=\"prodCancelBtn\">";
 				html += "</div>";
 				html += "<input type=\"hidden\" name=\"page\" id=\"page\" value=\"1\" />";
-				html += "</form>";
-				html += "<table class=\"pop_list\">";
-				html += "<colgroup><col width=\"40%\"/><col width=\"20%\"/><col width=\"20%\"/><col width=\"20%\"/>";
+				html += "<table class=\"pop_list\" id=\"popDefaultProdList\">";
+				html += "<colgroup><col width=\"110px\"/><col width=\"45px\"/><col width=\"76px\"/><col width=\"48px\"/>";
 				html += "<thead>";
 				html += "<tr class = \"table_list_header\">";
 				html += "<td>상품명</td>";
 				html += "<td>코드</td>";
-				html += "<td>사이즈</td>";
+				html += "<td>사이즈<br />(기간)</td>";
 				html += "<td>판매가</td>";
 				html += "</tr>";
 				html += "</thead>";
 				html += "<tbody>";
-				html += "<tr class=\"list_contents\">";
+				html += "<tr class=\"list_contents1\">";
 				html += "<td colspan=\"7\">조회된 데이터가 없습니다.</td>";
 				html += "</tr>";
 				html += "</tbody>";
 				html += "</table>";
-				html += "<div class=\"list_paging_area1\" style=\"margin-top: 0px;\">";
+				html += "<div class=\"list_paging_area\" id=\"popDefaultProdListPage\" style=\"margin-top: 0px;\">";
 		        html += "</div>";
 		        html += "</div>      ";
 				html += "		</div>                                    ";
 				return html;
+			}
+			//기본상품 리스트 값가져오기
+			function getProdDefaultList(){
+				var params = $("#prodForm").serialize();
+
+				$.ajax({
+					type: "post",
+					url: "getProdDefaultListAjax",
+					dataType: "json",
+					data: params,
+					success: function(result) {
+						drawProdDefaultList(result.list);
+						drawListPaging1(result.pb);
+						getProdDefaultListEvent();
+					},
+					error : function(request, status, error) {
+						console.log("status : " + request.status);
+						console.log("text : " + request.responseTest);
+						console.log("error : " + error);
+					}
+				});
+			}
+			//기존상품 리스트를 눌렀을 경우
+			function getProdDefaultListEvent(){
+				$("#popDefaultProdList>tbody").on("click", "tr", function(){
+					if($("#prodDefaultNo").val() != null && $("#prodDefaultNo").val() != ""){
+						$("#popDefaultProdList>tbody>tr").css("background-color", "white");
+						$("#popDefaultProdList>tbody>tr").removeClass("prod_on");
+					}
+					$(this).addClass("prod_on");
+					$("#prodDefaultNo").val($(this).attr("name"));
+					$(this).css("background-color", "#eee");
+						$("#getProdPrice").val($(this).children("#prodPrice").html());
+				});
+			}
+			//현재상품리스트 눌렀을 경우
+			function getProdNowListEvent(){
+				$("#popNowProdList>tbody").on("click", "tr", function(){
+					if($("#prodNowNo").val() != null && $("#prodNowNo").val() != ""){
+						$("#popNowProdList>tbody>tr").css("background-color", "white");
+						$("#popNowProdList>tbody>tr").removeClass("prod_on");
+					}
+					$(this).addClass("prod_on");
+					$("#prodNowNo").val($(this).attr("name"));
+					console.log($("#prodNowNo").val());
+					$(this).css("background-color", "#eee");
+				});
+			}
+			/*기존상품 표 그리기*/
+			function drawProdDefaultList(list){
+				var html = "";
+				
+				if(list.length > 0) {
+					for(var i in list) {
+						html += "<tr class=\"list_contents\" id=\"" + list[i].PROD_NO+"\" name=\"" + list[i].PROD_NO+"\">";
+				  		html += "<td id=\"prodName\">" + list[i].NAME + "</td>";
+				  		html += "<td id=\"prodCode\">" + list[i].CODE + "</td>";
+				  		html += "<td id=\"prodSize\">" + list[i].SIZ + "</td>";
+				  		html += "<td id=\"prodPrice\">" + list[i].PRICE	 + "</td>";
+						html += "</tr>";
+					}
+				}
+				else {
+					html += "<tr class=\"list_contents\" style=\"height: 350px;\">";
+					html += "<td colspan=\"7\">조회된 데이터가 없습니다.</td>";
+					html += "</tr>";
+					$(".list_paging_area1").html("");
+				}
+				$("#popDefaultProdList>tbody").html(html);
+			}
+			/*기존상품 페이징*/
+			function drawListPaging1(pb) {
+				var html = "";
+				html += "<div class=\"btn_paging\"  name=\"1\">&lt;&lt;</div>";
+
+				html += "<div class=\"btn_paging\"  name=\"";
+				html += ($("#page1").val() == "1")? "1" : ($("#page1").val() * 1 - 1);
+				html += "\">&lt;</div>";
+
+				for(var i = pb.startPcount; i <= pb.endPcount; i++) {		
+					html += "<div class=\"btn_paging";
+					html += ($("#page1").val() == i)? "_on\">" : "\" name=\"" + i + "\">";
+					html += i + "</div>";
+				}
+				
+				html += "<div class=\"btn_paging\" name=\"";
+				html += ($("#page1").val() == (pb.maxPcount))? pb.maxPcount : ($("#page1").val() * 1 + 1);
+				html += "\">&gt;</div>";
+
+				html += "<div class=\"btn_paging\" name=\"" + pb.maxPcount + "\">&gt;&gt;</div>";
+				
+				$("#popDefaultProdListPage").html(html);
 			}
 			/*사업구분Select가져오기*/
 			function drawSelectProdDiv(){
@@ -1170,24 +1804,12 @@
 				html += "					</select></td>                                             ";
 				return html;
 			}
-			function ProdDiv(list){
-				var html = "";
-				if(list.length == 0){
-					html += "<option>아직 등록된 값이 없습니다. 관리자에게 문의하세요.</option>"
-				}
-				else {
-					html += "<option id=\"0\">전부</option>"
-					for(var i in list){
-							html += "<option id=\""+list[i].DIV_NO+"\">"+list[i].DIV_NO+"</option>";
-					}
-				}
-				$("#div_name").html(html);
-			}
+			
 			/*사업유형Select가져오기*/
 			function drawSelectProdType(){
 				var html = "";
-				html += "			<th class=\"td_font\">상품구분</th>                                      ";
-				html += "			<td  class=\"field_contents\"><select class=\"input_normal\" id=\"Type_name\" name=\"Type_name\"  >       ";
+				html += "			<th class=\"td_font\">상품유형</th>                                      ";
+				html += "			<td  class=\"field_contents\"><select class=\"input_normal\" id=\"type_name\" name=\"type_name\"  >       ";
 				var params = $("#actionForm").serialize();
 
 				$.ajax({
@@ -1196,7 +1818,9 @@
 					dataType: "json",
 					data: params,
 					success: function(result) {
+						
 						ProdType(result.list);
+						
 					},
 					error : function(request, status, error) {
 						console.log("status : " + request.status);
@@ -1207,16 +1831,30 @@
 				html += "					</select></td>                                             ";
 				return html;
 			}
+			/*상품구분*/
 			function ProdType(list){
 				var html = "";
 				if(list.length == 0){
 					html += "<option>아직 등록된 값이 없습니다. 관리자에게 문의하세요.</option>"
 				}
 				else {
-					html += "<option id=\"0\">전부</option>"
+					html += "<option id=\"0\" value=\"0\">전부</option>"
 					for(var i in list){
-							html += "<option id=\""+list[i].TYPE_NO+"\">";
-							if(list[i].TYPE_NO == "1"){
+							html += "<option value=\""+list[i].TYPE_NO+"\">"+list[i].TYPE_NO+"</option>";
+					}
+				}
+				$("#type_name").html(html);
+			}
+			function ProdDiv(list){
+				var html = "";
+				if(list.length == 0){
+					html += "<option>아직 등록된 값이 없습니다. 관리자에게 문의하세요.</option>"
+				}
+				else {
+					html += "<option id=\"0\" value=\"0\">전부</option>"
+					for(var i in list){
+							html += "<option value=\""+list[i].DIV_NO+"\">";
+							if(list[i].DIV_NO == "1"){
 								html += "제품";
 							}
 							else {
@@ -1225,48 +1863,23 @@
 							html += "</option>";
 					}
 				}
-				$("#Type_name").html(html);
+				$("#div_name").html(html);
 			}
-			/*기존상품 페이징*/
-			function drawListPaging1(pb) {
-				var html = "";
-				html += "<div class=\"btn_paging1\" name=\"1\">&lt;&lt;</div>";
-
-				html += "<div class=\"btn_paging1\"name=\"";
-				html += ($("#page1").val() == "1")? "1" : ($("#page1").val() * 1 - 1);
-				html += "\">&lt;</div>";
-
-				for(var i = pb.startPcount; i <= pb.endPcount; i++) {		
-					html += "<div class=\"btn_paging1";
-					html += ($("#page1").val() == i)? "_on\">" : "\" name=\"" + i + "\">";
-					html += i + "</div>";
-				}
-				
-				html += "<div class=\"btn_paging1\"name=\"";
-				html += ($("#page1").val() == (pb.maxPcount))? pb.maxPcount : ($("#page1").val() * 1 + 1);
-				html += "\">&gt;</div>";
-
-				html += "<div class=\"btn_paging1\" name=\"" + pb.maxPcount + "\">&gt;&gt;</div>";
-				
-				$(".list_paging_area1").html(html);
-			}
+			
 			/*추가한 상품조회*/
 			function prodNowPop(){
 				var html = "";
-				html += "<form action=\"#\" method=\"post\" id=\"searchForm\">";
 				html += "<div style=\"line-height : 50px; font-size : 20pt; font-weight : bold;\">";
 				html += "<span>현재등록상품</span>";
 				html += "</div>";
-				html += "<input type=\"hidden\" name=\"page\" id=\"page\" value=\"1\" />";
-				html += "</form>";
-				html += "<table class=\"pop_list pop_list_top_none\">";
-				html += "<colgroup><col width=\"20%\"/><col width=\"40%\"/><col width=\"20%\"/><col width=\"20%\"/>";
+ 				html += "<table class=\"pop_list pop_list_top_none\" id=\"popNowProdList\">";
+				html += "<colgroup><col width=\"45px\"/><col width=\"110px\"/><col width=\"76px\"/><col width=\"48px\"/>";
 				html += "<thead>";
 				html += "<tr class = \"table_list_header\">";
 				html += "<td>번호</td>";
 				html += "<td>상품명</td>";
 				html += "<td>코드</td>";
-				html += "<td>수량</td>";
+				html += "<td>수량<br /> (기간)</td>";
 				html += "</tr>";
 				html += "</thead>";
 				html += "<tbody>";
@@ -1275,33 +1888,77 @@
 				html += "</tr>";
 				html += "</tbody>";
 				html += "</table>";
-				html += "<div class=\"list_paging_area2\" style=\"margin-top: 0px;\">";
+				html += "<div class=\"list_paging_area\" id=\"popNowProdListPage\" style=\"margin-top: 0px;\">";
 		        html += "</div>";
 				return html;
 			}
-			/*현재상품 페이징*/
+			//현재상품 가져오기
+			function getProdNowList(){
+				var params = $("#prodForm").serialize();
+
+				$.ajax({
+					type: "post",
+					url: "getProdNowistAjax",
+					dataType: "json",
+					data: params,
+					success: function(result) {
+						drawListPaging2(result.pb);
+						drawProdNowList(result.list);
+						getProdNowListEvent();
+					},
+					error : function(request, status, error) {
+						console.log("status : " + request.status);
+						console.log("text : " + request.responseTest);
+						console.log("error : " + error);
+					}
+				});
+			}
+			/*현재상품 표 그리기*/
+			function drawProdNowList(list){
+				var html = "";	
+				
+				if(list.length > 0) {
+					for(var i in list) {
+						html += "<tr class=\"list_contents\" id=\""+i+"\" name=\"" + list[i].PROD_NO +"\">";
+						html += "<td>" + list[i].RNUM + "</td>";
+				  		html += "<td>" + list[i].NAME + "</td>";
+				  		html += "<td>" + list[i].CODE + "</td>";
+				  		html += "<td><input type=\"text\" class=\"input_normal\" id=\"prodCnt\" name=\"prodCnt\" style=\"text-align : center;\" value=\""+ list[i].CNT + "\"></td>";
+						html += "</tr>";
+					}
+				}
+				else {
+					html += "<tr class=\"list_contents\" style=\"height: 350px;\">";
+					html += "<td colspan=\"7\">조회된 데이터가 없습니다.</td>";
+					html += "</tr>";
+					$(".list_paging_area2").html("");
+				}
+				$("#popNowProdList>tbody").html(html);
+			}
+			/*기존상품 페이징*/
 			function drawListPaging2(pb) {
 				var html = "";
-				html += "<div class=\"btn_paging2\" name=\"1\">&lt;&lt;</div>";
+				html += "<div class=\"btn_paging\"  name=\"1\">&lt;&lt;</div>";
 
-				html += "<div class=\"btn_paging2\"name=\"";
+				html += "<div class=\"btn_paging\"  name=\"";
 				html += ($("#page2").val() == "1")? "1" : ($("#page2").val() * 1 - 1);
 				html += "\">&lt;</div>";
 
 				for(var i = pb.startPcount; i <= pb.endPcount; i++) {		
-					html += "<div class=\"btn_paging2";
+					html += "<div class=\"btn_paging";
 					html += ($("#page2").val() == i)? "_on\">" : "\" name=\"" + i + "\">";
 					html += i + "</div>";
 				}
 				
-				html += "<div class=\"btn_paging2\"name=\"";
+				html += "<div class=\"btn_paging\" name=\"";
 				html += ($("#page2").val() == (pb.maxPcount))? pb.maxPcount : ($("#page2").val() * 1 + 1);
 				html += "\">&gt;</div>";
 
-				html += "<div class=\"btn_paging2\" name=\"" + pb.maxPcount + "\">&gt;&gt;</div>";
+				html += "<div class=\"btn_paging\" name=\"" + pb.maxPcount + "\">&gt;&gt;</div>";
 				
-				$(".list_paging_area2").html(html);
+				$("#popNowProdListPage").html(html);
 			}
+			
 			/*상품등록버튼*/
 			function prodBtnPop(){
 				var html = "";
@@ -1317,6 +1974,25 @@
 	/*제안 그리기*/
 	var htmlSgt = "";
 	function redrawSgt(){
+		var params = $("#actionForm").serialize();
+		$.ajax({
+			type: "post",
+			url: "getSgtAjax",
+			dataType: "json",
+			data: params,
+			success: function(result) {
+				redrawSgtCon(result.data)
+				getSgtChnDt();
+				SgtEvent();
+			},
+			error : function(request, status, error) {
+				console.log("status : " + request.status);
+				console.log("text : " + request.responseTest);
+				console.log("error : " + error);
+			}
+		});
+	}
+	function redrawSgtCon(data){
 		if(htmlSgt != ""){
 			htmlSgt = "";
 			$("#SgtBtn").attr("src", "resources/images/bss/close_tab.png");
@@ -1329,47 +2005,160 @@ htmlSgt += "			<td class=\"field_contents\"><input type=\"text\" id=\"chn_date\"
 htmlSgt += "				class=\"input_border_0\" readonly=\"readonly\" /></td>                  ";
 htmlSgt += "			<td class=\"field_name\">제안마감일<span class=\"acc_txt\"> *</span>       ";
 htmlSgt += "			</td>                                                                   ";
-htmlSgt += "			<td class=\"field_contents\"><input type=\"text\" id=\"sgt_date\" name=\"sgt_date\"                          ";
-htmlSgt += "				class=\"input_short btn_left_input\" readonly=\"readonly\" />           ";
-htmlSgt += "				<div class=\"btn_black btn_size_normal select\" id=\"sgtEndBtn\" name=\"sgtEndBtn\">마감</div></td>       ";
+if($("#bssProgNo").val() * 1 == 2){
+	htmlSgt += "			<td class=\"field_contents\"><input type=\"text\" id=\"sgt_date\" name=\"sgt_date\"                          ";
+	htmlSgt += "				class=\"input_short btn_left_input\" readonly=\"readonly\" />           ";
+	htmlSgt += "				<div class=\"btn_black btn_size_normal select\" id=\"sgtEndBtn\" name=\"sgtEndBtn\">마감</div></td>       ";
+} else {
+	htmlSgt += "			<td class=\"field_contents\"><input type=\"text\" id=\"sgt_date\" name=\"sgt_date\"                          ";
+	htmlSgt += "				class=\"input_border_0\" readonly=\"readonly\" value=\""+data.SGT_DATE+"\" />           ";
+	htmlSgt += "				</td>       ";
+}
+
 htmlSgt += "			</tr>                                                                   ";
 htmlSgt += "			<tr>                                                                    ";
 htmlSgt += "				<td class=\"field_name first_field_name\">첨부파일 <span              ";
 htmlSgt += "					class=\"acc_txt\"></span></td>                                    ";
-htmlSgt += "				<td colspan=\"3\" class=\"field_contents\"><select  id=\"sgt_attach_name\" name=\"sgt_attach_name\"                    ";
-htmlSgt += "					class=\"input_normal btn_left_input\">                            ";
-htmlSgt += "						<option selected=\"selected\"></option>                       ";
-htmlSgt += "						<option></option>                                           ";
-htmlSgt += "						<option></option>                                           ";
-htmlSgt += "						<option></option>                                           ";
-htmlSgt += "				</select>                                                           ";
-htmlSgt += "					<div class=\"btn_black btn_size_normal select\" id=\"sgtAttachSaveBtn\" name=\"sgtAttachSaveBtn\">등록</div></td>   ";
-htmlSgt += "			</tr>                                                                   ";
+htmlSgt += "				<td colspan=\"3\" class=\"field_contents\">";
+htmlSgt += "<input type=\"hidden\" name=\"attachFile\" id=\"attachFile\" />";
+htmlSgt += "<input type=\"file\" name=\"attach\" class=\"sgtAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
+htmlSgt += "<select  id=\"sgt_attach_name\" name=\"sgt_attach_name\" class=\"input_normal two_btn_left_input\">";
+htmlSgt += "</select>";
+htmlSgt += "<div class=\"btn_black btn_size_normal select\" id=\"sgtAttachSaveBtn\" name=\"sgtAttachSaveBtn\">등록</div>";
+htmlSgt += "<div class=\"btn_black btn_size_normal select\" id=\"sgtAttachDelBtn\" name=\"sgtAttachDelBtn\">삭제</div></td>";
+htmlSgt += "</tr>";
 $("#SgtBtn").attr("src", "resources/images/bss/open_tab.png");
 		}
 		$("#SgtTbl>tbody").html(htmlSgt);
+		
+	}
+	/*날짜읽어오기..*/
+	function getSgtChnDt(){
+		var params = $("#actionForm").serialize();
+		$.ajax({
+			type: "post",
+			url: "getSgtChnDtAjax",
+			dataType: "json",
+			data: params,
+			success: function(result) {
+				$("#chn_date").val(result.data.CHN_DATE);
+			},
+			error : function(request, status, error) {
+				console.log("status : " + request.status);
+				console.log("text : " + request.responseTest);
+				console.log("error : " + error);
+			}
+		});
 	}
 	/*제안이벤트*/
 	function SgtEvent(){
+		getSgtChnDt();
 		/*제안마감팝업*/
 		$("#sgtEndBtn").on("click", function(){
-			makeTwoBtnPopup(1, "영업시작", bssStartPop(), true, 400, 200, null, "확인", function() {
-				makeTwoBtnPopup(2, "결과확인", selectChk(), true, 400, 200, null, "마감", function() {
-					closePopup(2);
-					closePopup(1);
-				},"취소", function() {
-					closePopup(2);
-				});
-			},"취소", function() {
-				closePopup(1);
+			bssProgEndPop();
+		});
+		
+		/* 첨부자료 등록 버튼 */
+		$("#sgtAttachSaveBtn").on("click",function(){
+			$("#actionForm").attr("action", "fileUploadAjax");
+			$(".sgtAttachUpload").click();
+			//console.log(responseText);
+		});
+		
+		/* 첨부자료 등록 */
+		$(".sgtAttachUpload").on("change", function() {
+			var dataForm = $("#actionForm");
+			
+			dataForm.ajaxForm({ //보내기전 validation check가 필요할경우 
+				success: function(responseText, statusText){
+					console.log(responseText);
+					$("#attachFile").val(responseText.fileName[0]);
+					
+					var params = $("#actionForm").serialize();
+					
+					$.ajax({
+						
+						type : "post",
+						dataType : "json",
+						url : "sgtInsertAttatchAjax",
+						data : params,
+						
+						success : function(result){
+							 if(result.res == "SUCCESS"){
+								 $("#attachNo").val("");
+								 reloadSgtAttachList();
+								 	/* closePopup(1); */
+								}
+								else{
+									alert("첨부자료 등록에 실패하였습니다.");
+								}
+						},
+						error : function(){
+							console.log("status : "+request.status);
+							console.log("text : "+request.responseText);
+							console.log("error : "+error);
+						}
+					});
+				}, //ajax error
+				error: function(){
+					alert("에러발생!!"); 
+				}
 			});
-		})
+			dataForm.submit();
+		});
+		
+		reloadSgtAttachList();
+		
+		/* 첨부자료 삭제 */
+		$("#sgtAttachDelBtn").on("click", function() {
+			
+			makeTwoBtnPopup(2, "첨부자료 삭제 확인", "정말로 삭제하시겠습니까?", flase, 400, 300, "확인", function() {
+					$("#attachNo").val($("#sgt_attach_name option:selected").val())
+					
+					var params = $("#actionForm").serialize();
+
+					$.ajax({
+						type : "post", //데이터 전송방식
+						url : "sgtAttatchDelAjax", //주소
+						dataType : "json", //데이터 전송 규칙
+						data : params, //보낼 데이터
+						// {키:값, 키:값,...} -> json
+						success : function(result) {
+							reloadSgtAttachList();
+						},
+						error : function(request, status, error) {
+							console.log("text : " + request.reponseText);
+							console.log("error : " + error);
+						}
+					});
+			}, "취소", function() {
+						closePopup(2);
+					});
+		});
 	}
 	//--------------------------------제안에서 사용하는 함수------------------//
 	
 	/*협상 그리기*/
 	var htmlNgt = "";
 	function redrawNgt(){
+		var params = $("#actionForm").serialize();
+		$.ajax({
+			type: "post",
+			url: "getNgtAjax",
+			dataType: "json",
+			data: params,
+			success: function(result) {
+				redrawNgtCon(result.data);
+				NgtEvent();
+			},
+			error : function(request, status, error) {
+				console.log("status : " + request.status);
+				console.log("text : " + request.responseTest);
+				console.log("error : " + error);
+			}
+		});
+	}
+	function redrawNgtCon(data){
 		if(htmlNgt != ""){
 			htmlNgt = "";
 			$("#NgtBtn").attr("src", "resources/images/bss/close_tab.png");
@@ -1378,25 +2167,30 @@ $("#SgtBtn").attr("src", "resources/images/bss/open_tab.png");
 htmlNgt += "			<tr>                                                             ";
 htmlNgt += "			<td class=\"field_name first_field_name\">협상시작일 <span         ";
 htmlNgt += "				class=\"acc_txt\"></span></td>                                 ";
-htmlNgt += "			<td class=\"field_contents\"><input type=\"text\" id=\"ngt_sdate\" name=\"ngt_sdate\"                   ";
+htmlNgt += "			<td class=\"field_contents\"><input type=\"text\" id=\"ngt_sdate\" name=\"ngt_sdate\"  value=\""+data.NGT_SDATE+"\"                 ";
 htmlNgt += "				class=\"input_border_0\" readonly=\"readonly\" /></td>           ";
 htmlNgt += "			<td class=\"field_name \">협상마감일<span class=\"acc_txt\"> *</span>";
 htmlNgt += "			</td>                                                            ";
-htmlNgt += "			<td class=\"field_contents\"><input type=\"text\"  id=\"ngt_edate\" name=\"ngt_edate\"                  ";
-htmlNgt += "				class=\"input_short btn_left_input\" readonly=\"readonly\" />    ";
-htmlNgt += "				<div class=\"btn_black btn_size_normal select\" id=\"ngtEndBtn\" name=\"ngtEndBtn\">마감</div></td>";
+if($("#bssProgNo").val() * 1 == 3){
+	htmlNgt += "			<td class=\"field_contents\"><input type=\"text\"  id=\"ngt_edate\" name=\"ngt_edate\"                  ";
+	htmlNgt += "				class=\"input_short btn_left_input\" readonly=\"readonly\" />    ";
+	htmlNgt += "				<div class=\"btn_black btn_size_normal select\" id=\"ngtEndBtn\" name=\"ngtEndBtn\">마감</div></td>";
+} else {
+	htmlNgt += "			<td class=\"field_contents\"><input type=\"text\"  id=\"ngt_edate\" name=\"ngt_edate\"  value=\""+data.NGT_EDATE+"\"                 ";
+	htmlNgt += "				class=\"input_border_0\" readonly=\"readonly\" />    ";
+	htmlNgt += "				</td>";
+}
+
 htmlNgt += "		</tr>                                                                ";
 htmlNgt += "		<tr>                                                                 ";
 htmlNgt += "			<td class=\"field_name first_field_name\">첨부파일 <span           ";
 htmlNgt += "				class=\"acc_txt\"></span></td>                                 ";
 htmlNgt += "			<td colspan=\"3\" class=\"field_contents\"><select  id=\"ngt_attach_name\" name=\"ngt_attach_name\"                 ";
-htmlNgt += "				class=\"input_normal btn_left_input\">                         ";
-htmlNgt += "					<option selected=\"selected\"></option>                    ";
-htmlNgt += "					<option></option>                                        ";
-htmlNgt += "					<option></option>                                        ";
-htmlNgt += "					<option></option>                                        ";
+htmlNgt += "				class=\"input_normal two_btn_left_input\">                         ";
+htmlNgt += "<input type=\"file\" name=\"attach\" class=\"ngtAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
 htmlNgt += "			</select>                                                        ";
-htmlNgt += "				<div class=\"btn_black btn_size_normal select\" id=\"ngtAttachSaveBtn\" name=\"ngtAttachSaveBtn\">등록</div></td>";
+htmlNgt += "				<div class=\"btn_black btn_size_normal select\" id=\"ngtAttachSaveBtn\" name=\"ngtAttachSaveBtn\">등록</div>";
+htmlNgt += "				<div class=\"btn_black btn_size_normal select\" id=\"ngtAttachDelBtn\" name=\"ngtAttachDelBtn\">삭제</div></td>";
 htmlNgt += "		</tr>                                                                ";
 $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 		}
@@ -1406,21 +2200,111 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 	function NgtEvent(){
 		/*협상마감팝업*/
 		$("#ngtEndBtn").on("click", function(){
-			makeTwoBtnPopup(1, "영업시작", bssStartPop(), true, 400, 200, null, "확인", function() {
-				makeTwoBtnPopup(2, "결과확인", selectChk(), true, 400, 200, null, "마감", function() {
-					closePopup(2);
-					closePopup(1);
-				},"취소", function() {
-					closePopup(2);
-				});
-			},"취소", function() {
-				closePopup(1);
+			bssProgEndPop();
+		});
+		
+		/* 첨부자료 등록 버튼 */
+		$("#ngtAttachSaveBtn").on("click",function(){
+			$("#actionForm").attr("action", "fileUploadAjax");
+			$(".ngtAttachUpload").click();
+			//console.log(responseText);
+		});
+		
+		/* 첨부자료 등록 */
+		$(".ngtAttachUpload").on("change", function() {
+			var dataForm = $("#actionForm");
+			
+			dataForm.ajaxForm({ //보내기전 validation check가 필요할경우 
+				success: function(responseText, statusText){
+					console.log(responseText);
+					$("#attachFile").val(responseText.fileName[0]);
+					
+					var params = $("#actionForm").serialize();
+					
+					$.ajax({
+						
+						type : "post",
+						dataType : "json",
+						url : "ngtInsertAttatchAjax",
+						data : params,
+						
+						success : function(result){
+							 if(result.res == "SUCCESS"){
+								 $("#attachNo").val("");
+								 reloadNgtAttachList();
+								 	/* closePopup(1); */
+								}
+								else{
+									alert("첨부자료 등록에 실패하였습니다.");
+								}
+						},
+						error : function(){
+							console.log("status : "+request.status);
+							console.log("text : "+request.responseText);
+							console.log("error : "+error);
+						}
+					});
+				}, //ajax error
+				error: function(){
+					alert("에러발생!!"); 
+				}
 			});
-		})
+			dataForm.submit();
+		});
+		
+		reloadNgtAttachList();
+		
+		/* 첨부자료 삭제 */
+		$("#ngtAttachDelBtn").on("click", function() {
+			
+			makeTwoBtnPopup(2, "첨부자료 삭제 확인", "정말로 삭제하시겠습니까?", flase, 400, 300, "확인", function() {
+					$("#attachNo").val($("#ngt_attach_name option:selected").val())
+					
+					var params = $("#actionForm").serialize();
+
+					$.ajax({
+						type : "post", //데이터 전송방식
+						url : "ngtAttatchDelAjax", //주소
+						dataType : "json", //데이터 전송 규칙
+						data : params, //보낼 데이터
+						// {키:값, 키:값,...} -> json
+						success : function(result) {
+							reloadNgtAttachList();
+						},
+						error : function(request, status, error) {
+							console.log("text : " + request.reponseText);
+							console.log("error : " + error);
+						}
+					});
+			}, "취소", function() {
+						closePopup(2);
+					});
+		});
+		
 	}
+	
 	var htmlCtrack = "";
 	/*계약 그리기*/
 	function redrawCtrack(){
+		var params = $("#actionForm").serialize();
+		$.ajax({
+			
+			type : "post", //데이터 전송방식
+			url : "getCtractAjax	", //주소
+			dataType : "json", //데이터 전송 규칙
+			data : params, //보낼 데이터
+			success : function(result){
+				redrawCtrackCon(result.data);
+				ctrackEvent();
+			},
+			error : function(){
+				console.log("status : "+request.status);
+				console.log("text : "+request.responseText);
+				console.log("error : "+error);
+			}
+		});
+	}
+	function redrawCtrackCon(data){
 		if(htmlCtrack != ""){
 			htmlCtrack = "";
 			$("#ctrackBtn").attr("src", "resources/images/bss/close_tab.png");
@@ -1429,16 +2313,31 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 	htmlCtrack += "		<tr>                                                                    ";
 	htmlCtrack += "		<td class=\"field_name first_field_name\">계약일 <span                    ";
 	htmlCtrack += "			class=\"acc_txt\"></span></td>                                        ";
-	htmlCtrack += "		<td class=\"field_contents\"><input type=\"text\"   id=\"ctract_date\" name=\"ctract_date\"                        ";
-	htmlCtrack += "			class=\"input_border_0\" readonly=\"readonly\" /></td>                  ";
+	if($("#bssProgNo").val() * 1 == 7){
+		htmlCtrack += "		<td class=\"field_contents\"><input type=\"text\"   id=\"ctract_date\" name=\"ctract_date\"  value=\""+data.CTRACT_DATE+"\"                       ";
+		htmlCtrack += "			class=\"input_border_0\" readonly=\"readonly\" /></td>                  ";	
+	}
+	else {
+		htmlCtrack += "		<td class=\"field_contents\"><input type=\"text\"   id=\"ctract_date\" name=\"ctract_date\"  value=\"\"                       ";
+		htmlCtrack += "			class=\"input_border_0\" readonly=\"readonly\" /></td>                  ";
+	}
 	htmlCtrack += "		<td class=\"field_name \">입금상태<span class=\"acc_txt\"> *</span>         ";
 	htmlCtrack += "		</td>                                                                   ";
-	htmlCtrack += "		<td class=\"field_contents\"><select  id=\"credit_type\" name=\"credit_type\"                                    ";
-	htmlCtrack += "			class=\"input_normal btn_left_input\">                                ";
-	htmlCtrack += "				<option selected=\"selected\" value=\"1\">무</option>                           ";
-	htmlCtrack += "				<option value=\"2\">유</option>                                               ";
-	htmlCtrack += "		</select>                                                               ";
-	htmlCtrack += "			<div class=\"btn_black btn_size_normal select\" id=\"ctrackEndBtn\" name=\"ctrackEndBtn\">마감</div></td>       ";
+	if($("#bssProgNo").val() * 1 == 4){
+		htmlCtrack += "		<td class=\"field_contents\"><select  id=\"credit_type\" name=\"credit_type\"                                    ";
+		htmlCtrack += "			class=\"input_normal btn_left_input\">                                ";
+		htmlCtrack += "				<option selected=\"selected\" value=\"1\">무</option>                           ";
+		htmlCtrack += "				<option value=\"2\">유</option>                                               ";
+		htmlCtrack += "		</select> ";
+		htmlCtrack += "			<div class=\"btn_black btn_size_normal select\" id=\"ctrackEndBtn\" name=\"ctrackEndBtn\">마감</div></td>       ";
+	}
+	else {
+		htmlCtrack += "		<td class=\"field_contents\"><select  id=\"credit_type\" name=\"credit_type\"                                    ";
+		htmlCtrack += "			class=\"input_normal\">                                ";
+		htmlCtrack += "				<option selected=\"selected\" value=\"1\">무</option>                           ";
+		htmlCtrack += "				<option value=\"2\">유</option>                                               ";
+		htmlCtrack += "		</select> </td>";
+	}
 	htmlCtrack += "		</tr>                                                                   ";
 	htmlCtrack += "		<tr>                                                                    ";
 	htmlCtrack += "			<td class=\"field_name first_field_name\">예금주명<span               ";
@@ -1455,37 +2354,106 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 	htmlCtrack += "			<td class=\"field_name first_field_name\">첨부파일 <span      ";
 	htmlCtrack += "				class=\"acc_txt\"></span></td>                                 ";
 	htmlCtrack += "			<td colspan=\"3\" class=\"field_contents\"><select id=\"ctract_attach_name\" name=\"ctract_attach_name\"                  ";
-	htmlCtrack += "				class=\"input_normal btn_left_input\">                         ";
-	htmlCtrack += "					<option selected=\"selected\"></option>                    ";
-	htmlCtrack += "					<option></option>                                        ";
-	htmlCtrack += "					<option></option>                                        ";
-	htmlCtrack += "					<option></option>                                        ";
+	htmlCtrack += "				class=\"input_normal two_btn_left_input\">                         ";
 	htmlCtrack += "			</select>                                                        ";
-	htmlCtrack += "				<div class=\"btn_black btn_size_normal select\" id=\"ctractAttachSaveBtn\" name=\"ctractAttachSaveBtn\">등록</div></td>";
+	htmlCtrack += "<input type=\"file\" name=\"attach\" class=\"ctractAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
+	htmlCtrack += "				<div class=\"btn_black btn_size_normal select\" id=\"ctractAttachSaveBtn\" name=\"ctractAttachSaveBtn\">등록</div>";
+	htmlCtrack += "				<div class=\"btn_black btn_size_normal select\" id=\"ctractAttachDelBtn\" name=\"ctractAttachDelBtn\">삭제</div></td>";
 	htmlCtrack += "		</tr>                                                                ";
 	$("#ctrackBtn").attr("src", "resources/images/bss/open_tab.png");
 		}
 		$("#ctrackTbl>tbody").html(htmlCtrack);
 	}
 	/*계약이벤트*/
-	function CtrackEvent(){
+	function ctrackEvent(){
 		/*계약마감팝업*/
 		$("#ctrackEndBtn").on("click", function(){
-			makeTwoBtnPopup(1, "영업시작", bssStartPop(), true, 400, 200, null, "확인", function() {
-				makeTwoBtnPopup(2, "결과확인", selectChk(), true, 400, 200, null, "마감", function() {
-					closePopup(2);
-					closePopup(1);
-				},"취소", function() {
-					closePopup(2);
-				});
-			},"취소", function() {
-				closePopup(1);
-			});
+			bssProgEndPop();
 		})
 		/*예금주 찾기 팝업*/
 		$("#deperSrchBtn").on("click", function(){
 			deperSrchPop();
+		});
+		
+		/* 첨부자료 등록 버튼 */
+		$("#ctractAttachSaveBtn").on("click",function(){
+			$("#actionForm").attr("action", "fileUploadAjax");
+			$(".ctractAttachUpload").click();
+			//console.log(responseText);
+		});
+		$("#deperSrchBtn").on("click", function(){
+			deperSrchPop();
+		});
+		/* 첨부자료 등록 */
+		$(".ctractAttachUpload").on("change", function() {
+			var dataForm = $("#actionForm");
 			
+			dataForm.ajaxForm({ //보내기전 validation check가 필요할경우 
+				success: function(responseText, statusText){
+					console.log(responseText);
+					$("#attachFile").val(responseText.fileName[0]);
+					
+					var params = $("#actionForm").serialize();
+					
+					$.ajax({
+						
+						type : "post",
+						dataType : "json",
+						url : "ctractInsertAttatchAjax",
+						data : params,
+						
+						success : function(result){
+							 if(result.res == "SUCCESS"){
+								 $("#attachNo").val("");
+								 reloadCtractAttachList();
+								 	/* closePopup(1); */
+								}
+								else{
+									alert("첨부자료 등록에 실패하였습니다.");
+								}
+						},
+						error : function(){
+							console.log("status : "+request.status);
+							console.log("text : "+request.responseText);
+							console.log("error : "+error);
+						}
+					});
+				}, //ajax error
+				error: function(){
+					alert("에러발생!!"); 
+				}
+			});
+			dataForm.submit();
+		});
+		
+		reloadCtractAttachList();
+		
+		/* 첨부자료 삭제 */
+		$("#ctractAttachDelBtn").on("click", function() {
+			
+			makeTwoBtnPopup(2, "첨부자료 삭제 확인", "정말로 삭제하시겠습니까?", false, 400, 200, null, "확인", function() {
+					$("#attachNo").val($("#ctract_attach_name option:selected").val())
+					
+					var params = $("#actionForm").serialize();
+
+					$.ajax({
+						type : "post", //데이터 전송방식
+						url : "ctractAttatchDelAjax", //주소
+						dataType : "json", //데이터 전송 규칙
+						data : params, //보낼 데이터
+						// {키:값, 키:값,...} -> json
+						success : function(result) {
+							reloadCtractAttachList();
+							closePopup(2);
+						},
+						error : function(request, status, error) {
+							console.log("text : " + request.reponseText);
+							console.log("error : " + error);
+						}
+					});
+			}, "취소", function() {
+						closePopup(2);
+					});
 		});
 	}
 	//---------------------------계약에서 사용되는 함수----------------------------------------//
@@ -1495,12 +2463,12 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 		html += "<form action=\"#\" method=\"post\" id=\"searchForm\">";
 		html += "<div>";
 		html += "<input type=\"text\" class=\"input_search\" id=\"searchTxt\" name=\"searchTxt\" placeholder=\"Ex) 홍길동\" />";
-		html += "<img src =\"resources/images/button/icon_search_gray.png\" alt=\"\" width=\"30px\" class=\"search_icon\" id=\"empSearchBtn\">";
-		html += "<img src =\"resources/images/button/icon_cancel_gray.png\" alt=\"\" width=\"20px\" class=\"cancel_icon\" id=\"empCancelBtn\">";
+		html += "<img src =\"resources/images/button/icon_search_gray.png\" alt=\"\" width=\"30px\" class=\"search_icon\" id=\"depSearchBtn\">";
+		html += "<img src =\"resources/images/button/icon_cancel_gray.png\" alt=\"\" width=\"20px\" class=\"cancel_icon\" id=\"depCancelBtn\">";
 		html += "</div>";
-		html += "<input type=\"hidden\" name=\"page\" id=\"page\" value=\"1\" />";
+		html += "<input type=\"hidden\" name=\"page3\" id=\"page3\" value=\"1\" />";
 		html += "</form>";
-		html += "<table class=\"pop_list\">";
+		html += "<table class=\"pop_list\" id=\"deperSrch\">";
 		html += "<colgroup><col width=\"10%\"/><col width=\"15%\"/><col width=\"15%\"/><col width=\"60%\"/>";
 		html += "<thead>";
 		html += "<tr class = \"table_list_header\">";
@@ -1516,126 +2484,225 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 		html += "</tr>";
 		html += "</tbody>";
 		html += "</table>";
-		html += "<div class=\"list_paging_area\" style=\"margin-top: 0px;\">";
+		html += "<div class=\"list_paging_area3\" style=\"margin-top: 0px;\">";
         html += "</div>";
 
-        makeTwoBtnPopup(1, "예금주찾기", deperSrchPop(), true, 600, 600, null, "검색", function() {
-			makeTwoBtnPopup(2, "결과확인", "등록하시겠습니까?", true, 400, 120, null, "등록", function() {
-				closePopup(2);
-				closePopup(1);
-			},"취소", function() {
-				closePopup(2);
-			});
+        makeTwoBtnPopup(1, "예금주찾기", html, true, 600, 600, null, "완료", function() {
+        	setDepEvent();        	
 		},"취소", function() {
+			
 			closePopup(1);
-		});
+		});      
 	}
-	
+		function setDepEvent() {
+			// 예금주 검색 버튼 클릭 Event
+			$("#depSearchBtn").on("click", function() {
+				getDepList();
+			});
+			// 검색 엔터키 입력 Event
+			$("#searchTxt").on("keypress", function(event) {
+				if(event.keyCode == 13) {
+					$("#empSearchBtn").click();
+					return false;
+				}
+			});
+			// 검색 초기화 버튼 클릭 Event
+			$("#depCancelBtn").on("click", function() {
+				$("#searchTxt").val("");
+				getDepList();
+			});	
+			// Paging 버튼 클릭 이벤트
+			$(".list_paging_area3").on("click", "div", function() {
+				if(!isNaN($(this).attr("name") * 1)) {
+					$("#page3").val($(this).attr("name"));
+					getDepList();
+				}
+			});	
+			// 예금주 값 선택 Event
+			$("#deperSrch>tbody").on("click", "tr", function() {
+				var select = $(this).attr("name");
+				$("#deper").val(select.substring(select.indexOf("_") + 1));
+				$("#dep_no").val(select.substring(0, select.indexOf("_")));
+				closePopup(1);
+			});
+		}
+		/* 예금주 팝업 팝업 페이징*/
+		function drawListPaging3(pb) {
+			var html = "";
+			html += "<div class=\"btn_paging\" name=\"1\">&lt;&lt;</div>";
+
+			html += "<div class=\"btn_paging\"name=\"";
+			html += ($("#page3").val() == "1")? "1" : ($("#page3").val() * 1 - 1);
+			html += "\">&lt;</div>";
+
+			for(var i = pb.startPcount; i <= pb.endPcount; i++) {		
+				html += "<div class=\"btn_paging";
+				html += ($("#page3").val() == i)? "_on\">" : "\" name=\"" + i + "\">";
+				html += i + "</div>";
+			}
+			
+			html += "<div class=\"btn_paging\"name=\"";
+			html += ($("#page3").val() == (pb.maxPcount))? pb.maxPcount : ($("#page3").val() * 1 + 1);
+			html += "\">&gt;</div>";
+
+			html += "<div class=\"btn_paging\" name=\"" + pb.maxPcount + "\">&gt;&gt;</div>";
+			
+			$(".list_paging_area3").html(html);
+		}
+		// 담당자 목록 Get
+		function getDepList() {
+			var params = $("#searchForm").serialize();
+
+			$.ajax({
+				type: "post",
+				url: "getBssDepPopAjax",
+				dataType: "json",
+				data: params,
+				success: function(result) {
+					drawListPaging3(result.pb);
+					drawDepList(result.list);
+				},
+				error : function(request, status, error) {
+					console.log("status : " + request.status);
+					console.log("text : " + request.responseTest);
+					console.log("error : " + error);
+				}
+			});
+		}
+		// 담당자 목록 draw
+		function drawDepList(list) {
+			var html = "";
+			
+			if(list.length > 0) {
+				for(var i in list) {
+					html += "<tr class=\"list_contents\" name=\"" + list[i].DEP_NO + "_" + list[i].DEPER + "\">";
+			  		html += "<td>" + list[i].RNUM + "</td>";
+			  		html += "<td>" + list[i].ACCOUNT_NAME + "</td>";
+			  		html += "<td>" + list[i].BANK + "</td>";
+			  		html += "<td>" + list[i].ACOUNT_NO + "</td>";
+					html += "</tr>";
+				}
+			}
+			else {
+				html += "<tr class=\"list_contents\" style=\"height: 350px;\">";
+				html += "<td colspan=\"7\">조회된 데이터가 없습니다.</td>";
+				html += "</tr>";
+				$(".list_paging_area3").html("");
+			}
+			$("#deperSrch>tbody").html(html);
+		}	
 </script>
 </head>
 <body>
 	<c:import url="/topLeft">
 		<c:param name="menuNo"></c:param>
 	</c:import>
-	
+
 	<div class="title_area">영업상세보기</div>
 	<div class="content_area">
-	<form action="#" id="actionForm" method="post" >
-	<!-- 메인페이지에서 넘어오는 기회번호 -->
-	<input type="hidden" id="chnNo" name="chnNo" value="${sChnNo}" />
-	<input type="hidden" id="cNo" name="cNo" value="${sChnNo}" />
-	<input type="hidden" id="empNo" name="empNo" value="${sEmpNo}"/>
-	<input type="hidden" id="scheDivNoM" name="scheDivNoM" value="2" />
-	<input type="hidden" id="view_no" name="view_no" value="" />
-		<div class="contents_wrap">
-			<div class="table_top_area">
-				<div class="top_title_area"></div>
-				<div class="top_btn_area">
-					<div class="btn_yellow btn_size_normal add" id="registerBtn">수정</div>
-					<div class="btn_yellow btn_size_normal cancel" id="listBtn">목록</div>
+		<form action="#" method="post" id="actionForm"
+			enctype="multipart/form-data">
+			<!-- 메인페이지에서 넘어오는 기회번호 -->
+			<input type="hidden" id="chnNo" name="chnNo" value="${sChnNo}" /> <input
+				type="hidden" id="cNo" name="cNo" value="${sChnNo}" /> <input
+				type="hidden" id="empNo" name="empNo" value="${sEmpNo}" /> <input
+				type="hidden" id="scheDivNoM" name="scheDivNoM" value="2" /> <input
+				type="hidden" id="view_no" name="view_no" value="" />
+			<!-- 제안, 협상, 계약번호 -->
+			<input type="hidden" id="bssNo" name="bssNo" /> <input type="hidden"
+				id="bssProgNo" name="bssProgNo" /> <input type="hidden"
+				name="attachNo" id="attachNo" />
+			<div class="contents_wrap">
+				<div class="table_top_area">
+					<div class="top_title_area"></div>
+					<div class="top_btn_area">
+						<div class="btn_yellow btn_size_normal add" id="registerBtn">수정</div>
+						<div class="btn_yellow btn_size_normal cancel" id="listBtn">목록</div>
+					</div>
 				</div>
-			</div>
-			<div class="bss_category">
-				<div class="category_content">기회</div>
-				<div class="category_img_area">
-					<img class="sample_img" id="ChnBtn" name="ChnBtn" alt="열닫"
-						src="resources/images/bss/close_tab.png" width="21px"
-						height="21px" />
+				<div class="bss_category">
+					<div class="category_content">기회</div>
+					<div class="category_img_area">
+						<img class="sample_img" id="ChnBtn" name="ChnBtn" alt="열닫"
+							src="resources/images/bss/close_tab.png" width="21px"
+							height="21px" />
+					</div>
 				</div>
-			</div>
-			<table class="table_normal" id="ChnTbl" name="ChnTbl">
-				<colgroup>
-					<col width="10%" />
-					<col width="40%" />
-					<col width="10%" />
-					<col width="40%" />
-				</colgroup>
-				<tbody>
-				</tbody>
-			</table>
-			<div class="bss_category">
-				<div class="category_content">제안</div>
-				<div class="category_img_area">
-					<img class="sample_img" alt="열닫" id="SgtBtn" name="SgtBtn"
-						src="resources/images/bss/close_tab.png" width="21px"
-						height="21px" />
+				<table class="table_normal" id="ChnTbl" name="ChnTbl">
+					<colgroup>
+						<col width="10%" />
+						<col width="40%" />
+						<col width="10%" />
+						<col width="40%" />
+					</colgroup>
+					<tbody>
+					</tbody>
+				</table>
+				<div class="bss_category">
+					<div class="category_content">제안</div>
+					<div class="category_img_area">
+						<img class="sample_img" alt="열닫" id="SgtBtn" name="SgtBtn"
+							src="resources/images/bss/close_tab.png" width="21px"
+							height="21px" />
+					</div>
 				</div>
-			</div>
-			<table class="table_normal" id="SgtTbl" name="SgtTbl">
-				<colgroup>
-					<col width="10%" />
-					<col width="40%" />
-					<col width="10%" />
-					<col width="40%" />
-				</colgroup>
-				<tbody>
-					
-				</tbody>
-			</table>
-			<div class="bss_category">
-				<div class="category_content">협상</div>
-				<div class="category_img_area">
-					<img class="sample_img" alt="열닫" id="NgtBtn" name="NgtBtn"
-						src="resources/images/bss/close_tab.png" width="21px"
-						height="21px" />
-				</div>
-			</div>
-			<table class="table_normal" id="NgtTbl" name="NgtTbl">
-				<colgroup>
-					<col width="10%" />
-					<col width="40%" />
-					<col width="10%" />
-					<col width="40%" />
-				</colgroup>
-				<tbody>
-				</tbody>
-			</table>
-			<div class="bss_category">
-				<div class="category_content">계약</div>
-				<div class="category_img_area">
-					<img class="sample_img" alt="열닫" id="ctrackBtn" name="ctrackBtn"
-						src="resources/images/bss/close_tab.png" width="21px"
-						height="21px" />
-				</div>
-			</div>
-			<table class="table_normal" id="ctrackTbl" name="ctrackTbl">
-				<colgroup>
-					<col width="10%" />
-					<col width="40%" />
-					<col width="10%" />
-					<col width="40%" />
-				</colgroup>
-				<tbody>
-				</tbody>
-			</table>
-			<div class="blank_space"></div>
+				<table class="table_normal" id="SgtTbl" name="SgtTbl">
+					<colgroup>
+						<col width="10%" />
+						<col width="40%" />
+						<col width="10%" />
+						<col width="40%" />
+					</colgroup>
+					<tbody>
 
-			<!-- 의견 테이블 -->
-			<div class="table_top_area">
-					<div class="top_title_area">의견  <span class="opin_cnt"></span></div>
+					</tbody>
+				</table>
+				<div class="bss_category">
+					<div class="category_content">협상</div>
+					<div class="category_img_area">
+						<img class="sample_img" alt="열닫" id="NgtBtn" name="NgtBtn"
+							src="resources/images/bss/close_tab.png" width="21px"
+							height="21px" />
+					</div>
+				</div>
+				<table class="table_normal" id="NgtTbl" name="NgtTbl">
+					<colgroup>
+						<col width="10%" />
+						<col width="40%" />
+						<col width="10%" />
+						<col width="40%" />
+					</colgroup>
+					<tbody>
+					</tbody>
+				</table>
+				<div class="bss_category">
+					<div class="category_content">계약</div>
+					<div class="category_img_area">
+						<img class="sample_img" alt="열닫" id="ctrackBtn" name="ctrackBtn"
+							src="resources/images/bss/close_tab.png" width="21px"
+							height="21px" />
+					</div>
+				</div>
+				<table class="table_normal" id="ctrackTbl" name="ctrackTbl">
+					<colgroup>
+						<col width="10%" />
+						<col width="40%" />
+						<col width="10%" />
+						<col width="40%" />
+					</colgroup>
+					<tbody>
+					</tbody>
+				</table>
+				<div class="blank_space"></div>
+
+				<!-- 의견 테이블 -->
+				<div class="table_top_area">
+					<div class="top_title_area">
+						의견 <span class="opin_cnt"></span>
+					</div>
 					<div class="top_btn_area">
 						<div class="btn_opac-z btn_size_normal" id="opinOpenBtn">
-							<img src="resources/images/button/icon_align_yellow.png" alt=""/>
+							<img src="resources/images/button/icon_align_yellow.png" alt="" />
 							<input type="hidden" id="opin_flag" value="1" />
 						</div>
 					</div>
@@ -1648,7 +2715,7 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 					<tbody id="opin_area">
 						<tr class="tr_no_uline" style="height: 1px;">
 							<td class="field_contents" colspan="2"></td>
-						</tr>	
+						</tr>
 					</tbody>
 				</table>
 				<table class="table_normal" style="border: 0;">
@@ -1658,8 +2725,8 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 					</colgroup>
 					<tbody id="opin_write">
 						<tr class="tr_no_uline">
-							<td class="field_contents">
-								<textarea class="textarea_noresize" id="opin_txt" name="opin_txt"></textarea>
+							<td class="field_contents"><textarea
+									class="textarea_noresize" id="opin_txt" name="opin_txt"></textarea>
 							</td>
 							<td class="field_contents">
 								<div class="btn_black btn_size_wfull" id="opinWriteBtn">작성</div>
@@ -1667,35 +2734,39 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 						</tr>
 					</tbody>
 				</table>
-			<div class="blank_space"></div>
+				<div class="blank_space"></div>
 
-			<!-- 활동 일정 -->
-			<div class="table_top_area">
+				<!-- 활동 일정 -->
+				<div class="table_top_area">
 					<div class="top_title_area no_drag">활동 일정</div>
 					<div class="top_btn_area no_drag">
 						<div class="chk_grp">
-							<input type="checkbox" id="allActi" class="list_chbox" checked="checked"/>
-							<label for="allActi" class="chbox_lbl"></label> 
+							<input type="checkbox" id="allActi" class="list_chbox"
+								checked="checked" /> <label for="allActi" class="chbox_lbl"></label>
 							<label for="allActi" class="chk_txt margin_right">전체</label>
 						</div>
 						<div class="chk_grp">
-							<input type="checkbox" id="actiCall" class="list_chbox acti_chbox" value="0" checked="checked" name="acti0"/> 
-							<label for="actiCall" class="chbox_lbl"></label> 
+							<input type="checkbox" id="actiCall"
+								class="list_chbox acti_chbox" value="0" checked="checked"
+								name="acti0" /> <label for="actiCall" class="chbox_lbl"></label>
 							<label for="actiCall" class="chk_txt margin_right">전화</label>
 						</div>
 						<div class="chk_grp">
-							<input type="checkbox" id="actiCounsel" class="list_chbox acti_chbox" value="1" checked="checked" name="acti1" /> 
-							<label for="actiCounsel" class="chbox_lbl"></label> 
+							<input type="checkbox" id="actiCounsel"
+								class="list_chbox acti_chbox" value="1" checked="checked"
+								name="acti1" /> <label for="actiCounsel" class="chbox_lbl"></label>
 							<label for="actiCounsel" class="chk_txt margin_right">상담</label>
 						</div>
 						<div class="chk_grp">
-							<input type="checkbox" id="actiVisit" class="list_chbox acti_chbox" value="3" checked="checked" name="acti3" /> 
-							<label for="actiVisit" class="chbox_lbl"></label>
+							<input type="checkbox" id="actiVisit"
+								class="list_chbox acti_chbox" value="3" checked="checked"
+								name="acti3" /> <label for="actiVisit" class="chbox_lbl"></label>
 							<label for="actiVisit" class="chk_txt margin_right">방문</label>
 						</div>
 						<div class="chk_grp">
-							<input type="checkbox" id="actiEmail" class="list_chbox acti_chbox" value="2" checked="checked" name="acti2" />
-							<label for="actiEmail" class="chbox_lbl"></label>
+							<input type="checkbox" id="actiEmail"
+								class="list_chbox acti_chbox" value="2" checked="checked"
+								name="acti2" /> <label for="actiEmail" class="chbox_lbl"></label>
 							<label for="actiEmail" class="chk_txt margin_right">이메일</label>
 						</div>
 						<div class="btn btn_yellow btn_size_normal" id="actiAddBtn">등록</div>
@@ -1707,30 +2778,11 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 						<col width="46%" />
 						<col width="46%" />
 					</colgroup>
-					<tbody id="acti_area no_drag">
-						<tr class="activity_row" name="1">
-						<td class="activity_left">
-						<div class="activity_cg_icon">
-						<img src="" alt="" />
-						</div>
-						</td>
-						<td class="activity_right" colspan="">
-						<div class="activity_bg">
-						<div>
-						<div class="activity_cg"></div>
-						<div class="activity_uploadtime">123123</div>
-						</div>
-						<div class="activity_contents">가나다 | 010123456</div>
-						<div class="activity_contents">코딩하기</div>
-						<div class="activity_contents">조형준 사장 담당</div>
-						</div>
-						</td>
-						<tr class="activity_row">
-							<td class="field_contents" colspan="3" style="text-align:center; height: 70px;">조회된 데이터가 없습니다.</td>
-						</tr>
+					<tbody class="no_drag" id="acti_area">
+						<!-- 활동 일정 영역 -->
 					</tbody>
 				</table>
-		</div>
+			</div>
 		</form>
 	</div>
 	<c:import url="/bottom"></c:import>

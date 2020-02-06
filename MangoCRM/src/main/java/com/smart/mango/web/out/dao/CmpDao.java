@@ -38,7 +38,90 @@ public class CmpDao implements ICmpDao {
 	public List<HashMap<String, String>> getCmpList(HashMap<String, String> params) throws Throwable {
 		return sqlSession.selectList("cmp.getCmpList", params);
 	}
+
 	
+	
+	@Override
+	public HashMap<String, String> cmpAdd(HashMap<String, String> params) throws Throwable {
+		String seq = sqlSession.selectOne("cmp.getSeq");
+		params.put("seq", seq);
+		sqlSession.insert("cmp.cmpAdd",params);
+		return params;
+	}
+	
+	@Override
+	public List<HashMap<String, String>> getsms(HashMap<String, String> params) throws Throwable {
+		return sqlSession.selectList("cmp.getsms", params);
+	}
+	@Override
+	public List<HashMap<String, String>> getmms(HashMap<String, String> params) throws Throwable {
+		return sqlSession.selectList("cmp.getmms",params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getemail(HashMap<String, String> params) throws Throwable {
+		return sqlSession.selectList("cmp.getemail", params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getSim_result(HashMap<String, String> params) throws Throwable {
+		return sqlSession.selectList("cmp.getSim_result",params);
+	}
+
+	@Override
+	public void updateS(HashMap<String, String> params) throws Throwable {
+		sqlSession.update("cmp.updateS",params);
+	}
+
+	@Override
+	public void save(HashMap<String, String> params) throws Throwable {
+		sqlSession.insert("cmp.save",params);
+		
+		
+	}
+
+
+	@Override
+	public int searchClientCnt(HashMap<String, String> params) throws Throwable {
+		return sqlSession.selectOne("cmp.searchClientCnt",params);
+	}
+
+	@Override
+	public HashMap<String, String> getCmpS(HashMap<String, String> params) throws Throwable {
+		return sqlSession.selectOne("cmp.getCmpS",params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getCmpType(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("cmp.getCmpType",params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> cmpTypeList(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("cmp.cmpTypeList",params);
+	}
+
+	@Override
+	public void insertT(HashMap<String, String> params) throws Throwable {
+		sqlSession.insert("cmp.insertT",params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> selectCbox(HashMap<String, String> params) throws Throwable {
+		return sqlSession.selectList("cmp.selectCbox",params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> selectCh(HashMap<String, String> params) throws Throwable {
+		return sqlSession.selectList("cmp.selectCh",params);
+	}
+
+	
+
+	
+
 
 
 	

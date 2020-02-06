@@ -12,7 +12,13 @@
        						INNER JOIN COMP_STAT CS2
        						ON C.COMP_STAT_NO = CS2.COMP_STAT_NO
        						INNER JOIN EMP_INFO E
-       						ON C.EMP_NO = E.EMP_NO					
+       						ON C.EMP_NO = E.EMP_NO		
+       						AND E.AUTHOR_NO != 0
+       						INNER JOIN TEAM T
+       						ON T.TEAM_NO = E.TEAM_NO
+       						INNER JOIN DEPART D
+       						ON D.DEPART_NO = T.DEPART_NO
+       						AND D.DEPART_NO != 1
        			WHERE C.COMP_STAT_NO != 0
 				<if test="searchTxt != null and searchTxt != ''">
 					<choose>
@@ -43,7 +49,13 @@
        				INNER JOIN COMP_STAT CS2
        				ON C.COMP_STAT_NO = CS2.COMP_STAT_NO
        				INNER JOIN EMP_INFO E
-       				ON C.EMP_NO = E.EMP_NO					
+       				ON C.EMP_NO = E.EMP_NO
+       				AND E.AUTHOR_NO != 0
+       				INNER JOIN TEAM T
+       				ON T.TEAM_NO = E.TEAM_NO
+       				INNER JOIN DEPART D
+       				ON D.DEPART_NO = T.DEPART_NO
+       				AND D.DEPART_NO != 1					
        			WHERE C.COMP_STAT_NO != 0
 				<if test="searchTxt != null and searchTxt != ''">
 					<choose>
@@ -326,27 +338,25 @@
 	</update>
 	
 	<select id="getCompSche" parameterType="hashmap" resultType="hashmap">
-		SELECT S.SCHE_NO, S.SCHE_CON, S.SCHE_RES, TO_CHAR(S.SCHE_SDATE,'YY / MM / DD') AS SDATE, TO_CHAR(S.SCHE_EDATE,'YY / MM / DD') AS EDATE, S.SCHE_IMPORTANCE AS SC_IP , EI.EMP_NAME,
-		        EP.EMP_POSI_NAME AS EMP_PNM, L.LEAD_NAME, C.CLIENT_POSI_NAME AS CLIENT_PNM, CC2.CODE_S_CATE, CC2.CODE_NAME
-		FROM SCHE S INNER JOIN EMP_INFO EI
-		                    ON S.EMP_NO = EI.EMP_NO
-		            INNER JOIN EMP_POSI EP
-		                    ON EI.EMP_POSI_NO = EP.EMP_POSI_NO
-		            INNER JOIN SCHE_LEAD SL
-		                    ON S.SCHE_NO =  SL.SCHE_NO
-		                    AND S.DEL_YN = 1
-		            INNER JOIN LEAD L
-		                    ON SL.LEAD_NO = L.LEAD_NO
-		            INNER JOIN CLIENT C
-		                    ON L.CLIENT_NO = C.CLIENT_NO
-		            INNER JOIN COMP CM
-		            		ON C.COMP_NO = CM.COMP_NO      
-		            INNER JOIN COMMON_CODE CC1
-		                    ON S.SCHE_DIV_NO = CC1.CODE_S_CATE
-		                    AND CC1.CODE_L_CATE = 2
-		            INNER JOIN COMMON_CODE CC2
-		                    ON S.SCHE_ACTI_NO = CC2.CODE_S_CATE
-		                    AND CC2.CODE_L_CATE = 3
+		SELECT S.SCHE_NO, S.SCHE_CON, S.SCHE_RES, TO_CHAR(S.SCHE_SDATE,'YY / MM / DD') AS SDATE, 
+       		   TO_CHAR(S.SCHE_EDATE,'YY/MM/DD') AS EDATE, S.SCHE_IMPORTANCE AS SC_IP, EI.EMP_NAME, EP.EMP_POSI_NAME AS EMP_PNM, 
+       		   CM.COMP_NAME, C.CLIENT_POSI_NAME AS CLIENT_PNM, CC2.CODE_S_CATE, CC2.CODE_NAME , C.CLIENT_NAME
+		FROM SCHE S INNER JOIN EMP_INFO EI 
+            ON S.EMP_NO = EI.EMP_NO 
+            INNER JOIN EMP_POSI EP 
+            ON EI.EMP_POSI_NO = EP.EMP_POSI_NO
+            INNER JOIN SCHE_CLIENT_INFO SCI
+            ON S.SCHE_NO = SCI.SCHE_NO
+            INNER JOIN CLIENT C 
+            ON SCI.CLIENT_NO = C.CLIENT_NO 
+            INNER JOIN COMP CM 
+            ON C.COMP_NO = CM.COMP_NO 
+            INNER JOIN COMMON_CODE CC1 
+            ON S.SCHE_DIV_NO = CC1.CODE_S_CATE 
+            AND CC1.CODE_L_CATE = 2 
+            INNER JOIN COMMON_CODE CC2 
+            ON S.SCHE_ACTI_NO = CC2.CODE_S_CATE 
+            AND CC2.CODE_L_CATE = 3 
 		WHERE CM.COMP_NO = #{view_no}
 		AND ( ${filter} )
 		ORDER BY S.SCHE_DATE DESC
