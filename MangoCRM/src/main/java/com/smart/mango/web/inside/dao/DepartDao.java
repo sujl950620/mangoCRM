@@ -74,5 +74,25 @@ public class DepartDao implements IDepartDao {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("depart.getMgr",params);
 	}
+	@Override
+	public HashMap<String, String> getTeamInfo(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("depart.getTeamInfo",params);
+	}
+	@Override
+	public void teamEdit(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlSession.update("depart.teamEdit",params);
+	}
+	@Override
+	public void teamMgrEdit(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlSession.update("depart.teamMgrEdit",params);
+	}
+	@Override
+	public HashMap<String, String> getTMgr(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("depart.getTMgr",params);
+	}
 
 }

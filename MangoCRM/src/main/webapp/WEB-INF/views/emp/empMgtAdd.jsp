@@ -165,7 +165,6 @@ $(document).ready(function() {
 	});
 	
 	$("#attachBtn").on("click", function() {
-		console.log("A");
 		$(".attachUpload").click();
 	});
 	

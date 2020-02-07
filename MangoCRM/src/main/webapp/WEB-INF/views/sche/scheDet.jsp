@@ -459,7 +459,7 @@ function loadAttachList(attachlist, attachCnt){
 </head>
 <body>
 	<c:import url="/topLeft">
-			<c:param name="menuNo"></c:param>
+			<c:param name="menuNo">7</c:param>
 	</c:import>
 	<div class="title_area">일정</div>
 	<div class="content_area">

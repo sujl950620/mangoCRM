@@ -637,7 +637,7 @@ $(document).ready(function() {
 				html += "<img src=\"resources/images/activity/" + icon + "_icon.png\" alt=\"\" />";
 				html += "</div>";
 				html += "</td>";
-				html += "<td class=\"activity_right\" colspan=\"" + ((sche[i].EDATE == null) ? "2": "1") +"\">";
+				html += "<td class=\"activity_right\" colspan=\"" + ((sche[i].SCHE_RES == null) ? "2": "1") +"\">";
 				html += "<div class=\"activity_bg\">";
 				html += "<div>";
 				html += "<div class=\"activity_cg\">" + sche[i].CODE_NAME +"</div>";
@@ -648,7 +648,7 @@ $(document).ready(function() {
 				html += "<div class=\"activity_contents\">" + sche[i].EMP_NAME + " " + sche[i].EMP_PNM +" 담당</div>";
 				html += "</div>";
 				html += "</td>";
-				if(sche[i].EDATE != null){
+				if(sche[i].SCHE_RES != null){
 					html += "<td class=\"activity_result\">";
 		            html += "<div class=\"activity_bg_right\">";
 		            html += "<div>";

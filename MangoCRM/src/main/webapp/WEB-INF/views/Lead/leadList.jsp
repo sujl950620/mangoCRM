@@ -396,7 +396,7 @@ function deleteList(){
 		data : params,
 		success : function(result) {
 			if (result.res == "SUCCESS") {	
-				location.reload();
+				reloadCard();
 			} else {
 				alert("안됩니다");
 			}
@@ -474,13 +474,13 @@ function leadCardList(list){
 		},
 		//드랍 함수
 		stop : function(event, ui){
+			$("#lsNo").val($(ui.item).parent("div").attr("id"));
 			if($(ui.item).parent("div").attr("id") == "Conversion"){
 				makeTwoBtnPopup(1, "컨버젼 경고", "정말로 기회로 전환시키겠습니까?", false, 400, 200, null, "확인", function() {
 					closePopup(1);
 					$("#lead_no").val(ui.item.attr("id"));
 					var params = $("#tableForm").serialize() + "&lead_nm=" + $(ui.item).children(".card_title").children(".card_name").html()
 								+ "&empNo=" + $(ui.item).children(".card_title").attr("id");
-					alert(params);
 					$.ajax({
 						type: "post",
 						url: "insertChnAjax",
@@ -496,7 +496,7 @@ function leadCardList(list){
 							} else {
 								makeOneBtnPopup(3, "컨버젼 실패", "이미 기회로 전환된 리드입니다.", false, 400, 200, null, "확인", function() {
 									closePopup(3);
-									reloadList();
+									reloadCard();
 								});
 							}
 						},
@@ -508,15 +508,12 @@ function leadCardList(list){
 					});
 				}, "취소", function() {
 					closePopup(1);
-					reloadList();
+					reloadCard();
 				});
 			} else {
 				editLs();
 			}
 		},
-		deactivate : function(event, ui){
-			$("#lsNo").val($(ui.item).parent("div").attr("id"));
-		}
 	});
 	
 	$(".card_area").on("click",function(e){

@@ -464,6 +464,7 @@ var cnt = 0;
 		$("#cardViewTitle").on("click","div[name=departno]>div", function(){
 			if($(this).attr("class") == "card_view_stat"){
 			$("#depart_no").val($(this).attr("name"));
+			$("#flag").val("true");
 			$("#departmgr_no").val($(this).attr("id"));
 			$("#actionForm").attr("action", "departInfo");
 			$("#actionForm").submit();
@@ -749,6 +750,7 @@ var cnt = 0;
 			<input type="hidden" id="sAuthorNo" name="sAuthorNo" value="${sAuthorNo}"/>	
 			<input type="hidden" name="depart_no" id="depart_no"/>
 			<input type="hidden" name="team_no" id="team_no"/>
+			<input type="hidden" name="flag" id="flag" value="false"/>
 			<input type="hidden" name="departNo" id="departNo"/>
 			<input type="hidden" name="newDepartNo" id="newDepartNo"/>
 			<input type="hidden" name="newInAndOut" id="newInAndOut"/>

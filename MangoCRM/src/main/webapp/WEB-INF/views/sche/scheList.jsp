@@ -31,7 +31,8 @@ $(document).ready(function() {
 	
 	$("tbody").on("click", "tr", function() {
 		$("#sche_no").val($(this).attr("name"));
-		$("#scheDivNoM").val($(this).children("#scheDivNo").attr("name"));
+		var divNo = $(this).children("#scheDivNo").attr("name");
+		$("#scheDivNoM").val((divNo == "일정")? 0 : ((divNo == "리드")? 1 : 2));
 		$("#actionForm").attr("action", "scheDet");
 		$("#actionForm").submit();
 	});
@@ -106,9 +107,9 @@ function redrawSche(list) {
 	if(list1.length != 0) {
 		for(var i in list1) {
 			html += "<tr class=\"list_contents\" name=\"" + list1[i].SCHE_NO + "\">";
-			html += "<td>" + list1[i].SDATE + " ~ " + list[i].EDATE + "</td>";
-			html += "<td>" + list1[i].SCHE + "</td>";
-			html += "<td id=\"scheDivNo\" name=\"" + list1[i].TASKDIV + "\">" + list1[i].TASKDIV + "</td>";
+			html += "<td>" + list1[i].SDATE + " ~ " + list1[i].EDATE + "</td>";
+			html += "<td id=\"scheDivNo\" name=\"" + list1[i].SCHE + "\">" + list1[i].SCHE + "</td>";
+			html += "<td>" + list1[i].TASKDIV + "</td>";
 			html += "<td>" + list1[i].COMP_NAME + "</td>";
 			html += "<td>" + list1[i].CLIENT_NAME + "</td>";
 			html += "</tr>";

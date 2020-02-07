@@ -240,9 +240,11 @@ $(document).ready(function() {
                         </select>
                	</div>
                	<div class="top_btn_area" >
+               	<c:if test="${sAuthorNo eq 0 or sAuthorNo eq 1 or sAuthorNo eq 2 or sAuthorNo eq 4}">
                		<div class="btn btn_yellow btn_size_normal" id="add">등록</div>
                		<div class="btn btn_yellow btn_size_normal" id="edit">수정</div>
                     <div class="btn btn_yellow btn_size_normal" id="delete">삭제</div>
+                    </c:if>
                	</div>
                	<div class="top_title_area">
                 	<div>

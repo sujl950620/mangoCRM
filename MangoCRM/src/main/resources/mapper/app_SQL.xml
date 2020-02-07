@@ -1,25 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cmp">
-	<select id="listCnt" parameterType="hashmap"
-		resultType="Integer">
-		SELECT COUNT(*) AS CNT
-		FROM CMP_APP INNER JOIN CMP
-		ON CMP_APP.CMP_NO =
-		CMP.CMP_NO
-		LEFT OUTER JOIN EMP_INFO
-		ON EMP_INFO.EMP_NO = CMP_APP.APP_EMP_NO
-		WHERE 1=1
+	<select id="listCnt" parameterType="hashmap" resultType="Integer">
+	   	SELECT COUNT(*) AS CNT
+		FROM CMP CMP INNER JOIN EMP_INFO EI ON CMP.ADDEMP_NO = EI.EMP_NO
+    	WHERE PROG_STAT IN(4,5)
 		<if test="searchTxt != null and searchTxt != ''">
 			<choose>
 				<when test="searchGbn eq 0">
 					AND CMP.CMP_NAME LIKE '%' || #{searchTxt} || '%'
 				</when>
 				<when test="searchGbn eq 1">
-					AND EMP_INFO.EMP_NAME LIKE '%' || #{searchTxt} || '%'
+					AND EI.EMP_NAME LIKE '%' || #{searchTxt} || '%'
 				</when>
 				<when test="searchGbn eq 2">					
-					AND CMP_APP.APP_STAT LIKE '%' || #{searchTxt} || '%'
+					AND  CMP.PROG_STAT LIKE '%' || #{searchTxt} || '%'
 				</when>
 			</choose>
 		</if>
@@ -27,30 +22,23 @@
 	
 	<!-- 결재목록 -->
 	<select id="getlist" parameterType="hashmap" resultType="hashmap">
- 		SELECT ALIST.APP_NO,ALIST.APP_STAT,ALIST.APP_DAY,ALIST.APP_EMP_NO,ALIST.SDATE ,ALIST.EDATE , ALIST.CMP_NAME,ALIST.EMP_NAME,ALIST.RNUM, ALIST.EMP_NO AS EMP_NO, ALIST.CMP_NO
-		FROM (SELECT APP_NO,APP_STAT,NVL(TO_CHAR(APP_DAY,'YY-MM-DD'),' ') AS APP_DAY,APP_EMP_NO,TO_CHAR(SDATE,'YY-MM-DD') AS SDATE,TO_CHAR(EDATE,'YY-MM-DD') AS EDATE,CMP_NAME, NVL(EMP_NAME,'') AS EMP_NAME,
-			  ROW_NUMBER() OVER(ORDER BY APP_NO ASC) AS RNUM , EMP_NO,CMP.CMP_NO
-			  FROM CMP_APP INNER JOIN CMP
-				 				   ON CMP_APP.CMP_NO = CMP.CMP_NO
-			  			   LEFT OUTER JOIN EMP_INFO
-								   ON EMP_INFO.EMP_NO = CMP_APP.APP_EMP_NO
-								   WHERE 1=1
-		<if test="searchTxt != null and searchTxt != ''">
+		select CMP_NAME , TO_CHAR(CMP.SDATE,'YYYY-MM-DD') AS SDATE, TO_CHAR(CMP.EDATE,'YYYY-MM-DD') AS EDATE , CMP.PROG_STAT , TO_CHAR(CMP.APP_DAY,'YYYY-MM-DD') AS APP_DAY
+		        , CMP_NO ,ROW_NUMBER()OVER(ORDER BY CMP_NO DESC) AS RNUM , EI.EMP_NAME AS EMP_NAME
+		from cmp CMP INNER JOIN EMP_INFO EI ON CMP.ADDEMP_NO = EI.EMP_NO
+		where prog_stat in(4,5)		
+			<if test="searchTxt != null and searchTxt != ''">
 			<choose>
 				<when test="searchGbn eq 0">
 					AND CMP.CMP_NAME LIKE '%' || #{searchTxt} || '%'
 				</when>
 				<when test="searchGbn eq 1">
-					AND EMP_INFO.EMP_NAME LIKE '%' || #{searchTxt} || '%'
+					AND EI.EMP_NAME LIKE '%' || #{searchTxt} || '%'
 				</when>
 				<when test="searchGbn eq 2">					
-					AND CMP_APP.APP_STAT LIKE '%' || #{searchTxt} || '%'
+					AND  CMP.PROG_STAT LIKE '%' || #{searchTxt} || '%'
 				</when>
 			</choose>
-		</if>
-		) ALIST
-		WHERE ALIST.RNUM BETWEEN #{startCnt} AND #{endCnt}
-		ORDER BY ALIST.RNUM DESC		 	
+		</if>	
 	</select>
 	
 	<update id="Appday" parameterType="hashmap">
@@ -72,6 +60,19 @@
 		FROM SIM_RESULT S INNER JOIN CMP      ON S.CMP_NO = CMP.CMP_NO
 		                INNER JOIN CHANNEL C  ON C.CHANNEL_NO = S.CHANNEL_NO
 		                INNER JOIN EMP_INFO EI ON CMP.MGR_NO = EI.EMP_NO
-		WHERE SIM_NO = 1
+		WHERE S.CMP_NO = #{appno}
 	</select>		
+	<!--prog stat update  -->
+	<update id="updateStat" parameterType="hashmap">
+		UPDATE CMP SET PROG_STAT=(SELECT PROG_STAT
+									FROM CMP
+									WHERE CMP_NO = #{appno}
+									)	 +	1
+		WHERE CMP_NO = #{appno}
+		</update>	
+	<!-- 시퀀스 조회 -->
+	<select id="ggetSeq" resultType="String">
+		SELECT CMP_SEQ.NEXTVAL AS SEQ
+		FROM DUAL
+	</select>
 	</mapper>

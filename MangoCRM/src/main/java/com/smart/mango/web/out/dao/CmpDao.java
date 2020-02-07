@@ -74,14 +74,6 @@ public class CmpDao implements ICmpDao {
 	}
 
 	@Override
-	public void save(HashMap<String, String> params) throws Throwable {
-		sqlSession.insert("cmp.save",params);
-		
-		
-	}
-
-
-	@Override
 	public int searchClientCnt(HashMap<String, String> params) throws Throwable {
 		return sqlSession.selectOne("cmp.searchClientCnt",params);
 	}
@@ -92,30 +84,36 @@ public class CmpDao implements ICmpDao {
 	}
 
 	@Override
-	public List<HashMap<String, String>> getCmpType(HashMap<String, String> params) throws Throwable {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("cmp.getCmpType",params);
-	}
-
-	@Override
-	public List<HashMap<String, String>> cmpTypeList(HashMap<String, String> params) throws Throwable {
-		// TODO Auto-generated method stub
-		return sqlSession.selectList("cmp.cmpTypeList",params);
-	}
-
-	@Override
-	public void insertT(HashMap<String, String> params) throws Throwable {
-		sqlSession.insert("cmp.insertT",params);
-	}
-
-	@Override
 	public List<HashMap<String, String>> selectCbox(HashMap<String, String> params) throws Throwable {
 		return sqlSession.selectList("cmp.selectCbox",params);
 	}
 
 	@Override
+	public void insertT(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlSession.insert("cmp.insertT", params);
+	}
+
+	@Override
 	public List<HashMap<String, String>> selectCh(HashMap<String, String> params) throws Throwable {
-		return sqlSession.selectList("cmp.selectCh",params);
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("cmp.selectCh", params);
+	}
+
+	@Override
+	public void save(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		sqlSession.insert("cmp.save", params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> getCmpType(HashMap<String, String> params) throws Throwable {
+		return sqlSession.selectList("cmp.getCmpType",params);
+	}
+
+	@Override
+	public List<HashMap<String, String>> cmpTypeList(HashMap<String, String> params) throws Throwable {
+		return sqlSession.selectList("cmp.cmpTypeList",params);
 	}
 
 	

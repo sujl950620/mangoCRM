@@ -81,6 +81,9 @@ public class ProdController {
 	public String ServicelistAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+			HashMap<String, String> data = iProdService.getdata(params);
+			mav.addObject("data", data);
 
 		 int cnt2 = iProdService.getservicelistCnt(params);
 
@@ -104,6 +107,9 @@ public class ProdController {
 	public String GoodslistAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		HashMap<String, String> data = iProdService.getdata(params);
+		mav.addObject("data", data);
 		
 		 int cnt1 = iProdService.getgoodslistCnt(params);
 		 
@@ -198,9 +204,21 @@ public class ProdController {
 
 		return mapper.writeValueAsString(modelMap);
 	}
+	@RequestMapping(value = "/Detdelete2Ajax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	
+	@ResponseBody
+	public String Detdelete2Ajax(@RequestParam HashMap<String, String> params, HttpSession session, ModelAndView mav)
+			throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		
+		iProdService.Detdeletedata2(params);
+		
+		
+		return mapper.writeValueAsString(modelMap);
+	}
 	//글수정
 	@RequestMapping(value = "/DetupdateAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
-	
 	@ResponseBody
 	public String DetupdateAjax(@RequestParam HashMap<String, String> params, HttpSession session, ModelAndView mav)
 			throws Throwable {
@@ -208,6 +226,23 @@ public class ProdController {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		try {
 			iProdService.updatedata(params);
+			modelMap.put("res", "SUCCESS");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		
+		return mapper.writeValueAsString(modelMap);
+	}
+	//글수정2
+	@RequestMapping(value = "/Detupdate2Ajax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String Detupdate2Ajax(@RequestParam HashMap<String, String> params, HttpSession session, ModelAndView mav)
+			throws Throwable {
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		try {
+			iProdService.update2data(params);
 			modelMap.put("res", "SUCCESS");
 		} catch (Exception e) {
 			e.printStackTrace();

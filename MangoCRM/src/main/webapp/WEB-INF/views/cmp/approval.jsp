@@ -11,11 +11,12 @@
 	$(document).ready(function(){
 		reloadList();
 		$("#searchBtn").on("click", function() {
+			$("#page").val("1");
+			reloadList();
 			if($("#searchTxt").val()== "승인"){
-				$("#searchTxt").val(5);	
-				$("#page").val("1");
-				reloadList();
+				$("#searchTxt").val(5);				
 				$("#searchTxt").val("");
+				
 			} else if($("#searchTxt").val()== "미승인"){
 						$("#searchTxt").val(4);
 						$("#page").val("1");
@@ -23,6 +24,7 @@
 						$("#searchTxt").val("");
 			}
 		});
+	
 		
 		$("tbody").on("dblclick", "tr", function() {
 			$("#appno").val($(this).attr("name"));			
@@ -39,7 +41,7 @@
 			}
 		});
 	});
-		function reloadList(){
+			function reloadList(){
 			var params = $("#actionForm").serialize();
 			console.log(params);
 			$.ajax({
@@ -58,28 +60,34 @@
 			});
 		}
 		function redrawList(list) {
-			var html = "";
-			
+			var html = "";			
 				if(list.length == 0){					
 					html += "<tr>";
 					html += "<td colspan=\"5\">조회된 데이터가 없습니다.</td>";
 					html += "</tr>";
 				}else {
 					for ( var i in list) {
-						html += "<tr  style=\"height:80px;\" name=\"" + list[i].CMP_NO+ "\" id=\"" + list[i].APP_STAT + "\">";
+						html += "<tr name=\"" + list[i].CMP_NO+ "\" id=\"" + list[i].PROG_STAT + "\">";
 						html += "<td>" + list[i].RNUM + "</td>";
 						html += "<td>"+ list[i].SDATE + " ~ " + list[i].EDATE +"</td>";
 						html += "<td>" + list[i].CMP_NAME + "</td>";
-						html += "<td>" + list[i].APP_DAY + "</td>";
 						
-						if( list[i].EMP_NAME == undefined){
-							html += "<td>   </td>";
+						if(list[i].PROG_STAT ==4){
+							html +="<td> </td>"							
+						}else{
+							
+							html += "<td>" + list[i].APP_DAY+ "</td>";
 						}
-						else{
+						
+						if(list[i].PROG_STAT ==4){
+							html +="<td> </td>"							
+						}else{
+							
 							html +="<td>" + list[i].EMP_NAME + "</td>"
 						}
-						
-						  if(list[i].APP_STAT == 4){
+
+						if(list[i].PROG_STAT == 4){
+							  	
 		                        html += "<td> 미승인  </td>" ; 
 		                    }else
 		                        {
@@ -480,7 +488,7 @@ display: inline-block;
 			<input type="hidden" name="appno" id="appno" value="" />
 			<input type="hidden" name="empno" id="empno" value="" />        
 			<input type="hidden" name="appstat" id ="appstat" value=""/>
-			
+			<input type="hidden" id="seq" name="seq" value="${param.seq}"/>	
          <div class="content_srch">
             <div class="content_srch_btn">            
                   <div id="searchBtn">검색</div>
@@ -506,7 +514,7 @@ display: inline-block;
 			</thead>
 			<tbody>
 				<tr class="sample_2">
-					<td colspan="5">조회된 데이터가 없습니다.</td>
+					<td colspan="6">조회된 데이터가 없습니다.</td>
 				</tr>
 			</tbody>
       </table>   

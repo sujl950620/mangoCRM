@@ -11,7 +11,6 @@
 </head>
 <script type="text/javascript">
 $(document).ready(function(){
-	alert($("#seq").val());
 	clientListdraw();
 	targetSelect();
 	
@@ -95,7 +94,6 @@ $(document).ready(function(){
 			dataType : "json", 
 			data : str, 
 			success : function(res){
-				alert(params);
 				
 				$("#searchForm").attr("action","channelSelect");
 				$("#searchForm").submit();

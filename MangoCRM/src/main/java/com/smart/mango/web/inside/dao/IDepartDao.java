@@ -28,8 +28,16 @@ public interface IDepartDao {
 	public void departEdit(HashMap<String, String> params) throws Throwable;
 
 	public void departMgrEdit(HashMap<String, String> params) throws Throwable;
+	
+	public void teamEdit(HashMap<String, String> params) throws Throwable;
+	
+	public void teamMgrEdit(HashMap<String, String> params) throws Throwable;
 
 	public HashMap<String, String> getMgr(HashMap<String, String> params) throws Throwable;
+
+	public HashMap<String, String> getTeamInfo(HashMap<String, String> params) throws Throwable;
+
+	public HashMap<String, String> getTMgr(HashMap<String, String> params) throws Throwable;
 
 
 }

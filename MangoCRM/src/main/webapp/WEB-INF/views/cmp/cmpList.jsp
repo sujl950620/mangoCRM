@@ -35,10 +35,10 @@ function cmpList(){
 	var params = $("#actionForm").serialize();
 	
 	$.ajax({
-		type : "post",     // 데이터 전송방식
-		url : "cmpListAjax", // 주소
-		dataType : "json", // 데이터 전송 규격
-		data : params,     // 보낼 데이터...
+		type : "post",     
+		url : "cmpListAjax",
+		dataType : "json",
+		data : params,
 		success : function(result){
 			redrawCmpList(result.list);
 			 drawPaging(result.pb);
@@ -119,7 +119,7 @@ function redrawCmpList(list){
 				$("#actionForm").attr("action", "perfAnalyze");
 				$("#cmpNo").val($(this).attr("name"));
 				$("#actionForm").submit();
-			}
+			} 
 		});
 	}
 	
@@ -208,9 +208,6 @@ function redrawCmpList(list){
 	               <td class="table_title5">담당자</td>
             </tr>
             </thead>
-            
-            
-            
             <tbody>
 	            <tr class="title_2">
 	              <td></td>

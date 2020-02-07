@@ -21,8 +21,9 @@ $(document).ready(function() {
 		});
 		
 		$("#del").on("click", function(){
-			makeTwoBtnPopup(1, "삭제메시지", "제품정보를 삭제하시겠습니까?", true, 400, 200, null, "확인", function() {
+			makeTwoBtnPopup(1, "삭제메시지", "정보를 삭제하시겠습니까?", true, 400, 200, null, "확인", function() {
     			delete1();
+    			delete2();
     			closePopup(1);
       		},"취소", function() {
     			closePopup(1);
@@ -48,6 +49,24 @@ $(document).ready(function() {
 				success : function(result) {
 						   location.href = "prodList"
 
+		            },
+				error : function(request, status, error) {
+					console.log("text : " + request.responseText);
+					console.log("error : " + error);
+				}
+
+			})
+	
+		};
+		function delete2() {
+			var params = $("#actionForm").serialize();
+			
+			$.ajax({
+				type : "post",
+				url : "Detdelete2Ajax",
+				dateType : "json",
+				data : params,
+				success : function(result) {
 		            },
 				error : function(request, status, error) {
 					console.log("text : " + request.responseText);
@@ -84,6 +103,7 @@ $(document).ready(function() {
 				 <input type="hidden" id="goods_no" name="goods_no" value="${param.goods_no}"/>
 				<input type="hidden" id="service_no" name="service_no" value="${param.service_no}"/>	
 				<input type="hidden" id="prod" name="prod" value="${param.prod}"/>	
+				<input type="hidden" id="prod_no" name="prod_no" value="${param.prod_no}"/>	
 				
 			
 				<div class="table_top_area">
@@ -106,11 +126,11 @@ $(document).ready(function() {
 						<col width="40%" />
 					</colgroup>
 					<tr>
-						<td class="field_name first_field_name">제품번호
+						<td class="field_name first_field_name">상품명
 						<span class="acc_txt"></span>
 						</td>
 						<td class="field_contents" colspan="">
-							<input type="text" class="input_border_0" readonly="readonly" id="GOODS_NO" name="GOODS_NO" value="${data.GOODS_NO}"/>
+							<input type="text" class="input_border_0" readonly="readonly" id="PROD_NAME1" name="PROD_NAME1" value="${data.PROD_NAME}"/>
 						</td>
 						<td class="field_name">제품코드
 						<span class="acc_txt"></span>
@@ -152,11 +172,11 @@ $(document).ready(function() {
 						<col width="40%" />
 					</colgroup>
 					<tr>
-						<td class="field_name first_field_name">서비스 번호
+						<td class="field_name first_field_name">상품명
 						<span class="acc_txt"></span>
 						</td>
 						<td class="field_contents" colspan="">
-							<input type="text" class="input_border_0" readonly="readonly" id="SERVICE_NO" name="SERVICE_NO" value="${data.SERVICE_NO}" />
+							<input type="text" class="input_border_0" readonly="readonly" id="PROD_NAME2" name="PROD_NAME2" value="${data.PROD_NAME}" />
 						</td>
 						<td class="field_name">서비스 코드
 						<span class="acc_txt"></span>

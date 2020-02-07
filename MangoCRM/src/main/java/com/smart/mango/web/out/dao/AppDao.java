@@ -42,4 +42,10 @@ public class AppDao implements IAppDao{
 		// TODO Auto-generated method stub
 		return sqlSession.selectList("cmp.get_sim",params);
 	}
+
+	@Override
+	public void updateStat(HashMap<String, String> params) throws Throwable {
+		sqlSession.update("cmp.updateStat",params);
+		
+	}
 }

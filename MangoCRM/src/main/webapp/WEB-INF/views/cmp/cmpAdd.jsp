@@ -14,13 +14,11 @@
 $(document).ready(function() {
 	
 	$("#cmpType").change(function(){
-		console.log($("#cmpType").val());
 		getCmptype();
 	});
 	// 다음 버튼 클릭 Event
 	$("#next_Btn").on("click", function() {
 		$("#typeNo").val($("#cmpType option:selected").val());
-//		console.log($("#cmpType option:selected").val());
 		
 		var params = $("#actionForm").serialize();
 		
@@ -33,7 +31,6 @@ $(document).ready(function() {
 			success : function(result){
 				if(result.res == "SUCCESS"){
 					$("#seq").val(result.seq);
-					console.log(result.seq);
 					alert("등록을 완료하였습니다.")
 					$("#actionForm").attr("action","targetSelect");
 					$("#actionForm").submit(); 
@@ -53,8 +50,43 @@ $(document).ready(function() {
 	});
 });
 
-});
-	</script>
+
+function getCmptype() {
+	var params = $("#actionForm").serialize();
+	
+	$.ajax({
+		type : "post", 
+		url : "cmptypeAjax", 
+		dataType : "json", 
+		data : params,
+		
+		success : function(result){
+			cmpTypeList(result.cmpTypeList);
+		},
+		error : function(request,status, error){
+			console.log("status : " + request.status);
+			console.log("text : " + request.responseText);
+			console.log("error : " + error);
+		}
+	});
+	
+}
+function cmpTypeList(list) {
+	var html = "";
+	var cnt = 1;
+	for(i in list){
+	html += "<tr class=\"sample_2\">";
+	html += "<td class=\"sample_1_txt\">"+cnt+"</td>";
+	html += "<td class=\"sample_2_txt\">"+list[i].CMP_NAME+"</td>";
+	html += "<td class=\"sample_3_txt\">"+list[i].SDATE+"~"+list[i].EDATE+"</td>";
+	html += "<td class=\"sample_4_txt\">완료</td>";
+	html += "<td class=\"sample_5_txt\">"+list[i].EMP_NAME+"</td>";
+	html += "</tr>";
+	cnt++;
+	}
+	$("#cmptypeList>tbody").html(html);
+} 
+</script>
 <body>
 	<c:import url="/topLeft">
 		<c:param name="menuNo">9</c:param>
@@ -112,11 +144,10 @@ $(document).ready(function() {
 							<th>캠페인 유형</th>
 							<td colspan="3">
 								<select class="content_srch_DD2" name="cmpType" id="cmpType">
-										<option class="content_srch_DD1">유형을 고르시오.</option>
-										<option value="0">A 캠페인</option>
-										<option value="1">B 캠페인</option>
-										<option value="2">C 캠페인</option>
-										<option value="3">D 캠페인</option>
+								<option>유형을 고르시오.</option>
+								<c:forEach var="data" items="${list}">
+									<option value="${data.CMP_TYPE_NO}">${data.CMP_TYPE_NAME}</option>
+								</c:forEach>
 								</select>
 							</td>
 						</tr>
@@ -124,7 +155,8 @@ $(document).ready(function() {
 			</div>
 
 			<br />
-				<table>
+				<table id="cmptypeList">
+					<thead>
 					<tr class="sample_1">
 	
 						<td class="sample_title1">일련번호</td>
@@ -133,15 +165,18 @@ $(document).ready(function() {
 						<td class="sample_title4">진행상태</td>
 						<td class="sample_title5">담당자</td>
 					</tr>
+					</thead>
+					<tbody>
 					<tr class="sample_2">
 	
-						<td>1</td>
+						<td></td>
 						<td><input class="sample1_txt" type="text" readonly /></td>
 						<td><input class="sample2_txt" type="text" readonly/></td>
 						<td><input class="sample3_txt" type="text" readonly /></td>
 						<td><input class="sample4_txt" type="text" readonly /></td>
 	
 					</tr>
+					</tbody>
 				</table>
 				
 				

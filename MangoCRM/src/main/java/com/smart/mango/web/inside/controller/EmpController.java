@@ -43,15 +43,19 @@ public class EmpController {
 	}
 	
 	// 사원 목록 Get
-	@RequestMapping(value="/getEmpListAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
+	@RequestMapping(value="/getEmpListAjax", 
+					method=RequestMethod.POST, 
+					produces="text/json;charset=UTF-8")
 	@ResponseBody
-	public String getEmpListAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+	public String getEmpListAjax(@RequestParam HashMap<String, String> params, 
+								 ModelAndView mav) throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		
 		int cnt = iEmpService.getEmpCnt(params);
 		
-		PagingBean pb = iPagingService.getPagingBean(Integer.parseInt(params.get("page")), cnt, 10, 5);
+		PagingBean pb = iPagingService.getPagingBean(
+							Integer.parseInt(params.get("page")), cnt, 10, 5);
 		params.put("startCnt", Integer.toString(pb.getStartCount()));
 		params.put("endCnt", Integer.toString(pb.getEndCount()));
 		

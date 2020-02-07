@@ -31,6 +31,10 @@ public interface IProdDao {
 
 	public void updatedata(HashMap<String, String> params)throws Throwable;
 
+	public void update2data(HashMap<String, String> params)throws Throwable;
+
+	public void Detdeletedata2(HashMap<String, String> params)throws Throwable;
+
 	/*
 	 * HashMap<String, String> getproddata(HashMap<String, String> params)throws
 	 * Throwable;

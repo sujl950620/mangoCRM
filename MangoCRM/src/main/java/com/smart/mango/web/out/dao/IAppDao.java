@@ -15,6 +15,8 @@ public interface IAppDao {
 
 	List<HashMap<String, String>> get_sim(HashMap<String, String> params) throws Throwable;
 
+	public void updateStat(HashMap<String, String> params) throws Throwable;
+
 	
 
 }

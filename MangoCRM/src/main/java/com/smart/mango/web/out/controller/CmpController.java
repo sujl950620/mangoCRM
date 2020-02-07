@@ -83,6 +83,8 @@ public class CmpController {
 		return mav;
 	}
 
+	
+	
 	// cmpListAjax
 	@RequestMapping(value = "/cmpListAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 
@@ -94,7 +96,6 @@ public class CmpController {
 
 		try {
 			int cnt = icmpservice.getCmpCnt(params);
-			System.out.println(params);
 			PagingBean pb = iPagingService.getPagingBean(Integer.parseInt(params.get("page")), cnt, 10, 10);
 			params.put("startCnt", Integer.toString(pb.getStartCount()));
 			params.put("endCnt", Integer.toString(pb.getEndCount()));
@@ -111,8 +112,10 @@ public class CmpController {
 
 	// 캠페인 등록(기본정보 입력)
 	@RequestMapping(value = "/cmpAdd")
-	public ModelAndView cmpAdd(ModelAndView mav) {
-
+	public ModelAndView cmpAdd(ModelAndView mav,@RequestParam HashMap<String, String> params) throws Throwable{
+		List<HashMap<String, String>> list = icmpservice.getCmpType(params);
+		mav.addObject("list",list);
+		
 		mav.setViewName("cmp/cmpAdd");
 
 		return mav;
@@ -122,7 +125,7 @@ public class CmpController {
 	@RequestMapping(value = "/cmpAddAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 
 	@ResponseBody // Spring은 View를 활용하여 구현하게 되어있어 View인것으로 인식시켜 넘어가게하는 어노테이션
-	public String chcompsaveAjax(@RequestParam HashMap<String, String> params, HttpSession session, ModelAndView mav)
+	public String cmpAddAjax(@RequestParam HashMap<String, String> params, HttpSession session, ModelAndView mav)
 			throws Throwable {
 		ObjectMapper mapper = new ObjectMapper();
 		Map<String, Object> modelMap = new HashMap<String, Object>();
@@ -152,6 +155,7 @@ public class CmpController {
 		return mav;
 	}
 
+	
 	@RequestMapping(value = "/Sim_resultAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
 	public String Sim_resultAjax(@RequestParam HashMap<String, String> params, ModelAndView modelAndView)
@@ -324,6 +328,22 @@ public class CmpController {
 			modelMap.put("res", "FAILED");
 		}
 
+		return mapper.writeValueAsString(modelMap);
+	}
+	
+	@RequestMapping(value="/cmptypeAjax",
+			method = RequestMethod.POST,
+			produces = "text/json;charset=UTF-8")
+	
+	@ResponseBody // Spring은 View를 활용하여 구현하게 되어있어 View인것으로 인식시켜 넘어가게하는 어노테이션
+	public String cmptypeAjax(@RequestParam HashMap<String,String> params, 
+			HttpSession session,ModelAndView mav) throws Throwable{
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+
+		List<HashMap<String, String>> cmpTypeList = icmpservice.cmpTypeList(params);
+		
+		modelMap.put("cmpTypeList",cmpTypeList);
 		return mapper.writeValueAsString(modelMap);
 	}
 

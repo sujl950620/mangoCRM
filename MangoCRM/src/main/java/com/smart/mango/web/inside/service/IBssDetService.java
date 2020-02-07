@@ -95,5 +95,8 @@ public interface IBssDetService {
 
 	public List<HashMap<String, String>> getDepList(HashMap<String, String> params) throws Throwable;
 
+	public List<HashMap<String, String>> getBssTypeEnd(HashMap<String, String> params) throws Throwable;
+
+	public HashMap<String, String> getBssNo(HashMap<String, String> params) throws Throwable;
 
 }

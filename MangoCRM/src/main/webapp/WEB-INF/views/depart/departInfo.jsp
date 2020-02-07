@@ -9,13 +9,29 @@
 <c:import url="/header"></c:import>
 <script type="text/javascript">
 	var cnt = 0;
+	var team = 0;
+	var depart = 0;
 	//버튼에 한글자씩 추가되면 길이가 10씩 늘어납니다.
 	$(document).ready(function() {
-			getDepartInfo();			
+			getDepartInfo();
 		$("#searchDepart").change(function(){
 			$("#depart_no").val($("#searchDepart").val());
-			console.log($("#depart_no").val());
 			getDepartInfo();
+			getTeamInfo();
+			$("#searchTeam").val(0);
+			$("#TEMP_NAME").val("");
+			$("#TEAM_TASK").val("");
+			$("#TCNT").val("");
+		});
+		$("#searchTeam").change(function(){
+			$("#team_no").val($("#searchTeam").val());
+			if($("#searchTeam").val() == '0')
+				{
+				$("#TEMP_NAME").val("");
+				$("#TEAM_TASK").val("");
+				$("#TCNT").val("");
+				}
+			getTeamInfo();
 		});
 		// Button Auto Sizing
 		$('button').each(function() {
@@ -34,7 +50,7 @@
 			location.href = "departMgt";
 		});
 		
-		$("#edit").on("click", function(){
+		$("#departEdit").on("click", function(){
 			var params = $("#actionForm").serialize();
 
 			$.ajax({
@@ -43,7 +59,27 @@
 				dataType: "json",
 				data: params,
 				success: function(result) {
-					makeAlert(1, "성공", "부서가 수정되었습니다.", function(){
+					makeAlert(1, "성공", "부서정보가 수정되었습니다.", function(){
+						location.href = "departMgt";
+					});
+				},
+				error : function(request, status, error) {
+					console.log("status : " + request.status);
+					console.log("text : " + request.responseTest);
+					console.log("error : " + error);
+				}
+			});
+		});
+		$("#teamEdit").on("click", function(){
+			var params = $("#actionForm").serialize();
+
+			$.ajax({
+				type: "post",
+				url: "teamEditAjax",
+				dataType: "json",
+				data: params,
+				success: function(result) {
+					makeAlert(1, "성공", "팀정보가 수정되었습니다.", function(){
 						location.href = "departMgt";
 					});
 				},
@@ -99,9 +135,10 @@
 			});
 		});
 	
-		$("#emp_select").on("click", function() {
+	//부서담당자 검색
+		$("#departEmp_select").on("click", function() {
 			var html = "";
-			
+			depart = 1;
 			html += "<form action=\"#\" method=\"post\" id=\"searchForm\">";
 			html += "<div>";
 			html += "<input type=\"text\" class=\"input_search\" id=\"searchTxt\" name=\"searchTxt\" placeholder=\"Ex) 홍길동\" />";
@@ -115,6 +152,46 @@
 			else{
 			html += "<input type=\"hidden\" id=\"depart_no\" name=\"depart_no\" value=\""+$("#searchDepart").val()+"\"/>	";				
 			}
+			html += "</form>";
+			html += "<table class=\"pop_list\" id=\"pop_list\">";
+			html += "<colgroup><col width=\"15%\"/><col width=\"20%\"/><col width=\"15%\"/><col width=\"25%\"/><col width=\"25%\"/>";
+			html += "<thead>";
+			html += "<tr class = \"table_list_header\">";
+			html += "<td>번호</td>";
+			html += "<td>부서</td>";
+			html += "<td>팀</td>";
+			html += "<td>이름</td>";
+			html += "<td>직급</td>";
+			html += "</tr>";
+			html += "</thead>";
+			html += "<tbody>";
+			html += "<tr class=\"list_contents\" style=\"height: 350px;\">";
+			html += "<td colspan=\"7\">조회된 데이터가 없습니다.</td>";
+			html += "</tr>";
+			html += "</tbody>";
+			html += "</table>";
+			html += "<div class=\"list_paging_area\" style=\"margin-top: 0px;\">";
+	        html += "</div>";
+	        
+	        makeNoBtnPopup(1, "사원 조회", html, true, 600, 650, function() {
+	        	getEmpList();
+	        	setEmpEvent();
+			});
+		});
+		
+	//팀담당자 검색
+		$("#teamEmp_select").on("click", function() {
+			$("#team_no").val($("#searchTeam").val());
+			var html = "";
+			team = 1;
+			html += "<form action=\"#\" method=\"post\" id=\"searchForm\">";
+			html += "<div>";
+			html += "<input type=\"text\" class=\"input_search\" id=\"searchTxt\" name=\"searchTxt\" placeholder=\"Ex) 홍길동\" />";
+			html += "<img src =\"resources/images/button/icon_search_gray.png\" alt=\"\" width=\"30px\" class=\"search_icon\" id=\"empSearchBtn\">";
+			html += "<img src =\"resources/images/button/icon_cancel_gray.png\" alt=\"\" width=\"20px\" class=\"cancel_icon\" id=\"empCancelBtn\">";
+			html += "</div>";
+			html += "<input type=\"hidden\" name=\"page\" id=\"page\" value=\"1\" />";
+			html += "<input type=\"hidden\" id=\"team_no\" name=\"team_no\" value=\""+$("#searchTeam").val()+"\"/>	";				
 			html += "</form>";
 			html += "<table class=\"pop_list\" id=\"pop_list\">";
 			html += "<colgroup><col width=\"15%\"/><col width=\"20%\"/><col width=\"15%\"/><col width=\"25%\"/><col width=\"25%\"/>";
@@ -171,7 +248,7 @@
 		if(list.length > 0) {
 			for(var i in list) {
 		  		if(list[i].DEPART_NO == $("#depart_no").val()){
-				html += "<tr class=\"list_contents\" name=\"" + list[i].NO + "_" + list[i].NAME + "_" + list[i].EMAIL + "_" + list[i].DEPART_NAME + "_" + list[i].DEPART_NO + "_" + list[i].PHONE + "\">";
+				html += "<tr class=\"list_contents\" name=\"" + list[i].NO + "~" + list[i].NAME + "~" + list[i].EMAIL + "~" + list[i].DEPART_NAME + "~" + list[i].DEPART_NO + "~" + list[i].PHONE + "~" + list[i].TEAM_NO +"\">";
 		  		html += "<td>" + list[i].NO + "</td>";
 		  		html += "<td>" + list[i].DEPART_NAME + "</td>";
 		  		html += "<td>" + list[i].TEAM_NAME + "</td>";
@@ -218,16 +295,29 @@
 				getEmpList();
 			}
 		});
+		
 		 // 담당자 값 선택 Event
 		$("#pop_list>tbody").on("click", "tr", function() {
+			if(depart == 1){
 			var select = $(this).attr("name");
-			var array = select.split("_");
-			$("#EMP_NO").val(array[0]);
-			$("#EMP_NAME").val(array[1]);
+			var array = select.split("~");
+			$("#DEMP_NO").val(array[0]);
+			$("#DEMP_NAME").val(array[1]);
 			$("#EMP_EMAIL").val(array[2]);
 			$("#EMP_PHONE").val(array[5]);
 			$("#depart_no").val(array[4]);
 			closePopup(1);
+			}
+			else {
+				var select = $(this).attr("name");
+				var array = select.split("~");
+				$("#TEMP_NO").val(array[0]);
+				$("#TEMP_NAME").val(array[1]);
+				$("#team_no").val(array[6]);
+				closePopup(1);
+			}
+			depart = 0;
+			team = 0;
 		});
 	}
 	
@@ -267,12 +357,35 @@
 			data : params, 
 			success : function(result) {
 				$("#DEPART_TASK").val(result.getDepartInfo.DEPART_TASK);
-				$("#EMP_NAME").val(result.getDepartInfo.EMP_NAME);
+				$("#DEMP_NAME").val(result.getDepartInfo.EMP_NAME);
 				$("#EMP_EMAIL").val(result.getDepartInfo.EMP_EMAIL);
 				$("#DEPART_CALL").val(result.getDepartInfo.DEPART_CALL);
 				$("#CNT").val(result.getDepartInfo.CNT);
 				$("#EMP_PHONE").val(result.getDepartInfo.EMP_PHONE);
+				$("#DEMP_NO").val(result.getDepartInfo.EMP_NO);
 				departList(result.departList);
+			},
+			error : function(request, status, error) {
+				console.log("text : " + request.responseText);
+				console.log("error : " + error);
+			}
+		});
+	}
+	
+	function getTeamInfo(){
+		var params = $("#actionForm").serialize();
+		$.ajax({
+			type : "post", 
+			url : "getTeamInfoAjax", 
+			dataType : "json",
+			data : params, 
+			success : function(result) {
+				if(result.getTeamInfo != null){
+				$("#TEAM_TASK").val(result.getTeamInfo.TEAM_TASK);
+				$("#TEMP_NAME").val(result.getTeamInfo.EMP_NAME);
+				$("#TCNT").val(result.getTeamInfo.CNT);
+				}
+				teamList(result.Teamlist);
 			},
 			error : function(request, status, error) {
 				console.log("text : " + request.responseText);
@@ -296,7 +409,7 @@
 	}
 	function teamList(list){
 		var html = "";
-		html += "<option value=\"0\">없음</option>"		
+			html += "<option value=\"0\">없음</option>";	
 		for(i in list){
 			if(list[i].TEAM_NO == $("#searchTeam").val()){
 		html += "<option selected=\"selected\" value = \""+ list[i].TEAM_NO +"\">"+ list[i].TEAM_NAME +"</option>";
@@ -383,17 +496,21 @@ table {
 			<!-- 여기에 내용을 구현 -->
 			<form action="#" id="actionForm" method="post">
 	<input type="hidden" id="depart_no" name="depart_no" value="${param.depart_no}"/>	
+	<input type="hidden" id="team_no" name="team_no"/>	
 	<input type="hidden" id="sEmpNo" name="sEmpNo" value="${sEmpNo}"/>	
 	<input type="hidden" id="sAuthorNo" name="sAuthorNo" value="${sAuthorNo}"/>	
 	<input type="hidden" id="DEPART_NAME" name="DEPART_NAME" value="${getDepartInfo.DEPART_NAME}"/>	
-	<input type="hidden" id="EMP_NO" name="EMP_NO" value="${getDepartInfo.NO}"/>	
+	<input type="hidden" id="DEMP_NO" name="DEMP_NO" value="${getDepartInfo.EMP_NO}"/>	
+	<input type="hidden" id="TEMP_NO" name="TEMP_NO"/>
+	<input type="hidden" name="flag" id="flag" value="${param.flag}"/>	
 	<div class="contents_wrap">
 		<div class="table_top_area">
 			<div class="top_title_area">
 			</div>
 			<div class="top_btn_area">
 			<c:if test="${sAuthorNo eq 0 or sAuthorNo eq 1}">
-				<div class="btn_yellow btn_size_normal" id="edit">수정</div>
+				<div class="btn_yellow btn_size_normal" id="departEdit">부서수정</div>
+				<div class="btn_yellow btn_size_normal" id="teamEdit">팀수정</div>
 			</c:if>
 				<div class="btn_yellow btn_size_normal" id="select">사원 조회</div>
 				<div class="btn_yellow btn_size_normal" id="cancel">취소</div>
@@ -433,11 +550,11 @@ table {
                    <c:choose>
                         <c:when test="${sAuthorNo eq 0 or sAuthorNo eq 1}">
                         <input type="text" class="input_normal input_readonly" style="width: calc(100% - 100px) !important" 
-                        readonly="readonly" id="EMP_NAME" name="EMP_NAME" value="${getDepartInfo.EMP_NAME}"/>
-                        <div class="btn_black btn_size_normal" id="emp_select">검색</div>
+                        readonly="readonly" id="DEMP_NAME" name="DEMP_NAME" value="${getDepartInfo.EMP_NAME}"/>
+                        <div class="btn_black btn_size_normal" id="departEmp_select">검색</div>
                         </c:when>
                         <c:otherwise>
-                        <input type="text" class="input_normal input_readonly" readonly="readonly" id="EMP_NAME" name="EMP_NAME" value="${getDepartInfo.EMP_NAME}"/>
+                        <input type="text" class="input_normal input_readonly" readonly="readonly" id="DEMP_NAME" name="DEMP_NAME" value="${getDepartInfo.EMP_NAME}"/>
                         </c:otherwise>
                    </c:choose>
                     </td>
@@ -502,8 +619,11 @@ table {
                     	팀
                     </td>
                     <td class="field_contents" colspan="3">
-                        <select class="input_normal">
-                            <option selected="selected">없음</option>
+                        <select class="input_normal" id="searchTeam" name="searchTeam">
+                        <option value="0">없음</option>
+                        <c:forEach var="data" items="${Teamlist}">
+                        <option value="${data.TEAM_NO}">${data.TEAM_NAME}</option>
+                        </c:forEach>
                         </select>
                     </td>
 				</tr>  
@@ -515,11 +635,11 @@ table {
 					<c:choose>
                         <c:when test="${sAuthorNo eq 0 or sAuthorNo eq 1}">
                         <input type="text" class="input_normal input_readonly" style="width: calc(100% - 100px) !important" 
-                        readonly="readonly" id="mgr_name" name="mgr_name"/>
-                        <div class="btn_black btn_size_normal" id="emp_select">검색</div>
+                        readonly="readonly" id="TEMP_NAME" name="TEMP_NAME" value="${getTeamInfo.EMP_NAME}"/>
+                        <div class="btn_black btn_size_normal" id="teamEmp_select">검색</div>
                         </c:when>
                         <c:otherwise>
-                        <input type="text" class="input_normal input_readonly" readonly="readonly" id="mgr_name" name="mgr_name"/>
+                        <input type="text" class="input_normal input_readonly" readonly="readonly" id="TEMP_NAME" name="TEMP_NAME" value="${getTeamInfo.EMP_NAME}"/>
                         </c:otherwise>
                     </c:choose>
                     </td>
@@ -527,7 +647,7 @@ table {
                  	       사원수
                     </td>
                    <td class="field_contents">
-         			<input type="text" class="input_normal input_readonly" readonly="readonly" id="" name=""/>
+         			<input type="text" class="input_normal" readonly="readonly" id="TCNT" name="TCNT" value="${getTeamInfo.CNT}"/>
                     </td>
 				</tr>
 				<tr>
@@ -535,7 +655,14 @@ table {
                    		업무
                     </td>
                     <td class="field_contents" id="depart_contents" colspan="3">
-                    <input type="text" class="input_normal input_readonly" readonly="readonly" id="" name=""/>
+                    <c:choose>
+                        <c:when test="${sAuthorNo eq 0 or sAuthorNo eq 1}">
+                    <input type="text" class="input_normal" id="TEAM_TASK" name="TEAM_TASK" value="${getTeamInfo.TEAM_TASK}"/>
+                    </c:when>
+                    <c:otherwise>
+                    <input type="text" class="input_normal" readonly="readonly" id="TEAM_TASK" name="TEAM_TASK" value="${getTeamInfo.TEAM_TASK}"/>
+                    </c:otherwise>
+                    </c:choose>
                     </td>
                 </tr>
 				</table> 

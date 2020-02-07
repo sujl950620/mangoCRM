@@ -89,11 +89,9 @@ $(document).ready(function() {
 				html += "<td class=\"t_chat_one_right\">" + feedb[i].OPIN + "</td>";
 				html += "<td class=\"t_chat_one_right\">" + feedb[i].ADD_DAY + "</td>";
 				html += "</tr>";
-				/* title = feedb[i].CMP_NAME; */
 			}
 		}
 		 $("tbody").html(html);
-		 /* $(".cmp_title").html(title); */
 		 
 	}
 	

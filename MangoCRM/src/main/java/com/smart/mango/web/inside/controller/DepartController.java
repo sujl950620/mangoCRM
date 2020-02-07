@@ -109,7 +109,11 @@ public class DepartController {
 								ModelAndView mav) throws Throwable {
 		
 		HashMap<String,String> getDepartInfo = iDepartService.getDepartInfo(params);
+		HashMap<String,String> getTeamInfo = iDepartService.getTeamInfo(params);
+		List<HashMap<String, String>> Teamlist = iDepartService.getTeamList(params);
 		mav.addObject("getDepartInfo",getDepartInfo);
+		mav.addObject("getTeamInfo",getTeamInfo);
+		mav.addObject("Teamlist",Teamlist);
 		mav.setViewName("depart/departInfo");
 		return mav;
 	}
@@ -133,6 +137,25 @@ public class DepartController {
 		return mapper.writeValueAsString(modelMap);
 	}
 	
+	@RequestMapping(value = "/getTeamInfoAjax",
+			method = RequestMethod.POST,
+			produces = "text/json;charset=UTF-8")
+	@ResponseBody 
+	public String getTeamInfoAjax(@RequestParam HashMap<String,String> params,
+			ModelAndView mav, HttpSession session) throws Throwable{
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		
+		HashMap<String,String> getTeamInfo = iDepartService.getTeamInfo(params);
+		List<HashMap<String, String>> Teamlist = iDepartService.getTeamList(params);
+		
+		modelMap.put("getTeamInfo",getTeamInfo);
+		modelMap.put("Teamlist",Teamlist);
+
+		return mapper.writeValueAsString(modelMap);
+	}
+	
 	@RequestMapping(value = "/departEditAjax",
 			method = RequestMethod.POST,
 			produces = "text/json;charset=UTF-8")
@@ -147,6 +170,24 @@ public class DepartController {
 		HashMap<String,String> data = iDepartService.getMgr(params);
 		if(data != null) {
 		iDepartService.departMgrEdit(params);
+		}
+		return mapper.writeValueAsString(modelMap);
+	}
+	
+	@RequestMapping(value = "/teamEditAjax",
+			method = RequestMethod.POST,
+			produces = "text/json;charset=UTF-8")
+	@ResponseBody 
+	public String teamEditAjax(@RequestParam HashMap<String,String> params,
+			ModelAndView mav, HttpSession session) throws Throwable{
+		
+		ObjectMapper mapper = new ObjectMapper();
+		Map<String,Object> modelMap = new HashMap<String,Object>();
+		
+		iDepartService.teamEdit(params);
+		HashMap<String,String> data = iDepartService.getTMgr(params);
+		if(data != null) {
+			iDepartService.teamMgrEdit(params);
 		}
 		return mapper.writeValueAsString(modelMap);
 	}

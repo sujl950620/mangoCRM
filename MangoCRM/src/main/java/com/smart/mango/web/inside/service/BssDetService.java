@@ -270,4 +270,16 @@ public class BssDetService implements IBssDetService {
 		return iBssDetDao.getDepList(params);
 	}
 
+	@Override
+	public List<HashMap<String, String>> getBssTypeEnd(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iBssDetDao.getBssTypeEnd(params);
+	}
+
+	@Override
+	public HashMap<String, String> getBssNo(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iBssDetDao.getBssNo(params);
+	}
+
 }

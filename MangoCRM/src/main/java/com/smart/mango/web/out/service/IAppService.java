@@ -14,6 +14,8 @@ public interface IAppService {
 	public HashMap<String, String> getapp(HashMap<String, String> params)throws Throwable;
 
 	public List<HashMap<String, String>> get_sim(HashMap<String, String> params)throws Throwable;
+
+	public void updateStat(HashMap<String, String> params) throws Throwable;
 	
 
 }

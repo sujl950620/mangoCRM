@@ -23,13 +23,6 @@
 							
 		<if test="searchTxt != null and searchTxt != ''">
 			<choose>
-				<when test="searchGbn2 eq 4">
-					AND C1.CLIENT_NAME LIKE '%' || #{searchTxt} || '%'
-					OR C2.COMP_NAME LIKE '%' || #{searchTxt} || '%'
-					OR E.EMP_NAME LIKE'%' || #{searchTxt} || '%'
-					OR LS.LEAD_STAT_NAME LIKE'%' || #{searchTxt} || '%'
-					OR L.LEAD_NAME LIKE'%' || #{searchTxt} || '%'
-				</when>
 				<when test="searchGbn2 eq 0">
 					AND C1.CLIENT_NAME LIKE '%' || #{searchTxt} || '%'
 				</when>
@@ -41,6 +34,13 @@
 				</when>
 				<when test="searchGbn2 eq 3">
 					AND LS.LEAD_STAT_NAME LIKE'%' || #{searchTxt} || '%'
+				</when>
+				<when test="searchGbn2 eq 4">
+					AND C1.CLIENT_NAME LIKE '%' || #{searchTxt} || '%'
+					OR C2.COMP_NAME LIKE '%' || #{searchTxt} || '%'
+					OR E.EMP_NAME LIKE'%' || #{searchTxt} || '%'
+					OR LS.LEAD_STAT_NAME LIKE'%' || #{searchTxt} || '%'
+					OR L.LEAD_NAME LIKE'%' || #{searchTxt} || '%'
 				</when>
 				<when test="searchGbn2 eq 5">
 					AND L.LEAD_NAME LIKE'%' || #{searchTxt} || '%'
@@ -83,13 +83,6 @@
 							AND L.DEL_YN = 1
 		<if test="searchTxt != null and searchTxt != ''">
 			<choose>
-				<when test="searchGbn2 eq 4">
-					AND C1.CLIENT_NAME LIKE '%' || #{searchTxt} || '%'
-					OR C2.COMP_NAME LIKE '%' || #{searchTxt} || '%'
-					OR E.EMP_NAME LIKE'%' || #{searchTxt} || '%'
-					OR LS.LEAD_STAT_NAME LIKE'%' || #{searchTxt} || '%'
-					OR L.LEAD_NAME LIKE'%' || #{searchTxt} || '%'
-				</when>
 				<when test="searchGbn2 eq 0">
 					AND C1.CLIENT_NAME LIKE '%' || #{searchTxt} || '%'
 				</when>
@@ -101,9 +94,6 @@
 				</when>
 				<when test="searchGbn2 eq 3">
 					AND LS.LEAD_STAT_NAME LIKE'%' || #{searchTxt} || '%'
-				</when>
-				<when test="searchGbn2 eq 5">
-					AND L.LEAD_NAME LIKE'%' || #{searchTxt} || '%'
 				</when>
 			</choose>
 		</if>

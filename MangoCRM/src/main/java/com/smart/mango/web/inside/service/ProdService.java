@@ -75,5 +75,15 @@ public class ProdService implements IProdService{
 		iProdDao.updatedata(params);
 		
 	}
+	@Override
+	public void update2data(HashMap<String, String> params) throws Throwable {
+		iProdDao.update2data(params);
+		
+	}
+	@Override
+	public void Detdeletedata2(HashMap<String, String> params) throws Throwable {
+		iProdDao.Detdeletedata2(params);
+		
+	}
 
 }

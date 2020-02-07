@@ -56,12 +56,14 @@
 		
 		$("#Goods>tbody").on("dblclick","tr",function(){
 			$("#goods_no").val($(this).attr("name"));
+			$("#prod_no").val($(this).attr("id"));
 			$("#actionForm").attr("action", "goodsDet")
 			$("#actionForm").submit();
 			
 		});
 		$("#Service>tbody").on("dblclick","tr",function(){
 			$("#service_no").val($(this).attr("name"));
+			$("#prod_no").val($(this).attr("id"));
 			$("#actionForm").attr("action", "goodsDet")
 			$("#actionForm").submit();
 			
@@ -185,9 +187,10 @@
 			
 			} else {
 				for ( var i in Service) {
-					html += "<tr class=\"list_contents\" name=\" "+ Service[i].SERVICE_NO +"  \">"
+					html += "<tr class=\"list_contents\" name=\" "+ Service[i].SERVICE_NO +" \" id=\" "+Service[i].PROD_NO+"\" >"
 					html += "<td>" + Service[i].SERVICE_NO + "</td>"
 					html += "<td>" + Service[i].SERVICE_CODE + "</td>"
+					html += "<td>" + Service[i].PROD_NAME + "</td>"
 					html += "<td>" + Service[i].SERVICE_PERIOD + "</td>"					
 					html += "<td>" + Service[i].SERVICE_PRICE + "</td>"
 					html += "<td>" + Service[i].INSTALL_PRICE + "</td>"
@@ -237,9 +240,10 @@
 				html += "<tr>";
 			} else {
 				for ( var i in Goods) {
-					html += "<tr class=\"list_contents\" name=\" "+ Goods[i].GOODS_NO  +"  \">"
+					html += "<tr class=\"list_contents\" name=\" "+ Goods[i].GOODS_NO  + "\" id=\" "+Goods[i].PROD_NO+" \" >"
 					html += "<td>" + Goods[i].GOODS_NO + "</td>"
 					html += "<td>" + Goods[i].GOODS_CODE + "</td>"
+					html += "<td>" + Goods[i].PROD_NAME + "</td>"//ss
 					html += "<td>" + Goods[i].GOODS_PRICE + "</td>"
 					html += "<td><div class=\"11\">"  + Goods[i].GOODS_SIZE + "</div></td>"
 					if(Goods[i].REMARKS == "undefined"){
@@ -358,7 +362,7 @@
 		<c:param name="menuNo">21</c:param>
 	</c:import>
 	
-		<div class="title_area">제품
+		<div class="title_area">상품
 		</div>
 		<div class="content_area">
 				<!-- 여기에 내용을 구현 -->
@@ -367,15 +371,12 @@
 <input type="hidden" id="list" name="list" value="1"/>
 <input type="hidden" id="goods_no" name="goods_no" value=""/>
 <input type="hidden" id="service_no" name="service_no" value=""/>
+<input type="hidden" id="prod_no" name="prod_no" value=""/>
 <input type="hidden" id="page1" name="page1" value="1"/>
 <input type="hidden" id="page2" name="page2" value="1"/>
-<input type="hidden" id="prodNo" name="prodNo" value=""/>
 					<div class="table_top_area1">
 					<div class="top_title_area">
-							<select class="input_short">
-								<option selected="selected" value="3">인터넷</option>
-								<option value="4">보안</option>
-							</select>
+
 							 <select class="input_short" id="prod" name="prod">
 								<option selected="selected" value="1" id="goods">제품</option>
 								<option value="2" id="service">서비스</option>
@@ -383,8 +384,7 @@
 					</div>
 
 						<div class="top_btn_area">
-							<div class="btn btn_yellow btn_size_normal" id="add">새등록</div>
-							<div class="btn btn_yellow btn_size_normal"  id="delbtn">삭제</div>
+							<div class="btn btn_yellow btn_size_normal" id="add">등록</div>
 						</div>
 					</div>
 					
@@ -448,6 +448,7 @@
 								</td> -->
 							<td>no</td>
 							<td> 코드</td>
+							<td> 상품명</td>
 							<td> 기간</td>
 							<td> 가격</td>
 							<td> 설치비용</td>
@@ -480,6 +481,7 @@
 							</td> -->
 							<td>no</td>
 							<td> 코드</td>
+							<td> 상품명</td>
 							<td> 단가</td>
 							<td> 사이즈</td>
 							<td> 비고</td>

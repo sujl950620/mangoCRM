@@ -22,15 +22,16 @@ $(document).ready(function() {
 			makeTwoBtnPopup(1, "결재", "결재를 하시겠습니까?", true, 600, 400, null, "취소", function() {
 				closePopup(1);				
 			},"확인", function() {
-				closePopup(1);				
+								
 				var params = $("#saveForm").serialize();				
 				$.ajax({
 					type : "post", //데이터 전송방식
-					url : "appdayAjax",//주소
+					url : "statAjax",//주소
 					dataType : "json",//데이터 전송 규격
 					data : params, // 보낼 데이터
 					//{키:값,키:값,....} -> join
 					success : function(result) {
+						closePopup(1);
 						location.href = "approval";
 					},
 					error : function(request, status, error) {
@@ -42,56 +43,8 @@ $(document).ready(function() {
 			});
 		});
 	
-		
-	
-	
-	
-	//여기1
-	$("#chart").highcharts({
-	    chart: {
-	    	type: 'column',
-	        height: '300',
-	    },
-	    title: {
-	        text: ''
-	    },
-	    xAxis: {
-	        categories: ['SMS', 'MMS', 'E-mail']
-	    },
-	    tooltip: {
-	        pointFormat: '<b>{point.percentage:.1f}%</b>'
-	    },
-	    plotOptions: {
-	        pie: {
-	            allowPointSelect: true,
-	            cursor: 'pointer',
-	            dataLabels: {
-	                enabled: false
-	            },
-	            showInLegend: false
-	        },
-	    },
-	    series: [{
-	        name: '반응값',
-	        data: [5, 3, 4],
-	        stack: 'male'
-	    }, {
-	        name: '실반응값',
-	        data: [3, 4, 4],
-	        stack: 'male'
-	    }, {
-	        name: '전송량',
-	        data: [2, 5, 6],
-	        stack: 'female'
-	    }],
-	    
-	    credits:{
-	    	enabled: false
-	    }
-	});	
-	
 	function reloadList() {
-		var params = $("#actionForm").serialize();		
+		var params = $("#saveForm").serialize();		
 		$.ajax({
 			type : "post",
 			url : "result_simAjax",
@@ -104,6 +57,89 @@ $(document).ready(function() {
 				console.log("text : " + request.responseText);
 				console.log("error : " + error);
 			}
+		});
+	}
+	
+	//여기1
+	function makeChart(list) {
+		var cate = new Array();
+		
+		for(var i = 0 ; i < list.length ; i++) {
+			cate.push(list[i].CHANNEL_NAME);
+		}
+		
+		var send = new Array();
+		var res = new Array();
+		var actualResponse = new Array();
+		
+		
+		
+		for(var i = 0 ; i < list.length ; i++) {
+			send.push(list[i].SEND_SIZE);
+			res.push(list[i].RESPONSE_SIZE);
+			actualResponse.push(list[i].ACTUAL_RESPONSE_SIZE);
+		}
+		
+		var data = [{
+			type: 'column',
+			name: '전송량',
+	        data: send,
+	        tooltip: {
+		    	pointFormat: '{series.name} : <b>{point.y}건</b>'
+		    }
+		},{
+			type: 'column',
+			name: '반응값',
+	        data: res,
+	        tooltip: {
+		    	pointFormat: '{series.name} : <b>{point.y}건</b>'
+		    }
+		}, {
+	        type: 'spline',
+	        name: '실반응값',
+	        data: actualResponse,
+	        marker: {
+	            lineWidth: 2,
+	            lineColor: '#FB558A',
+	            fillColor: '#FFFFFF'
+	        },
+	        tooltip: {
+		    	pointFormat: '{series.name} : <b>{point.y}%</b>'
+		    }
+	    }];
+		
+		$("#chart").highcharts({
+		    chart: {
+		    	type: 'column',
+		        height: '300',
+		    },
+		    colors: ['#FBB917', '#00B3A2', '#FB558A', '#2870E3', '#FF8F00', '#B5BF07', '#3F9D00', '#CE3C92','#5CB3FF', '#D462FF'],
+		    title: {
+		        text: ''
+		    },
+		    xAxis: {
+		        categories: cate
+		    },
+		    yAxis: {
+	            title: {
+	                text: null
+	            }
+	        },
+		    plotOptions: {
+		        pie: {
+		            allowPointSelect: true,
+		            cursor: 'pointer',
+		            dataLabels: {
+		                enabled: false
+		            },
+		            showInLegend: false
+		        },
+		    },
+		    series: data,
+		    
+		    credits:{
+		    	enabled: false
+		    }
 		});
 	}
 	
@@ -127,12 +163,10 @@ $(document).ready(function() {
 			} 
 		}
 		$("tbody").html(html);
+		
+		makeChart(list);
 	}
-	
-	function drawChart() {
-		alert("a");
 
-	}
 	
 });
 </script>
@@ -147,10 +181,13 @@ tbody{
 	pointer:cursor;
 }
 table {
+	font-size:10pt;
+	border-collapse:collapse;
 	text-align: center;
 	border-bottom: 1px solid #9E9E9E;
 	height: 100px;
 	margin: 0 auto;
+	width:1200px;
 }
 
 /*버튼을 div로 만들었습니다.
@@ -469,7 +506,7 @@ table {
   버튼은 float:right을 썼기때문에 반대로 적어주세요.
 */
 .enroll_btn>div {
-    display: table;
+	display: table;
     width: 80px;
     height: 30px;
     font-size: 10pt;
@@ -479,7 +516,7 @@ table {
     float: right;
     background-color: #F2B807;
     padding-top: 7px;
-    margin-top: 20px;
+    margin-top: 172px;
     margin-left: 10px;
 }
 /*버튼의 hover입니다.*/
@@ -540,7 +577,7 @@ background-color : #595959;
 font-size : 10pt;
 font-weight: bold;
 color : #ffffff;
-width: 75px;
+width: 300px;
 }
 .sample_title2 {
 background-color : #595959;
@@ -620,37 +657,35 @@ text-align:center;
 			<input type="hidden" id="empNo" name="empNo" value="${sEmpNo}"/>
 			<input type="hidden" name="page" id="page" value="1" />										
 			<input type="hidden" name="appno" id="appno" value="${param.appno}" />
-			<input type="hidden" name="cmpno" id="cmpno" value="${param.cmpno}" />			
 			<input type="hidden" name="appstat" id="appstat" value="${param.appstat}" />
 				
 			</form>
-				<div id="chart" style=" width: 1200px;">
-					<a href="#" onClick="saveNDrive('https://cafeattach.naver.net/07921ba8bde5e33f10f294a5987b0375dd8f719356/20190822_59_cafefile/28933132_1566465844559_PhHh5W_rtf/%EC%A0%95%EB%A6%AC.rtf?type=attachment', '%EC%A0%95%EB%A6%AC.rtf', '4318');return false"></a>		
+				<div id="chart" style=" width: 1200px; height: 450px;">
+					<a href="#"
+				onClick="saveNDrive('https://cafeattach.naver.net/07921ba8bde5e33f10f294a5987b0375dd8f719356/20190822_59_cafefile/28933132_1566465844559_PhHh5W_rtf/%EC%A0%95%EB%A6%AC.rtf?type=attachment', '%EC%A0%95%EB%A6%AC.rtf', '4318');return false"></a>
 				</div>
-
-				
 				<table>
-				<thead>
-					<tr class="sample_1">
-						<td class="sample_title1">캠페인 명</td>
-						<td class="sample_title2">채널</td>
-						<td class="sample_title3">전송량</td>
-						<td class="sample_title4">반응값</td>
-						<td class="sample_title5">반응률(%)</td>
-						<td class="sample_title6">실반응값</td>
-						<td class="sample_title7">담당자</td>						
-					</tr>
+					<thead>
+						<tr class="sample_1">
+							<td class="sample_title1">캠페인 명</td>
+							<td class="sample_title2">채널</td>
+							<td class="sample_title3">전송량</td>
+							<td class="sample_title4">반응값</td>
+							<td class="sample_title5">반응률(%)</td>
+							<td class="sample_title6">실반응값</td>
+							<td class="sample_title7">담당자</td>						
+						</tr>
 					</thead>
 					<tbody>
-					<tr class="sample_2"> 
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>
-						<td></td>	
-						<td></td>
-						<td></td>
-					</tr>
+						<tr class="sample_2"> 
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>
+							<td></td>	
+							<td></td>
+							<td></td>
+						</tr>
 					</tbody>
 				</table>
 			</div>

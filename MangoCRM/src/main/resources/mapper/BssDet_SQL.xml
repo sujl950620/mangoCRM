@@ -46,8 +46,9 @@ WHERE ch.CHN_NO = #{chnNo}
 	WHERE CHN_NO = #{chnNo}
 </select>
 <select id="getCtract" parameterType="HashMap" resultType="HashMap">
-	SELECT *
-	FROM BSS_CTRACT
+	SELECT BC.CTRACT_NO, BC.CHN_NO, BC.DEP_ACCOUNT_NO, TO_CHAR( BC.CTRACT_DATE, 'yyyy-mm-dd') AS CTRACT_DATE, BC.CREDIT_TYPE, DA.*
+	FROM BSS_CTRACT BC INNER JOIN DEP_ACCOUNT  DA
+								ON BC.DEP_ACCOUNT_NO = DA.DEP_ACCOUNT_NO
 	WHERE CHN_NO = #{chnNo}
 </select>
 <select id="getBssType" parameterType="hashmap" resultType="hashmap">
@@ -197,7 +198,8 @@ WHERE ch.CHN_NO = #{chnNo}
 				WHERE CHN_NO = #{chnNo}
 			</when>
 			<otherwise>
-				
+				UPDATE BSS_CTRACT SET CTRACT_DATE = SYSDATE
+				WHERE CHN_NO = #{chnNo}
 			</otherwise>
 		</choose>
 	</update>
@@ -595,40 +597,40 @@ SELECT COUNT(*)
 	<!-- 제안 첨부파일 등록 -->
 	<insert id="insertSgtAttach" parameterType="hashmap">
 				INSERT INTO SGT_ATTACH(SGT_ATTACH_NO, SGT_NO, SGT_ATTACH_NAME)
-				VALUES (SGT_ATTACH_SEQ.NEXTVAL, 26, #{attachFile})
+				VALUES (SGT_ATTACH_SEQ.NEXTVAL, #{sgtNo}, #{attachFile})
 	</insert>
 	
 	<!-- 협상 첨부파일 등록 -->
 	<insert id="insertNgtAttach" parameterType="hashmap">
 				INSERT INTO NGT_ATTACH(NGT_ATTACH_NO, NGT_NO, NGT_ATTACH_NAME)
-				VALUES (NGT_ATTACH_SEQ.NEXTVAL, 22, #{attachFile})
+				VALUES (NGT_ATTACH_SEQ.NEXTVAL, #{ngtNo}, #{attachFile})
 	</insert>
 	
 	<!-- 계약 첨부파일 등록 -->
 	<insert id="insertCtractAttach" parameterType="hashmap">
 				INSERT INTO CTRACT_ATTACH(CTRACT_ATTACH_NO, CTRACT_NO, CTRACT_ATTACH_NAME)
-				VALUES (CTRACT_ATTACH_SEQ.NEXTVAL, 9, #{attachFile})
+				VALUES (CTRACT_ATTACH_SEQ.NEXTVAL, #{ctractNo}, #{attachFile})
 	</insert>
 	
 	<!-- 제안 첨부파일 목록 -->
 	<select id="sgtAttachList" parameterType="hashmap" resultType="hashmap">
 		SELECT SGT_ATTACH_NO, SGT_NO, SGT_ATTACH_NAME
         FROM SGT_ATTACH
-        WHERE SGT_NO = 26
+        WHERE SGT_NO = #{sgtNo}
 	</select>
 	
 	<!-- 협상 첨부파일 목록 -->
 	<select id="ngtAttachList" parameterType="hashmap" resultType="hashmap">
 		SELECT NGT_ATTACH_NO, NGT_NO, NGT_ATTACH_NAME
         FROM NGT_ATTACH
-        WHERE NGT_NO = 22
+        WHERE NGT_NO = #{ngtNo}
 	</select>
 	
 	<!-- 계약 첨부파일 목록 -->
 	<select id="ctractAttachList" parameterType="hashmap" resultType="hashmap">
 		SELECT CTRACT_ATTACH_NO, CTRACT_NO, CTRACT_ATTACH_NAME
         FROM CTRACT_ATTACH
-        WHERE CTRACT_NO = 9
+        WHERE CTRACT_NO = #{ctractNo}
 	</select>
 	
 	<!-- 제안 첨부파일 삭제 -->
@@ -723,14 +725,56 @@ SELECT COUNT(*)
 		SELECT DA.*, B.*, ROW_NUMBER()OVER(ORDER BY DA.DEP_ACCOUNT_NO DESC) AS RNUM
 		FROM DEP_ACCOUNT DA INNER JOIN BANK B
 		                            ON DA.BANK_NO = B.BANK_NO)
-		                            WHERE RNUM BETWEEN 1 and 10
 	</select>
 	<select id="getDepList" parameterType="HashMap" resultType="HashMap">
 		SELECT *
 		FROM (
-		SELECT DA.*, B.*, ROW_NUMBER()OVER(ORDER BY DA.DEP_ACCOUNT_NO DESC) AS RNUM
+		SELECT DA.*, B.BANK_NAME, ROW_NUMBER()OVER(ORDER BY DA.DEP_ACCOUNT_NO DESC) AS RNUM
 		FROM DEP_ACCOUNT DA INNER JOIN BANK B
 		                            ON DA.BANK_NO = B.BANK_NO)
-		                            WHERE RNUM BETWEEN 1 and 10
+					WHERE RNUM BETWEEN #{startCnt} AND #{endCnt}
+	</select>
+	<!-- 영업번호 가져오기 -->
+	<select id="getBssNo" parameterType="HashMap" resultType="HashMap">
+		SELECT BC.CHN_NO, BS.SGT_NO, BN.NGT_NO, BCT.CTRACT_NO
+		FROM BSS_CHN BC LEFT OUTER JOIN BSS_SGT BS
+                ON BC.CHN_NO = BS.CHN_NO
+                LEFT OUTER JOIN BSS_NGT BN
+                ON BC.CHN_NO = BN.CHN_NO
+                LEFT OUTER JOIN BSS_CTRACT BCT
+                ON BC.CHN_NO = BCT.CHN_NO
+                WHERE BC.CHN_NO = #{chnNo}
+	</select>
+	<update id="updateBssChn" parameterType="HashMap">
+	<if test="bssProgNo eq 1">
+		UPDATE BSS_CHN SET 
+		<if test="emp_name neq null and emp_name neq ''">
+			EMP_NO = #{emp_no2}
+		</if>
+		<if test="chn_name neq null and chn_name neq ''">
+			,CHN_NAME = #{chn_name}
+		</if>
+		<if test="expect_sales neq null and expect_sales neq ''">
+			,EXPECT_SALES = #{expect_sales}
+		</if>
+		<if test="bss_type_name neq null and bss_type_name neq ''">
+			,BSS_TYPE_NO = #{BssTypeNo}
+		</if>
+		<if test="sales_div_no neq null and sales_div_no neq ''">
+			,SALES_DIV_NO = #{BssDivNo}
+		</if>
+		WHERE CHN_NO = #{chnNo}
+	</if>
+	<if test="bssProgNo eq 4">
+		UPDATE BSS_CTRACT SET
+		<if test="deper neq null and deper neq ''">
+			DEP_ACCOUNT_NO = #{deperNo}
+		</if>
+	</if>
+	</update>
+	<select id="getBssTypeEnd" parameterType="HashMap" resultType="HashMap">
+		SELECT *
+		FROM BSS_CHN
+		WHERE CHN_NO = #{chnNo}
 	</select>
 </mapper>

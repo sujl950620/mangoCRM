@@ -191,6 +191,7 @@ table {
 }
 
 .table_list_header {
+	color: #FFFFFF;
 	font-size: 10pt;
 	cursor: text;
 }
@@ -245,7 +246,8 @@ table {
 					data : params,
 
 					success : function(result) {
-						location.href = "bssDet";
+						$("#actionForm").attr("action", "bssDet");
+						$("#actionForm").submit();
 					},
 					error : function(request, status, error) {
 						console.log("text : " + request.responseText);

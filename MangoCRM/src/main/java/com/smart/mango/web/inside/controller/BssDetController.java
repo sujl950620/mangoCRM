@@ -39,7 +39,12 @@ public class BssDetController {
 	@RequestMapping(value = "/bssDet")
 	public ModelAndView bssDet(HttpSession session, @RequestParam HashMap<String, String> params, ModelAndView mav)
 			throws Throwable {
-
+		try {
+			HashMap<String, String> bssNoData = iBssDetService.getBssNo(params);
+			mav.addObject("bssNoData", bssNoData);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		mav.setViewName("bss/bssDet");
 		return mav;
 	}
@@ -102,8 +107,26 @@ public class BssDetController {
 			modelMap.put("FAILED", "FAILED");
 		}
 		return mapper.writeValueAsString(modelMap);
-	}
+	} 
+			// 기회 -- 사업유형
+			@RequestMapping(value = "getBssTypeEndAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+			@ResponseBody
+			public String getBssTypeEndAjax(@RequestParam HashMap<String, String> params, HttpSession session, ModelAndView mav)
+					throws Throwable {
+				ObjectMapper mapper = new ObjectMapper();
+				Map<String, Object> modelMap = new HashMap<String, Object>();
 
+				try {
+					List<HashMap<String, String>> list = iBssDetService.getBssTypeEnd(params);
+					modelMap.put("list", list);
+					modelMap.put("SUCCESS", "SUCCESS");
+
+				} catch (Exception e) {
+					e.printStackTrace();
+					modelMap.put("FAILED", "FAILED");
+				}
+				return mapper.writeValueAsString(modelMap);
+			}
 	// 기회 -- 매출구분
 	@RequestMapping(value = "getBssSalesDivAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
 	@ResponseBody
@@ -543,6 +566,21 @@ public class BssDetController {
 		}
 		if (params.get("acti3") != null) {
 			str += "OR CC2.CODE_S_CATE = 3 ";
+		}
+		if (params.get("acti3") != null) {
+			str += "OR CC2.CODE_S_CATE = 4 ";
+		}
+		if (params.get("acti3") != null) {
+			str += "OR CC2.CODE_S_CATE = 5 ";
+		}
+		if (params.get("acti3") != null) {
+			str += "OR CC2.CODE_S_CATE = 6 ";
+		}
+		if (params.get("acti3") != null) {
+			str += "OR CC2.CODE_S_CATE = 7 ";
+		}
+		if (params.get("acti3") != null) {
+			str += "OR CC2.CODE_S_CATE = 8 ";
 		}
 		if (str.equals("")) {
 			str += "1 != 1";

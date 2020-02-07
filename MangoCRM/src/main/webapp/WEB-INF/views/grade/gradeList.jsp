@@ -67,36 +67,11 @@ function reloadGrade() {
 		success: function(result) {
 			redrawGrade(result.grade);
 			redrawChart(result.grade);
+		},error : function(request, status, error) {
+			console.log("text : " + request.responseText);
+			console.log("error : " + error);
 		}
 	});
-}
-
-function redrawGrade(grade) {
-	var html = "";
-	var sum = 0;
-	gradeLeng = grade.length;
-	
-	for(var i in grade){
-		sum += grade[i].CNT;
-	}
-	
-	for(var i in grade){
-		html += "<div class=\"grade\">";
-		html += "<div class=\"grade_color\" style=\"background-color:" + grade[i].CC_GRADE_COLOR + "\"></div>";
-		html += "<div class=\"grade_name\">" + grade[i].CC_GRADE_NAME + "</div>";
-		html += "<div class=\"grade_per\">" + (grade[i].CNT / sum * 100).toFixed(1) + "%</div>";
-		html += "<span class=\"grade_count\">(" + grade[i].CNT  + " 개)</span>";
-		html += "</div>";		
-	}
-	
-	$(".grade_chart_list").html(html);
-	
-	$(".grade_name").each(function() {
-        if($(this).html().length > 2) {
-            var leng_diff = $(this).html().length - 2;
-            $(this).width($(this).width() + (18 * leng_diff) + "px");
-        }
-    });
 }
 
 function redrawChart(grade) {
@@ -120,13 +95,6 @@ function redrawChart(grade) {
 	        pointFormat: '<b>{point.percentage:.1f}%</b>'
 	    },
 	    plotOptions: {
-	    	/* series: {
-	            states: {
-	                hover: {
-	                    enabled: false
-	                }
-	            }
-	        }, */
 	        pie: {
 	            allowPointSelect: true,
 	            cursor: 'pointer',
@@ -159,6 +127,34 @@ function redrawChart(grade) {
 	$(".highcharts-series").on("mouseleave", "path", function() {
 		$("path").attr("style", "opacity: 1");
 	}); */
+}
+
+function redrawGrade(grade) {
+	var html = "";
+	var sum = 0;
+	gradeLeng = grade.length;
+	
+	for(var i in grade){
+		sum += grade[i].CNT;
+	}
+	
+	for(var i in grade){
+		html += "<div class=\"grade\">";
+		html += "<div class=\"grade_color\" style=\"background-color:" + grade[i].CC_GRADE_COLOR + "\"></div>";
+		html += "<div class=\"grade_name\">" + grade[i].CC_GRADE_NAME + "</div>";
+		html += "<div class=\"grade_per\">" + (grade[i].CNT / sum * 100).toFixed(1) + "%</div>";
+		html += "<span class=\"grade_count\">(" + grade[i].CNT  + " 개)</span>";
+		html += "</div>";		
+	}
+	
+	$(".grade_chart_list").html(html);
+	
+	$(".grade_name").each(function() {
+        if($(this).html().length > 2) {
+            var leng_diff = $(this).html().length - 2;
+            $(this).width($(this).width() + (18 * leng_diff) + "px");
+        }
+    });
 }
 
 function reloadGradeList() {

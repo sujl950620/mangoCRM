@@ -83,6 +83,17 @@ public class ProdDao implements IProdDao{
 		
 	}
 
+	@Override
+	public void update2data(HashMap<String, String> params) throws Throwable {
+		sqlSession.update("prod.update2data", params);
+		
+	}
+
+	@Override
+	public void Detdeletedata2(HashMap<String, String> params) throws Throwable {
+		sqlSession.delete("prod.Detdeletedata2", params);
+	}
+
 	/*
 	 * @Override public HashMap<String, String> getproddata(HashMap<String, String>
 	 * params) throws Throwable { return sqlSession.selectOne("prod.getproddata",

@@ -760,9 +760,8 @@ $(document).ready(function() {
 						<th>주소<span class="acc_txt">*</span></th>
 						<td colspan="3"><input type="text" id="addr1"
 							class="table_txt3 is_read_only  postcodify_postcode5" value = "${data.FA}"readonly="readonly" />
-							<button id = "mapBtn"class="text_btn btn">검색</button> <input type="text"
-							class="table_txt2 is_read_only postcodify_address" id = "addr2" value = "${data.MA}"readonly="readonly" /> 
-							<input type="text" id = "addr3"class="table_txt2 postcodify_details" value = "${data.LA}"/></td>
+							<input type="text" class="table_txt2 is_read_only postcodify_address" id = "addr2" value = "${data.MA}"readonly="readonly" /> 
+							<input type="text" id = "addr3"class="table_txt2 postcodify_details is_read_only" value = "${data.LA}" readonly = "readonly"/></td>
 					</tr>
 				</table>
 			</div>

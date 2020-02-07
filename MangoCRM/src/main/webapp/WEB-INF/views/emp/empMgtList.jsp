@@ -98,7 +98,8 @@ $(document).ready(function() {
 	// 사원 데이터 리스트 Get
 	function getEmpList() {
 		$("#chk_all").prop("checked", false);
-		var params = $("#searchForm").serialize() + "&" + $("#dataForm").serialize() + "&filter=" + $("#auth_filter").val();
+		var params = $("#searchForm").serialize() + "&" 
+			+ $("#dataForm").serialize() + "&filter=" + $("#auth_filter").val();
 
 		$.ajax({
 			type: "post",

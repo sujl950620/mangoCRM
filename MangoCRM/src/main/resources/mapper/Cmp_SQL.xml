@@ -165,7 +165,7 @@
 		FROM SIM_RESULT S INNER JOIN CMP      ON S.CMP_NO = CMP.CMP_NO
 		                INNER JOIN CHANNEL C  ON C.CHANNEL_NO = S.CHANNEL_NO
 		                INNER JOIN EMP_INFO EI ON CMP.MGR_NO = EI.EMP_NO
-		WHERE CMP.CMP_NO = #{cmpNo}
+		WHERE S.CMP_NO = #{seq}
 	</select>
 	
 	<!-- 채널진행상태?  -->
@@ -202,5 +202,19 @@
 		FROM CMP_CHANNEL CC INNER JOIN CHANNEL_COMP CP ON CC.CHANNEL_COMP_NO = CP.CHANNEL_COMP_NO
 		WHERE CMP_NO = #{seq}
 	</select>
+	
+	<select id="getCmpType" parameterType="hashmap" resultType="hashmap">
+		SELECT *
+		FROM CMP_TYPE
+		</select>
+		
+		<select id="cmpTypeList" parameterType="hashmap" resultType="hashmap">
+			SELECT CMP_NO, CMP_NAME, TO_CHAR(SDATE,'YYYY-MM-DD') AS SDATE, TO_CHAR(EDATE,'YYYY-MM-DD') AS EDATE, PROG_STAT, EMP_NAME, CMP.CMP_TYPE_NO
+			FROM CMP INNER JOIN EMP_INFO
+			 			   ON CMP.MGR_NO = EMP_INFO.EMP_NO
+			 			   WHERE CMP_TYPE_NO = #{cmpType}
+			 			   AND PROG_STAT = 6
+		</select>
+	
 </mapper>
 

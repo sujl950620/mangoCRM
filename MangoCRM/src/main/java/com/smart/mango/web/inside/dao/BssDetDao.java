@@ -268,5 +268,17 @@ public class BssDetDao implements IBssDetDao {
 		return sqlSession.selectList("bssDet.getDepList", params);
 	}
 
+	@Override
+	public List<HashMap<String, String>> getBssTypeEnd(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectList("bssDet.getBssTypeEnd", params);
+	}
 
+	@Override
+	public HashMap<String, String> getBssNo(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return sqlSession.selectOne("bssDet.getBssNo", params);
+	}
+	
+	
 }

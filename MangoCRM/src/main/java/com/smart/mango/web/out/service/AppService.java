@@ -43,6 +43,12 @@ public class AppService implements IAppService{
 		return iAppdao.get_sim(params);
 	}
 
+	@Override
+	public void updateStat(HashMap<String, String> params) throws Throwable {
+		iAppdao.updateStat(params);
+		
+	}
+
 	
 
 

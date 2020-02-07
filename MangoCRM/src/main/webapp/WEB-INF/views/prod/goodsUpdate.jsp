@@ -23,9 +23,14 @@ $(document).ready(function() {
 		
 		
 		$("#save").on("click", function(){
-			makeAlert(1, "수정확인", "내용임", null);
-			update1()
-		
+			makeTwoBtnPopup(1, "수정메시지", "수정을 저장하시겠습니까?", true, 400, 200, null, "확인", function() {
+				update2()
+				update1()
+      		},"취소", function() {
+      			makeAlert(1, "하이", "내용임", null);
+    			closePopup(1);
+    			
+    		});			
 		});
 			
 			//제품수정 아작스
@@ -42,6 +47,31 @@ $(document).ready(function() {
 						  makeAlert(1, "수정창", "수정완료", null);
 		            	   location.href= "prodList";
 
+		               }
+		               else {
+		            	   alert("ㅈ버그")
+		            	   location.href= "prodList";
+		               }
+		            },
+				error : function(request, status, error) {
+					console.log("text : " + request.responseText);
+					console.log("error : " + error);
+				}
+
+			})
+	
+		};
+		
+		function update2() {
+			var params = $("#actionForm").serialize();
+		
+			$.ajax({
+				type : "post",
+				url : "Detupdate2Ajax",
+				dateType : "json",
+				data : params,
+				success : function(result) {
+					  if(result.res == "SUCCESS") {
 		               }
 		               else {
 		            	   alert("ㅈ버그")
@@ -79,6 +109,7 @@ $(document).ready(function() {
 				<input type="hidden" id="goods_no" name="goods_no" value="${param.goods_no}"/> 
 				<input type="hidden" id="service_no" name="service_no" value="${param.service_no}"/>
 				<input type="hidden" id="prod" name="prod" value="${param.prod }"/>	
+				<input type="hidden" id="prod_no" name="prod_no" value="${param.prod_no}"/>	
 				
 			
 				<div class="table_top_area">
@@ -100,11 +131,11 @@ $(document).ready(function() {
 						<col width="40%" />
 					</colgroup>
 					<tr>
-						<td class="field_name first_field_name">제품번호
+						<td class="field_name first_field_name">상품명
 						<span class="acc_txt"></span>
 						</td>
 						<td class="field_contents" colspan="">
-							<input type="text" class="input_normal" readonly="readonly"  value="${param.GOODS_NO}"/>
+							<input type="text" class="input_normal" name="prod_name1" id="prod_name1"  value="${param.PROD_NAME1}"/>
 						</td>
 						<td class="field_name">제품코드
 						<span class="acc_txt"></span>
@@ -146,17 +177,17 @@ $(document).ready(function() {
 						<col width="40%" />
 					</colgroup>
 					<tr>
-						<td class="field_name first_field_name">서비스 번호
+						<td class="field_name first_field_name">상품명
 						<span class="acc_txt"></span>
 						</td>
 						<td class="field_contents" colspan="">
-							<input type="text" class="input_normal"  value="${param.SERVICE_NO}" />
+							<input type="text" class="input_normal" id="prod_name2" name="prod_name2" value="${param.PROD_NAME2}" />
 						</td>
 						<td class="field_name">서비스 코드
 						<span class="acc_txt"></span>
 						</td>
 						<td class="field_contents" colspan="">
-							<input type="text" class="input_normal"  value="${param.SERVICE_CODE}" />
+							<input type="text" class="input_normal" readonly="readonly"  value="${param.SERVICE_CODE}" />
 						</td>
 					</tr>
 					<tr>

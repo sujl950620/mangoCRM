@@ -75,6 +75,26 @@ public class DepartService implements IDepartService {
 		// TODO Auto-generated method stub
 		return iDepartDao.getMgr(params);
 	}
+	@Override
+	public HashMap<String, String> getTeamInfo(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iDepartDao.getTeamInfo(params);
+	}
+	@Override
+	public void teamEdit(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		iDepartDao.teamEdit(params);
+	}
+	@Override
+	public void teamMgrEdit(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		iDepartDao.teamMgrEdit(params);
+	}
+	@Override
+	public HashMap<String, String> getTMgr(HashMap<String, String> params) throws Throwable {
+		// TODO Auto-generated method stub
+		return iDepartDao.getTMgr(params);
+	}
 	
 }
 

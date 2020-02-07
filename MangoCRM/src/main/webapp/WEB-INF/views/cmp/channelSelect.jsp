@@ -10,7 +10,6 @@
 <c:import url="/header"></c:import>
 <script type="text/javascript">
 $(document).ready(function() {
-	alert($("#seq").val());
 	chSelect();
 	var a = new Array();
 	a = $("#ch").val();
@@ -52,7 +51,6 @@ $(document).ready(function() {
 	}
 	function drawCh(list){
 		for(var i in list){
-			/* alert(list[i].CHANNEL_NO); */
 			if(list[i].CHANNEL_NO == 1){
 				$("#content").val(list[i].CONTENTS);
 				$("#compNo").val(list[i].CHANNEL_COMP_NO);
@@ -78,7 +76,6 @@ $(document).ready(function() {
 		if(a[2] != 0 && a[2] != undefined){
 			$("#chNo").val(1);
 			if($.trim($("#smsArea").val()) ==""){
-				alert("sms내용을 입력하세요.");
 				$("#smsArea").focus();
 			}
 			else{
@@ -93,14 +90,12 @@ $(document).ready(function() {
 		if (a[6] != 0 && a[6]!=undefined){
 			$("#chNo").val("2");
 			if($.trim($("#mmsArea").val()) ==""){
-				alert("MMS내용을 입력하세요.");
 				$("#mmsArea").focus();
 			}
 			else {
 				$("#content").val($("#mmsArea").val());
 				$('input:radio[name="mms"]:checked').each(function(){
 					$("#compNo").val($(this).val());
-					alert($("#compNo").val());
 				});
 				saveChannel();
 			}
@@ -109,14 +104,12 @@ $(document).ready(function() {
 		if(a[10] != 0 && a[10] != undefined){
 				$("#chNo").val(3);
 			if($.trim($("#emailArea").val()) ==""){
-				alert("내용을 입력하세요.");
 				$("#emailArea").focus();
 			}
 			else{
 				$("#content").val($("#emailArea").val());
 				$('input:radio[name="email"]:checked').each(function(){
 					$("#compNo").val($(this).val());
-					alert($("#compNo").val());
 				});
 				saveChannel();
 			}
@@ -149,7 +142,6 @@ $(document).ready(function() {
 				$("#content").val($("#mmsArea").val());
 				$('input:radio[name="mms"]:checked').each(function(){
 					$("#compNo").val($(this).val());
-					alert($("#compNo").val());
 				});
 				simul();
 			}
@@ -165,7 +157,6 @@ $(document).ready(function() {
 				$("#content").val($("#emailArea").val());
 				$('input:radio[name="email"]:checked').each(function(){
 					$("#compNo").val($(this).val());
-					alert($("#compNo").val());
 				});
 				simul();
 			}
@@ -205,7 +196,6 @@ $(document).ready(function() {
 			dataType : "json",
 			data : params,
 			success : function(result) {
-				alert("a");
 				if(result.res == "SUCCESS"){
 					
 					$.ajax({
@@ -351,8 +341,8 @@ $(document).ready(function() {
 			html += "	<textarea class=\"mms_content\" id=\"mmsArea\" name=\"mmsArea\" col=\"10\" rows=\"8\" style=\"resize: none;\"></textarea><br>  ";
 			
 			html += "<div class=\"mms_number\">";
-			html += "<input type=\"text\" class =\"file_add_input\" placeholder=\"첨부파일\"/>";
-			html += "<div class=\"mms_btn\"><div>첨부</div></div>";
+			html += "<input type=\"text\" class =\"file_add_input\" id=\"file_name\" placeholder=\"첨부파일\"/>";
+			html += "<div class=\"mms_btn\" id=\"uploadBtn\" name=\"uploadBtn\"><div>첨부</div></div>";
 			html += "</div>";
 			
 			html += "</div>";
@@ -360,6 +350,30 @@ $(document).ready(function() {
 		
 		$(".channel_table2").html(html);
 		
+		
+		$("#uploadBtn").on("click", function() {
+			$(".attachUpload").click();
+		});
+		
+		$(".attachUpload").on("change", function() {
+			var dataForm = $("#actionForm");
+			
+			dataForm.ajaxForm({ //보내기전 validation check가 필요할경우 
+				success: function(responseText, statusText){
+					if(typeof responseText.fileName != "undefined") {
+						$("#attachFile").val(responseText.fileName[0]);
+						
+						/* $(".attach_image").css("background-image", "url('resources/upload/" + responseText.fileName[0] + "')") */
+						$("#file_name").val(responseText.fileName[0]);
+					}
+				}, //ajax error
+				error: function(){
+					alert("에러발생!!"); 
+				}
+			});
+			
+			dataForm.submit();
+		});
 	}
 	
 	/*3email*/
@@ -417,7 +431,7 @@ $(document).ready(function() {
 			html += "</div>"; 
 		}
 		
-		$(".channel_table2").html(html);
+		$(".channel_table3").html(html);
 	}
 });
 </script>
@@ -460,11 +474,12 @@ $(document).ready(function() {
 			<br />
 			<form action="#" id="actionForm" method="post">
 				<input type="hidden" id="empNo" name="empNo" value="${sEmpNo}"/>
-				<input type="hidden" id="seq" name="seq" value="${param.seq }"/>
+				<input type="hidden" id="seq" name="seq" value="${param.seq}"/>
 				<input type="hidden" id="chboxx" name="chboxx" value="${param.chboxx}"/>
 				<input type="hidden" id="ch" name="ch" value="${param.ch}"/>
 				<input type="hidden" id="compNo" name="compNo"/>
 				<input type="hidden" id="chNo" name="chNo"/>
+				<input type="hidden" id="cmpNo" name="cmpNo" value="180" />
 				<input type="hidden" id="content" name="content"/>
 
 				<!--sms  -->

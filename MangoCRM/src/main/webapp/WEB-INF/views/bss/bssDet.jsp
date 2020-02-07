@@ -452,7 +452,7 @@ function bssProgChk(){
 	//넘어가기 전에 처리해야할 것들 ... 다음 단계의 테이블 생성... 그 테이블을 생성한 값들 가져와서 상품 테이블 만들기..
 	//1. 다음 단계의 테이블 생성 + 다음 단계로 넘어갈때 현재 단계 마감시키기..
 	//DropDowList가 마감인  경우 실행합니다.
-	if($("#selectChk").val() * 1 == 1 && $("#bssProgEnd").val() * 1 != 4){
+	if($("#selectChk").val() * 1 == 1 ){
 		var params = $("#popupForm").serialize();
 		$.ajax({
 			type : "post",
@@ -497,7 +497,6 @@ function bssProgChk(){
 			}
 		});
 	} else{
-		alert("모르겠다. 좆댔다.");
 	}
 	//버튼 눌렀을 때 다음 단계로 넘어가기...
 	var params = $("#popupForm").serialize();
@@ -588,7 +587,7 @@ function bssProgEndPop(){
 		makeTwoBtnPopup(2, "결과확인", selectChk(), true, 400, 200, null, "마감", function() {
 			$("#bssProgEnd").val($("#bssProgNo").val());
 			console.log($("#bssProgEnd").val());
-			bssProgChk();
+				bssProgChk();
 		},"취소", function() {
 			closePopup(2);
 		});
@@ -627,7 +626,7 @@ function bssProgEndPop(){
 		
 		/* 목록 버튼 */
 		$("#listBtn").on("click", function() {
-			history.back();
+			location.href = "bssMain";
 		});
 		
 		/* ------------------------------의견-------------------------------- */
@@ -1087,10 +1086,18 @@ function bssProgEndPop(){
 	htmlChn += "			<td class=\"field_name first_field_name\">담당자<span                  ";
 	htmlChn += "				class=\"acc_txt\"> *</span>                                        ";
 	htmlChn += "			</td>                                                                ";
-	htmlChn += "			<td class=\"field_contents\"><input type=\"text\" id=\"emp_name\" name=\"emp_name\"   value=\""+data.EMP_NAME+"\"                     ";
-	htmlChn += "				class=\"input_short btn_left_input\" readonly=\"readonly\" />        ";
-	htmlChn += "				<div class=\"btn_black btn_size_normal select\" id=\"empRegisterBtn\" name=\"empRegisterBtn\">수정</div></td>    ";
-	htmlChn += "			<td class=\"field_name\">담당자P.H<span class=\"acc_txt\"></span></td>   ";
+	if($("#bssProgNo").val() * 1 > 4){
+		htmlChn += "			<td class=\"field_contents\"><input type=\"text\" id=\"emp_name\" name=\"emp_name\"   value=\""+data.EMP_NAME+"\"                     ";
+		htmlChn += "				class=\"input_border_0\" readonly=\"readonly\" />        ";
+		htmlChn += "				</td>    ";
+		htmlChn += "			<td class=\"field_name\">담당자P.H<span class=\"acc_txt\"></span></td>   ";
+	} else {
+		htmlChn += "			<td class=\"field_contents\"><input type=\"text\" id=\"emp_name\" name=\"emp_name\"   value=\""+data.EMP_NAME+"\"                     ";
+		htmlChn += "				class=\"input_short btn_left_input\" readonly=\"readonly\" />        ";
+		htmlChn += "				<div class=\"btn_black btn_size_normal select\" id=\"empRegisterBtn\" name=\"empRegisterBtn\">수정</div></td>    ";
+		htmlChn += "			<td class=\"field_name\">담당자P.H<span class=\"acc_txt\"></span></td>   ";
+	}
+	
 	htmlChn += "			<td class=\"field_contents\"><input type=\"text\" id=\"emp_phone\" name=\"emp_phone\"     value=\""+data.EMP_PHONE+"\"                   ";
 	htmlChn += "				class=\"input_border_0\" readonly=\"readonly\" /></td>               ";
 	htmlChn += "		</tr>                                                                    ";
@@ -1173,7 +1180,12 @@ function bssProgEndPop(){
 			}
 		});
 		html += "</select>                             ";
-		html += "				<div class=\"btn_black btn_size_normal select\" id=\"prodSaveBtn\" name=\"prodSaveBtn\">조회</div></td>    ";
+		if($("#bssProgNo").val() * 1 > 3){
+			
+		} else {
+			html += "				<div class=\"btn_black btn_size_normal select\" id=\"prodSaveBtn\" name=\"prodSaveBtn\">조회</div></td>    ";
+		}
+		
 		return html;
 	}
 	function drawProdAll(list, list2){
@@ -1211,20 +1223,22 @@ function bssProgEndPop(){
 		html += "			<td class=\"field_name\">사업유형 <span class=\"acc_txt\"> *</span></td> ";
 		html += "			<td class=\"field_contents\"><select class=\"input_normal\" id=\"bss_type_name\" name=\"bss_type_name\">   ";
 		html += "			</select></td>    ";
-		var params = $("#actionForm").serialize();
-		$.ajax({
-			type : "post",
-			url : "getBssTypeAjax",
-			dataType : "json",
-			data : params,
-			success : function(result) {
-				drawBssTypeSelect(result.list);
-			},
-			error : function(request, status, error) {
-				console.log("text : " + request.responseText);
-				console.log("error : " + error);
-			}
-		});
+			var params = $("#actionForm").serialize();
+			$.ajax({
+				type : "post",
+				url : "getBssTypeAjax",
+				dataType : "json",
+				data : params,
+				success : function(result) {
+					drawBssTypeSelect(result.list);
+				},
+				error : function(request, status, error) {
+					console.log("text : " + request.responseText);
+					console.log("error : " + error);
+				}
+			});
+		
+		
 		return html;
 	}
 	/*사업유형 내용만들기*/
@@ -1333,7 +1347,7 @@ function bssProgEndPop(){
 				html += "<div class=\"list_paging_area\" style=\"margin-top: 0px;\">";
 		        html += "</div>";
 		        
-		        makeNoBtnPopup(1, "첨부파일", html, true, 600, 600, function() {
+		        makeNoBtnPopup(1, "담당자찾기", html, true, 600, 600, function() {
 		        	getEmpList();
 		        	setEmpEvent();
 				});
@@ -1525,7 +1539,9 @@ function bssProgEndPop(){
 				});
 			
 			}
-		alert("상품이 수정되었습니다.");
+		makeOneBtnPopup(2, "수정확인", "수정되었습니다.", true, 400, 200, null, "완료", function() {
+			closePopup(2);
+				});
 		closePopup(1);
 	}
 	//상품함수이벤트
@@ -1993,44 +2009,54 @@ function bssProgEndPop(){
 		});
 	}
 	function redrawSgtCon(data){
+			
+		
 		if(htmlSgt != ""){
 			htmlSgt = "";
 			$("#SgtBtn").attr("src", "resources/images/bss/close_tab.png");
 		}
 		else {
-htmlSgt += "			<tr>                                                                    ";
-htmlSgt += "			<td class=\"field_name first_field_name\">제안시작일 <span                ";
-htmlSgt += "				class=\"acc_txt\"></span></td>                                        ";
-htmlSgt += "			<td class=\"field_contents\"><input type=\"text\" id=\"chn_date\" name=\"chn_date\"                          ";
-htmlSgt += "				class=\"input_border_0\" readonly=\"readonly\" /></td>                  ";
-htmlSgt += "			<td class=\"field_name\">제안마감일<span class=\"acc_txt\"> *</span>       ";
-htmlSgt += "			</td>                                                                   ";
-if($("#bssProgNo").val() * 1 == 2){
-	htmlSgt += "			<td class=\"field_contents\"><input type=\"text\" id=\"sgt_date\" name=\"sgt_date\"                          ";
-	htmlSgt += "				class=\"input_short btn_left_input\" readonly=\"readonly\" />           ";
-	htmlSgt += "				<div class=\"btn_black btn_size_normal select\" id=\"sgtEndBtn\" name=\"sgtEndBtn\">마감</div></td>       ";
-} else {
-	htmlSgt += "			<td class=\"field_contents\"><input type=\"text\" id=\"sgt_date\" name=\"sgt_date\"                          ";
-	htmlSgt += "				class=\"input_border_0\" readonly=\"readonly\" value=\""+data.SGT_DATE+"\" />           ";
-	htmlSgt += "				</td>       ";
-}
-
-htmlSgt += "			</tr>                                                                   ";
-htmlSgt += "			<tr>                                                                    ";
-htmlSgt += "				<td class=\"field_name first_field_name\">첨부파일 <span              ";
-htmlSgt += "					class=\"acc_txt\"></span></td>                                    ";
-htmlSgt += "				<td colspan=\"3\" class=\"field_contents\">";
-htmlSgt += "<input type=\"hidden\" name=\"attachFile\" id=\"attachFile\" />";
-htmlSgt += "<input type=\"file\" name=\"attach\" class=\"sgtAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
-htmlSgt += "<select  id=\"sgt_attach_name\" name=\"sgt_attach_name\" class=\"input_normal two_btn_left_input\">";
-htmlSgt += "</select>";
-htmlSgt += "<div class=\"btn_black btn_size_normal select\" id=\"sgtAttachSaveBtn\" name=\"sgtAttachSaveBtn\">등록</div>";
-htmlSgt += "<div class=\"btn_black btn_size_normal select\" id=\"sgtAttachDelBtn\" name=\"sgtAttachDelBtn\">삭제</div></td>";
-htmlSgt += "</tr>";
-$("#SgtBtn").attr("src", "resources/images/bss/open_tab.png");
+			htmlSgt += "			<tr>                                                                    ";
+			htmlSgt += "			<td class=\"field_name first_field_name\">제안시작일 <span                ";
+			htmlSgt += "				class=\"acc_txt\"></span></td>                                        ";
+			htmlSgt += "			<td class=\"field_contents\"><input type=\"text\" id=\"chn_date\" name=\"chn_date\"                          ";
+			htmlSgt += "				class=\"input_border_0\" readonly=\"readonly\" /></td>                  ";
+			htmlSgt += "			<td class=\"field_name\">제안마감일<span class=\"acc_txt\"> *</span>       ";
+			htmlSgt += "			</td>                                                                   ";
+			if($("#bssProgNo").val() * 1 == 2){
+				htmlSgt += "			<td class=\"field_contents\"><input type=\"text\" id=\"sgt_date\" name=\"sgt_date\"                          ";
+				htmlSgt += "				class=\"input_short btn_left_input\" readonly=\"readonly\" />           ";
+				htmlSgt += "				<div class=\"btn_black btn_size_normal select\" id=\"sgtEndBtn\" name=\"sgtEndBtn\">마감</div></td>       ";
+			} else {
+				htmlSgt += "			<td class=\"field_contents\"><input type=\"text\" id=\"sgt_date\" name=\"sgt_date\"                          ";
+				htmlSgt += "				class=\"input_border_0\" readonly=\"readonly\" value=\""+data.SGT_DATE+"\" />           ";
+				htmlSgt += "				</td>       ";
+			}
+			
+			htmlSgt += "			</tr>                                                                   ";
+			htmlSgt += "			<tr>                                                                    ";
+			htmlSgt += "				<td class=\"field_name first_field_name\">첨부파일 <span              ";
+			htmlSgt += "					class=\"acc_txt\"></span></td>                                    ";
+			htmlSgt += "				<td colspan=\"3\" class=\"field_contents\">";
+			
+			if($("#bssProgNo").val() * 1 == 2){
+				htmlSgt += "<input type=\"hidden\" name=\"attachFile\" id=\"attachFile\" />";
+				htmlSgt += "<input type=\"file\" name=\"attach\" class=\"sgtAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
+				htmlSgt += "<select  id=\"sgt_attach_name\" name=\"sgt_attach_name\" class=\"input_normal two_btn_left_input\">";
+				htmlSgt += "</select>";
+				htmlSgt += "<div class=\"btn_black btn_size_normal select\" id=\"sgtAttachSaveBtn\" name=\"sgtAttachSaveBtn\">등록</div>";
+				htmlSgt += "<div class=\"btn_black btn_size_normal select\" id=\"sgtAttachDelBtn\" name=\"sgtAttachDelBtn\">삭제</div></td>";
+			} else {
+				htmlSgt += "<input type=\"hidden\" name=\"attachFile\" id=\"attachFile\" />";
+				htmlSgt += "<input type=\"file\" name=\"attach\" class=\"sgtAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
+				htmlSgt += "<select  id=\"sgt_attach_name\" name=\"sgt_attach_name\" class=\"input_normal\">";
+				htmlSgt += "</select>";
+			}
+			
+			htmlSgt += "</tr>";
+			$("#SgtBtn").attr("src", "resources/images/bss/open_tab.png");
 		}
 		$("#SgtTbl>tbody").html(htmlSgt);
-		
 	}
 	/*날짜읽어오기..*/
 	function getSgtChnDt(){
@@ -2176,21 +2202,37 @@ if($("#bssProgNo").val() * 1 == 3){
 	htmlNgt += "				class=\"input_short btn_left_input\" readonly=\"readonly\" />    ";
 	htmlNgt += "				<div class=\"btn_black btn_size_normal select\" id=\"ngtEndBtn\" name=\"ngtEndBtn\">마감</div></td>";
 } else {
-	htmlNgt += "			<td class=\"field_contents\"><input type=\"text\"  id=\"ngt_edate\" name=\"ngt_edate\"  value=\""+data.NGT_EDATE+"\"                 ";
-	htmlNgt += "				class=\"input_border_0\" readonly=\"readonly\" />    ";
-	htmlNgt += "				</td>";
+	if(data.NGT_EDATE != null){
+		htmlNgt += "			<td class=\"field_contents\"><input type=\"text\"  id=\"ngt_edate\" name=\"ngt_edate\"  value=\""+data.NGT_EDATE+"\"                 ";
+		htmlNgt += "				class=\"input_border_0\" readonly=\"readonly\" />    ";
+		htmlNgt += "				</td>";
+	} else {
+		htmlNgt += "			<td class=\"field_contents\"><input type=\"text\"  id=\"ngt_edate\" name=\"ngt_edate\"  value=\"\"                 ";
+		htmlNgt += "				class=\"input_border_0\" readonly=\"readonly\" />    ";
+		htmlNgt += "				</td>";
+	}
+	
 }
 
 htmlNgt += "		</tr>                                                                ";
 htmlNgt += "		<tr>                                                                 ";
 htmlNgt += "			<td class=\"field_name first_field_name\">첨부파일 <span           ";
 htmlNgt += "				class=\"acc_txt\"></span></td>                                 ";
-htmlNgt += "			<td colspan=\"3\" class=\"field_contents\"><select  id=\"ngt_attach_name\" name=\"ngt_attach_name\"                 ";
-htmlNgt += "				class=\"input_normal two_btn_left_input\">                         ";
-htmlNgt += "<input type=\"file\" name=\"attach\" class=\"ngtAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
-htmlNgt += "			</select>                                                        ";
-htmlNgt += "				<div class=\"btn_black btn_size_normal select\" id=\"ngtAttachSaveBtn\" name=\"ngtAttachSaveBtn\">등록</div>";
-htmlNgt += "				<div class=\"btn_black btn_size_normal select\" id=\"ngtAttachDelBtn\" name=\"ngtAttachDelBtn\">삭제</div></td>";
+
+if($("#bssProgNo").val() * 1 == 3){
+	htmlNgt += "			<td colspan=\"3\" class=\"field_contents\"><select  id=\"ngt_attach_name\" name=\"ngt_attach_name\"                 ";
+	htmlNgt += "				class=\"input_normal two_btn_left_input\">                         ";
+	htmlNgt += "<input type=\"file\" name=\"attach\" class=\"ngtAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
+	htmlNgt += "			</select>                                                        ";
+	htmlNgt += "				<div class=\"btn_black btn_size_normal select\" id=\"ngtAttachSaveBtn\" name=\"ngtAttachSaveBtn\">등록</div>";
+	htmlNgt += "				<div class=\"btn_black btn_size_normal select\" id=\"ngtAttachDelBtn\" name=\"ngtAttachDelBtn\">삭제</div></td>";
+} else {
+	htmlNgt += "			<td colspan=\"3\" class=\"field_contents\"><select  id=\"ngt_attach_name\" name=\"ngt_attach_name\"                 ";
+	htmlNgt += "				class=\"input_normal\">                         ";
+	htmlNgt += "<input type=\"file\" name=\"attach\" class=\"ngtAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
+	htmlNgt += "			</select>                                                        ";
+}
+
 htmlNgt += "		</tr>                                                                ";
 $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 		}
@@ -2276,9 +2318,9 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 							console.log("error : " + error);
 						}
 					});
-			}, "취소", function() {
+				}, "취소", function() {
 						closePopup(2);
-					});
+			});
 		});
 		
 	}
@@ -2307,65 +2349,175 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 	function redrawCtrackCon(data){
 		if(htmlCtrack != ""){
 			htmlCtrack = "";
+			
 			$("#ctrackBtn").attr("src", "resources/images/bss/close_tab.png");
 		}
 		else {
-	htmlCtrack += "		<tr>                                                                    ";
-	htmlCtrack += "		<td class=\"field_name first_field_name\">계약일 <span                    ";
-	htmlCtrack += "			class=\"acc_txt\"></span></td>                                        ";
-	if($("#bssProgNo").val() * 1 == 7){
-		htmlCtrack += "		<td class=\"field_contents\"><input type=\"text\"   id=\"ctract_date\" name=\"ctract_date\"  value=\""+data.CTRACT_DATE+"\"                       ";
-		htmlCtrack += "			class=\"input_border_0\" readonly=\"readonly\" /></td>                  ";	
-	}
-	else {
-		htmlCtrack += "		<td class=\"field_contents\"><input type=\"text\"   id=\"ctract_date\" name=\"ctract_date\"  value=\"\"                       ";
-		htmlCtrack += "			class=\"input_border_0\" readonly=\"readonly\" /></td>                  ";
-	}
-	htmlCtrack += "		<td class=\"field_name \">입금상태<span class=\"acc_txt\"> *</span>         ";
-	htmlCtrack += "		</td>                                                                   ";
-	if($("#bssProgNo").val() * 1 == 4){
-		htmlCtrack += "		<td class=\"field_contents\"><select  id=\"credit_type\" name=\"credit_type\"                                    ";
-		htmlCtrack += "			class=\"input_normal btn_left_input\">                                ";
-		htmlCtrack += "				<option selected=\"selected\" value=\"1\">무</option>                           ";
-		htmlCtrack += "				<option value=\"2\">유</option>                                               ";
-		htmlCtrack += "		</select> ";
-		htmlCtrack += "			<div class=\"btn_black btn_size_normal select\" id=\"ctrackEndBtn\" name=\"ctrackEndBtn\">마감</div></td>       ";
-	}
-	else {
-		htmlCtrack += "		<td class=\"field_contents\"><select  id=\"credit_type\" name=\"credit_type\"                                    ";
-		htmlCtrack += "			class=\"input_normal\">                                ";
-		htmlCtrack += "				<option selected=\"selected\" value=\"1\">무</option>                           ";
-		htmlCtrack += "				<option value=\"2\">유</option>                                               ";
-		htmlCtrack += "		</select> </td>";
-	}
-	htmlCtrack += "		</tr>                                                                   ";
-	htmlCtrack += "		<tr>                                                                    ";
-	htmlCtrack += "			<td class=\"field_name first_field_name\">예금주명<span               ";
-	htmlCtrack += "				class=\"acc_txt\"> *</span>                                       ";
-	htmlCtrack += "			</td>                                                               ";
-	htmlCtrack += "			<td class=\"field_contents\"><input type=\"text\"  id=\"deper\" name=\"deper\"                     ";
-	htmlCtrack += "				class=\"input_short btn_left_input\" readonly=\"readonly\" />       ";
-	htmlCtrack += "				<div class=\"btn_black btn_size_normal select\" id=\"deperSrchBtn\" name=\"deperSrchBtn\">찾기</div></td>   ";
-	htmlCtrack += "			<td class=\"field_name\">계좌번호 <span class=\"acc_txt\"></span></td>";
-	htmlCtrack += "			<td class=\"field_contents\"><input type=\"text\"   id=\"account_no\" name=\"account_no\"                    ";
-	htmlCtrack += "				class=\"input_border_0\" readonly=\"readonly\" /></td>              ";
-	htmlCtrack += "		</tr>                                                                   ";
-	htmlCtrack += "		<tr>                                                                 ";
-	htmlCtrack += "			<td class=\"field_name first_field_name\">첨부파일 <span      ";
-	htmlCtrack += "				class=\"acc_txt\"></span></td>                                 ";
-	htmlCtrack += "			<td colspan=\"3\" class=\"field_contents\"><select id=\"ctract_attach_name\" name=\"ctract_attach_name\"                  ";
-	htmlCtrack += "				class=\"input_normal two_btn_left_input\">                         ";
-	htmlCtrack += "			</select>                                                        ";
-	htmlCtrack += "<input type=\"file\" name=\"attach\" class=\"ctractAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
-	htmlCtrack += "				<div class=\"btn_black btn_size_normal select\" id=\"ctractAttachSaveBtn\" name=\"ctractAttachSaveBtn\">등록</div>";
-	htmlCtrack += "				<div class=\"btn_black btn_size_normal select\" id=\"ctractAttachDelBtn\" name=\"ctractAttachDelBtn\">삭제</div></td>";
-	htmlCtrack += "		</tr>                                                                ";
-	$("#ctrackBtn").attr("src", "resources/images/bss/open_tab.png");
+			if(data != null){
+				htmlCtrack += "<input type=\"hidden\" id=\"deperNo\" name=\"deperNo\" value=\"0\">";
+				htmlCtrack += "		<tr>                                                                    ";
+				htmlCtrack += "		<td class=\"field_name first_field_name\">계약일 <span                    ";
+				htmlCtrack += "			class=\"acc_txt\"></span></td>                                        ";
+				if($("#bssProgNo").val() * 1 == 7){
+					htmlCtrack += "		<td class=\"field_contents\"><input type=\"text\"   id=\"ctract_date\" name=\"ctract_date\"  value=\""+data.CTRACT_DATE+"\"                       ";
+					htmlCtrack += "			class=\"input_border_0\" readonly=\"readonly\" /></td>                  ";	
+				}
+				else {
+					htmlCtrack += "		<td class=\"field_contents\"><input type=\"text\"   id=\"ctract_date\" name=\"ctract_date\"  value=\"\"                       ";
+					htmlCtrack += "			class=\"input_border_0\" readonly=\"readonly\" /></td>                  ";
+				}
+				htmlCtrack += "		<td class=\"field_name \">입금상태<span class=\"acc_txt\"> *</span>         ";
+				htmlCtrack += "		</td>                                                                   ";
+				console.log($("#bssProgNo").val());
+				if($("#bssProgNo").val() * 1 == 7){
+					htmlCtrack += "		<td class=\"field_contents\"><select  id=\"credit_type\" name=\"credit_type\"                                    ";
+					htmlCtrack += "			class=\"input_normal\">                                ";
+					htmlCtrack += "				<option value=\"2\">유</option>                                               ";
+					htmlCtrack += "		</select> </td>";	
+				}
+				else if($("#bssProgNo").val() * 1 != 4){
+					htmlCtrack += "		<td class=\"field_contents\"><select  id=\"credit_type\" name=\"credit_type\"                                    ";
+					htmlCtrack += "			class=\"input_normal\">                                ";
+					htmlCtrack += "				<option value=\"1\">무</option>                                               ";
+					htmlCtrack += "		</select> </td>";
+				}
+				else {
+					htmlCtrack += "		<td class=\"field_contents\"><select  id=\"credit_type\" name=\"credit_type\"                                    ";
+					htmlCtrack += "			class=\"input_normal btn_left_input\">                                ";
+					htmlCtrack += "				<option selected=\"selected\" value=\"1\">무</option>                           ";
+					htmlCtrack += "				<option value=\"2\">유</option>                                               ";
+					htmlCtrack += "		</select> ";
+					htmlCtrack += "			<div class=\"btn_black btn_size_normal select\" id=\"ctrackEndBtn\" name=\"ctrackEndBtn\">마감</div></td>       ";
+				}
+				htmlCtrack += "		</tr>                                                   	                ";
+				htmlCtrack += "		<tr>                                                                    ";
+				htmlCtrack += "			<td class=\"field_name first_field_name\">예금주명<span               ";
+				htmlCtrack += "				class=\"acc_txt\"> *</span>                                       ";
+				htmlCtrack += "			</td>                                                               ";
+					
+				if($("#bssProgNo").val() * 1 == 7){
+					htmlCtrack += "			<td class=\"field_contents\"><input type=\"text\"  id=\"deper\" name=\"deper\"  value=\""+data.DEPER+"\"                    ";
+					htmlCtrack += "				class=\"input_border_0\" readonly=\"readonly\" />       ";
+					htmlCtrack += "				</td>   ";
+				} else if($("#bssProgNo").val() * 1 == 4){
+					htmlCtrack += "			<td class=\"field_contents\"><input type=\"text\"  id=\"deper\" name=\"deper\"  value=\""+data.DEPER+"\"                     ";
+					htmlCtrack += "				class=\"input_normal btn_left_input\" readonly=\"readonly\" />       ";
+					htmlCtrack += "<div class=\"btn_black btn_size_normal select\" id=\"deperSrchBtn\" name=\"deperSrchBtn\">찾기</div></td>";
+				}
+				else {
+					htmlCtrack += "			<td class=\"field_contents\"><input type=\"text\"  id=\"deper\" name=\"deper\"  value=\"\"                    ";
+					htmlCtrack += "				class=\"input_border_0\" readonly=\"readonly\" />       ";
+					htmlCtrack += "				</td>   ";
+				}
+				if($("#bssProgNo").val() * 1 == 7 || $("#bssProgNo").val() == 4){
+					htmlCtrack += "			<td class=\"field_name\">계좌번호 <span class=\"acc_txt\"></span></td>";
+					htmlCtrack += "			<td class=\"field_contents\"><input type=\"text\"   id=\"account_no\" name=\"account_no\"  value=\""+data.ACCOUNT_NO+"\"                ";
+					htmlCtrack += "				class=\"input_border_0\" readonly=\"readonly\" /></td>              ";
+				}
+				else {
+					htmlCtrack += "			<td class=\"field_name\">계좌번호 <span class=\"acc_txt\"></span></td>";
+					htmlCtrack += "			<td class=\"field_contents\"><input type=\"text\"   id=\"account_no\" name=\"account_no\"                  ";
+					htmlCtrack += "				class=\"input_border_0\" readonly=\"readonly\" /></td>              ";
+				}
+				
+				
+				htmlCtrack += "		</tr>                                                                   ";
+				htmlCtrack += "		<tr>                                                                 ";
+				htmlCtrack += "			<td class=\"field_name first_field_name\">첨부파일 <span      ";
+				htmlCtrack += "				class=\"acc_txt\"></span></td>                                 ";
+				if($("#bssProgNo").val() * 1 == 4){
+					htmlCtrack += "			<td colspan=\"3\" class=\"field_contents\"><select id=\"ctract_attach_name\" name=\"ctract_attach_name\"                  ";
+					htmlCtrack += "				class=\"input_normal two_btn_left_input\">                         ";
+					htmlCtrack += "			</select>                                                        ";
+					htmlCtrack += "<input type=\"file\" name=\"attach\" class=\"ctractAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
+					htmlCtrack += "				<div class=\"btn_black btn_size_normal select\" id=\"ctractAttachSaveBtn\" name=\"ctractAttachSaveBtn\">등록</div>";
+					htmlCtrack += "				<div class=\"btn_black btn_size_normal select\" id=\"ctractAttachDelBtn\" name=\"ctractAttachDelBtn\">삭제</div></td>";
+				} else {
+					htmlCtrack += "			<td colspan=\"3\" class=\"field_contents\"><select id=\"ctract_attach_name\" name=\"ctract_attach_name\"                  ";
+					htmlCtrack += "				class=\"input_normal\">                         ";
+					htmlCtrack += "			</select>                                                        ";
+					htmlCtrack += "<input type=\"file\" name=\"attach\" class=\"ctractAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
+				}
+				
+				htmlCtrack += "		</tr>                                                                ";
+				$("#ctrackBtn").attr("src", "resources/images/bss/open_tab.png");
+			}
+			else {
+				htmlCtrack += "<input type=\"hidden\" id=\"deperNo\" name=\"deperNo\" value=\"0\">";
+				htmlCtrack += "		<tr>                                                                    ";
+				htmlCtrack += "		<td class=\"field_name first_field_name\">계약일 <span                    ";
+				htmlCtrack += "			class=\"acc_txt\"></span></td>                                        ";
+				if($("#bssProgNo").val() * 1 == 7){
+					htmlCtrack += "		<td class=\"field_contents\"><input type=\"text\"   id=\"ctract_date\" name=\"ctract_date\"  value=\""+data.CTRACT_DATE+"\"                       ";
+					htmlCtrack += "			class=\"input_border_0\" readonly=\"readonly\" /></td>                  ";	
+				}
+				else {
+					htmlCtrack += "		<td class=\"field_contents\"><input type=\"text\"   id=\"ctract_date\" name=\"ctract_date\"  value=\"\"                       ";
+					htmlCtrack += "			class=\"input_border_0\" readonly=\"readonly\" /></td>                  ";
+				}
+				htmlCtrack += "		<td class=\"field_name \">입금상태<span class=\"acc_txt\"> *</span>         ";
+				htmlCtrack += "		</td>                                                                   ";
+				if($("#bssProgNo").val() * 1 != 4 && $("#bssProgNo").val() * 1 != 7){
+					htmlCtrack += "		<td class=\"field_contents\"><select  id=\"credit_type\" name=\"credit_type\"                                    ";
+					htmlCtrack += "			class=\"input_normal\">                                ";
+					htmlCtrack += "				<option selected=\"selected\" value=\"1\">무</option>                           ";
+					htmlCtrack += "		</select> ";
+					htmlCtrack += "			</td>       ";
+				} else {
+					htmlCtrack += "		<td class=\"field_contents\"><select  id=\"credit_type\" name=\"credit_type\"                                    ";
+					htmlCtrack += "			class=\"input_normal btn_left_input\">                                ";
+					htmlCtrack += "				<option selected=\"selected\" value=\"1\">무</option>                           ";
+					htmlCtrack += "				<option value=\"2\">유</option>                                               ";
+					htmlCtrack += "		</select> ";
+					htmlCtrack += "			<div class=\"btn_black btn_size_normal select\" id=\"ctrackEndBtn\" name=\"ctrackEndBtn\">마감</div></td>       ";
+				}
+				htmlCtrack += "		</tr>                                                   	                ";
+				htmlCtrack += "		<tr>                                                                    ";
+				htmlCtrack += "			<td class=\"field_name first_field_name\">예금주명<span               ";
+				htmlCtrack += "				class=\"acc_txt\"> *</span>                                       ";
+				htmlCtrack += "			</td>                                                               ";
+					
+					if($("#bssProgNo").val() * 1 == 4){
+						htmlCtrack += "			<td class=\"field_contents\"><input type=\"text\"  id=\"deper\" name=\"deper\"  value=\"\"                    ";
+						htmlCtrack += "				class=\"input_normal btn_left_input\" readonly=\"readonly\" />       ";
+						htmlCtrack += "<div class=\"btn_black btn_size_normal select\" id=\"deperSrchBtn\" name=\"deperSrchBtn\">찾기</div></td>";
+					}
+					else {
+						htmlCtrack += "			<td class=\"field_contents\"><input type=\"text\"  id=\"deper\" name=\"deper\"  value=\"\"                    ";
+						htmlCtrack += "				class=\"input_normal\" readonly=\"readonly\" />       ";
+						htmlCtrack += "</td>";
+					}
+					htmlCtrack += "			<td class=\"field_name\">계좌번호 <span class=\"acc_txt\"></span></td>";
+					htmlCtrack += "			<td class=\"field_contents\"><input type=\"text\"   id=\"account_no\" name=\"account_no\"                  ";
+					htmlCtrack += "				class=\"input_border_0\" readonly=\"readonly\" /></td>              ";
+					
+				htmlCtrack += "		</tr>                                                                   ";
+				htmlCtrack += "		<tr>                                                                 ";
+				htmlCtrack += "			<td class=\"field_name first_field_name\">첨부파일 <span      ";
+				htmlCtrack += "				class=\"acc_txt\"></span></td>                                 ";
+				if($("#bssProgNo").val() * 1 == 4){
+					htmlCtrack += "			<td colspan=\"3\" class=\"field_contents\"><select id=\"ctract_attach_name\" name=\"ctract_attach_name\"                  ";
+					htmlCtrack += "				class=\"input_normal two_btn_left_input\">                         ";
+					htmlCtrack += "			</select>                                                        ";
+					htmlCtrack += "<input type=\"file\" name=\"attach\" class=\"ctractAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
+					htmlCtrack += "				<div class=\"btn_black btn_size_normal select\" id=\"ctractAttachSaveBtn\" name=\"ctractAttachSaveBtn\">등록</div>";
+					htmlCtrack += "				<div class=\"btn_black btn_size_normal select\" id=\"ctractAttachDelBtn\" name=\"ctractAttachDelBtn\">삭제</div></td>";
+				} else {
+					htmlCtrack += "			<td colspan=\"3\" class=\"field_contents\"><select id=\"ctract_attach_name\" name=\"ctract_attach_name\"                  ";
+					htmlCtrack += "				class=\"input_normal\">                         ";
+					htmlCtrack += "			</select>                                                        ";
+					htmlCtrack += "<input type=\"file\" name=\"attach\" class=\"ctractAttachUpload\" accept=\"image/* , .pdf , .hwp , .docx , .xlsx , audio/* , video/*\"/>";
+				}
+				
+				htmlCtrack += "		</tr>                                                                ";
+				$("#ctrackBtn").attr("src", "resources/images/bss/open_tab.png");
+			}
 		}
 		$("#ctrackTbl>tbody").html(htmlCtrack);
 	}
 	/*계약이벤트*/
 	function ctrackEvent(){
+		
 		/*계약마감팝업*/
 		$("#ctrackEndBtn").on("click", function(){
 			bssProgEndPop();
@@ -2373,6 +2525,7 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 		/*예금주 찾기 팝업*/
 		$("#deperSrchBtn").on("click", function(){
 			deperSrchPop();
+			setDepEvent();
 		});
 		
 		/* 첨부자료 등록 버튼 */
@@ -2380,9 +2533,6 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 			$("#actionForm").attr("action", "fileUploadAjax");
 			$(".ctractAttachUpload").click();
 			//console.log(responseText);
-		});
-		$("#deperSrchBtn").on("click", function(){
-			deperSrchPop();
 		});
 		/* 첨부자료 등록 */
 		$(".ctractAttachUpload").on("change", function() {
@@ -2461,6 +2611,7 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 	function deperSrchPop(){
 		var html = "";
 		html += "<form action=\"#\" method=\"post\" id=\"searchForm\">";
+		
 		html += "<div>";
 		html += "<input type=\"text\" class=\"input_search\" id=\"searchTxt\" name=\"searchTxt\" placeholder=\"Ex) 홍길동\" />";
 		html += "<img src =\"resources/images/button/icon_search_gray.png\" alt=\"\" width=\"30px\" class=\"search_icon\" id=\"depSearchBtn\">";
@@ -2484,10 +2635,11 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 		html += "</tr>";
 		html += "</tbody>";
 		html += "</table>";
-		html += "<div class=\"list_paging_area3\" style=\"margin-top: 0px;\">";
+		html += "<div class=\"list_paging_area list_paging_area3\" style=\"margin-top: 0px;\">";
         html += "</div>";
 
         makeTwoBtnPopup(1, "예금주찾기", html, true, 600, 600, null, "완료", function() {
+        	
         	setDepEvent();        	
 		},"취소", function() {
 			
@@ -2522,7 +2674,9 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 			$("#deperSrch>tbody").on("click", "tr", function() {
 				var select = $(this).attr("name");
 				$("#deper").val(select.substring(select.indexOf("_") + 1));
-				$("#dep_no").val(select.substring(0, select.indexOf("_")));
+				$("#account_no").val(select.substring(0, select.indexOf("_")));
+				var temp = $(this).children("#dep_account_no").val();
+				$("#deperNo").val(temp);
 				closePopup(1);
 			});
 		}
@@ -2549,7 +2703,7 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 			
 			$(".list_paging_area3").html(html);
 		}
-		// 담당자 목록 Get
+		// 예금주 목록 Get
 		function getDepList() {
 			var params = $("#searchForm").serialize();
 
@@ -2569,17 +2723,18 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 				}
 			});
 		}
-		// 담당자 목록 draw
+		// 예금주 목록 draw
 		function drawDepList(list) {
 			var html = "";
 			
 			if(list.length > 0) {
 				for(var i in list) {
-					html += "<tr class=\"list_contents\" name=\"" + list[i].DEP_NO + "_" + list[i].DEPER + "\">";
+					html += "<tr class=\"list_contents\" name=\"" + list[i].ACCOUNT_NO + "_" + list[i].DEPER + "\">";
+					html += "<input type=\"hidden\" name=\"dep_account_no\" id=\"dep_account_no\" value=\""+list[i].DEP_ACCOUNT_NO+"\" />";
 			  		html += "<td>" + list[i].RNUM + "</td>";
-			  		html += "<td>" + list[i].ACCOUNT_NAME + "</td>";
-			  		html += "<td>" + list[i].BANK + "</td>";
-			  		html += "<td>" + list[i].ACOUNT_NO + "</td>";
+			  		html += "<td>" + list[i].DEPER + "</td>";
+			  		html += "<td>" + list[i].BANK_NAME + "</td>";
+			  		html += "<td id=\"ACCOUNT_NO\" name=\"ACCOUNT_NO\">" + list[i].ACCOUNT_NO + "</td>";
 					html += "</tr>";
 				}
 			}
@@ -2590,7 +2745,57 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 				$(".list_paging_area3").html("");
 			}
 			$("#deperSrch>tbody").html(html);
-		}	
+		}
+//수정버튼 클릭시
+		function bssRegisterEvent(){
+					if($("#bssProgNo").val() * 1 == 1){
+					$("#BssTypeNo").val($("#bss_type_name > option").attr("name"));
+					$("#SalesDivNo").val($("#sales_div_name > option").attr("name"));
+					var params = $("#actionForm").serialize();
+					$.ajax({
+						type: "post",
+						url: "updateBssChnAjax",
+						dataType: "json",
+						data: params,
+						success: function(result) {
+							location.reload();
+						},
+						error : function(request, status, error) {
+							console.log("status : " + request.status);
+							console.log("text : " + request.responseTest);
+							console.log("error : " + error);
+						}
+					});
+				} else if($("#bssProgNo").val() * 1 == 2){
+					
+				} else if($("#bssProgNo").val() * 1 == 3){
+					
+				} else if($("#bssProgNo").val() * 1 == 4){
+					var params = $("#actionForm").serialize();
+					$.ajax({
+						type: "post",
+						url: "updateBssChnAjax",
+						dataType: "json",
+						data: params,
+						success: function(result) {
+							location.reload();
+						},
+						error : function(request, status, error) {
+							console.log("status : " + request.status);
+							console.log("text : " + request.responseTest);
+							console.log("error : " + error);
+						}
+					});
+				} else {
+					alert("진행번호가 읽히지 않습니다... 관리자에게 문의하세요.");
+				}
+			if($("#bssProgNo").val() * 1 > 4){
+				$("#registerBtn").css("display", "none");
+			}else {
+				
+			}
+		}
+
 </script>
 </head>
 <body>
@@ -2609,8 +2814,11 @@ $("#NgtBtn").attr("src", "resources/images/bss/open_tab.png");
 				type="hidden" id="scheDivNoM" name="scheDivNoM" value="2" /> <input
 				type="hidden" id="view_no" name="view_no" value="" />
 			<!-- 제안, 협상, 계약번호 -->
-			<input type="hidden" id="bssNo" name="bssNo" /> <input type="hidden"
-				id="bssProgNo" name="bssProgNo" /> <input type="hidden"
+					<input type="hidden" id="ctractNo" name="ctractNo" value="${bssNoData.CTRACT}"/>
+					<input type="hidden" id="ngtNo" name="ngtNo" value="${bssNoData.NGT_NO}"/>
+					<input type="hidden" id="sgtNo" name="sgtNo" value="${bssNoData.SGT_NO}"/>
+					<input type="hidden" id="bssNo" name="bssNo" />
+			<input type="hidden" id="bssProgNo" name="bssProgNo" /> <input type="hidden"
 				name="attachNo" id="attachNo" />
 			<div class="contents_wrap">
 				<div class="table_top_area">
