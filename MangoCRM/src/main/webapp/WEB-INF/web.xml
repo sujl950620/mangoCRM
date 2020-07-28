@@ -56,4 +56,10 @@
 		<error-code>405</error-code>
 		<location>/WEB-INF/views/exception/NOT_ALLOW_ACCESS.jsp</location>
 	</error-page>
+	
+	<!-- xss방지 -->
+	<context-param>
+	    <param-name>defaultHtmlEscape</param-name>
+	    <param-value>true</param-value>
+	</context-param>
 </web-app>

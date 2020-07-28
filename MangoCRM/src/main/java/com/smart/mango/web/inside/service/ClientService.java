@@ -2,10 +2,13 @@ package com.smart.mango.web.inside.service;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.smart.mango.common.bean.PagingBean;
+import com.smart.mango.common.service.IPagingService;
 import com.smart.mango.web.common.dao.ICommonDao;
 import com.smart.mango.web.inside.dao.IClientDao;
 
@@ -17,10 +20,15 @@ public class ClientService implements IClientService {
 	@Autowired
 	public ICommonDao iCommonDao;
 	
+	@Autowired
+	public IPagingService iPagingService;
+	
+	@Autowired
+	public IClientService iClientService;
 	
 	/* 고객 등록 */
 	@Override
-	public void clientinsertData(HashMap<String, String> params) throws Throwable {
+	public void clientInsertData(HashMap<String, String> params) throws Throwable {
 		iClientDao.clientinsertData(params);
 	}
 
@@ -122,13 +130,13 @@ public class ClientService implements IClientService {
 
 
 	@Override
-	public void clientdel(HashMap<String, String> params) throws Throwable {
+	public void clientDel(HashMap<String, String> params) throws Throwable {
 		iClientDao.clientdel(params);
 	}
 
 
 	@Override
-	public void clientupdateData(HashMap<String, String> params) throws Throwable {
+	public void clientUpdateData(HashMap<String, String> params) throws Throwable {
 		iClientDao.clientupdateData(params);
 	}
 
@@ -137,4 +145,21 @@ public class ClientService implements IClientService {
 	public List<HashMap<String, String>> getClientSche(HashMap<String, String> params) throws Throwable {
 		return iClientDao.getClientSche(params);
 	}
+	
+	public HashMap<String, String> pageSet(HashMap<String, String> params) {
+		if(params.get("page") == null) {
+			params.put("page", "1");
+		}	
+		return params;
+	}
+	
+	public PagingBean startEndPage(int cnt,HashMap<String, String> params ) {
+		System.out.println("ckin");
+		PagingBean pb = iPagingService.getPagingBean(Integer.parseInt(params.get("page")), cnt, 10, 5);
+		System.out.println("ck ---------------"+pb);
+		params.put("startCnt", Integer.toString(pb.getStartCount()));
+		params.put("endCnt", Integer.toString(pb.getEndCount()));
+		return pb;
+	}
+	
 }

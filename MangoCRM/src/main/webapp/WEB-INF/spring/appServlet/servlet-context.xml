@@ -49,6 +49,12 @@
 	<task:scheduler id="scheduler" pool-size="50"/>
 	<task:annotation-driven scheduler="scheduler"/>
 	
+<!-- 	<beans:bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"> -->
+<!-- 		<beans:property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"></beans:property> -->
+<!-- 		<beans:property name="url" value="jdbc:oracle:thin:@testdb.cp0tptsbgaih.ap-northeast-2.rds.amazonaws.com:1521:ORCL"></beans:property> -->
+<!-- 		<beans:property name="username" value="admin"></beans:property> -->
+<!-- 		<beans:property name="password" value="ab002288"></beans:property> -->
+<!-- 	</beans:bean> -->
 	<!-- AOP -->
 	<aop:aspectj-autoproxy />
 	<beans:bean id="commonAop" class="com.smart.mango.common.controller.CommonAOP" /> 

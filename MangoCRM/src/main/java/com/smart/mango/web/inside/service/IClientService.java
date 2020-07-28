@@ -6,7 +6,7 @@ import java.util.List;
 public interface IClientService {
 	
 	/* 고객 등록 */
-	void clientinsertData(HashMap<String, String> params) throws Throwable;
+	void clientInsertData(HashMap<String, String> params) throws Throwable;
 
 	List<HashMap<String, String>> getClientGrade(HashMap<String, String> params)  throws Throwable;
 
@@ -40,9 +40,9 @@ public interface IClientService {
 
 	void delClientMemo(HashMap<String, String> params) throws Throwable;
 
-	void clientdel(HashMap<String, String> params) throws Throwable;
+	void clientDel(HashMap<String, String> params) throws Throwable;
 
-	void clientupdateData(HashMap<String, String> params) throws Throwable;
+	void clientUpdateData(HashMap<String, String> params) throws Throwable;
 
 	List<HashMap<String, String>> getClientSche(HashMap<String, String> params) throws Throwable;
 
