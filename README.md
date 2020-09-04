@@ -40,7 +40,8 @@ CRM의 기초적인 요소, 기능을 갖춰져 있습니다.
 ![MANGOCRM-Add](https://user-images.githubusercontent.com/58777597/92226779-3a837480-eee0-11ea-90eb-ddf865f5cbad.PNG)
 ![MANGOCRM-Update](https://user-images.githubusercontent.com/58777597/92226785-3c4d3800-eee0-11ea-9b33-05af4e0008da.PNG)
 ![MANGOCRM-Update1](https://user-images.githubusercontent.com/58777597/92226792-3e16fb80-eee0-11ea-85da-9d0a5694d447.PNG)
--구현 
+
+-일부 구현코드
 
 ## Plan
 ![기획1](https://user-images.githubusercontent.com/58777597/75105943-967d5e80-565c-11ea-8a00-8c47fe7cabe2.png)
