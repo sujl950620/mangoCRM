@@ -339,8 +339,7 @@ public class ClientController {
 			if(str.equals("")) {
 				str += "1 != 1";
 				params.put("filter", str);
-			}
-			else {
+			} else {
 				params.put("filter", str.substring(3));			
 			}
 				

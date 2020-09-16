@@ -154,9 +154,7 @@ public class ClientService implements IClientService {
 	}
 	
 	public PagingBean startEndPage(int cnt,HashMap<String, String> params ) {
-		System.out.println("ckin");
 		PagingBean pb = iPagingService.getPagingBean(Integer.parseInt(params.get("page")), cnt, 10, 5);
-		System.out.println("ck ---------------"+pb);
 		params.put("startCnt", Integer.toString(pb.getStartCount()));
 		params.put("endCnt", Integer.toString(pb.getEndCount()));
 		return pb;

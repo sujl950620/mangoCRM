@@ -58,7 +58,6 @@ $(document).ready(function() {
 	
 	/* 체크개수 카운팅  */
 	$(".table_list").on("click", ".list_chbox", function() {
-		
 		$("#client_all").html($(".table_list tbody .list_chbox").length);
 		$("#client_cnt").html($(".table_list tbody .list_chbox:checked").length);
 	});
@@ -92,7 +91,6 @@ $(document).ready(function() {
 //고객 삭제
 function getclientdel() {
 	var params = $("#dataForm").serialize();
-
 	$.ajax({
 		type: "post",
 		url: "clientdelAjax",
@@ -111,7 +109,6 @@ function getclientdel() {
 //고객 데이터 리스트 Get
 function getclientList() {
 	var params = $("#actionForm").serialize();
-
 	$.ajax({
 		type: "post",
 		url: "getclientAjax",
