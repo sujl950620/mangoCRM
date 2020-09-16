@@ -39,14 +39,9 @@ public class BatchComponent {
 	// 발송기 랜덤 처리
 	@Scheduled(cron = "0 43 17 * * *")
 	public void runRandomMachine() {
-		System.out.println("ㅈㅊㄱㅈㅊㄱ ㅇㅇㅇ! ");
 		try {
-			
 			iBatchService.randomMachine();
 			List<HashMap<String, String>> list = iBatchService.getContent();
-			
-			
-			
 		} catch (Throwable e) {
 			e.printStackTrace();
 		}
