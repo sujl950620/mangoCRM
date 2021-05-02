@@ -7,10 +7,20 @@ CRM의 기초적인 요소, 기능을 갖춰져 있습니다.
 - 개발 기간 : 2019.08.12 ~ 2020.02.07
 - 참여 인원 : 18명
 - 담당 업무 : DB설계, 화면구현, 기능, 개발
+
 ## Use Technology
-- 개발 환경 : Windows 10
-- 사용 도구 : Eclipse Kepler Release, OracleDeveloper
-- 사용 기술 : Java, oracle, jQuery, JSON, Ajax, HTML, CSS, JSP, XML
+- JDK 1.8.0
+- Spring Framework 3.9.10
+- maven-eclipse-plugin 2.9
+- Mybatis 3.2.7
+- Log4j 1.2.15
+- Servlet 3.0.1
+- DB : Oracle 12.1.0.2.0
+- Server : Tomcat 8.5
+- jQuery 1.12.4
+
+## ETC
+- SVN
 
 ## Contributors
 [내부 2팀]
@@ -31,22 +41,21 @@ CRM의 기초적인 요소, 기능을 갖춰져 있습니다.
 ![S-고객상세1](https://user-images.githubusercontent.com/58777597/75110460-b9fed400-5671-11ea-809f-491c0dc0ebb6.PNG)
 ![S-고객등록](https://user-images.githubusercontent.com/58777597/75110462-bd925b00-5671-11ea-8473-f63bde743ebf.PNG)
 
-- 구현화면
-
-
 ## Plan
-![기획1](https://user-images.githubusercontent.com/58777597/75105943-967d5e80-565c-11ea-8a00-8c47fe7cabe2.png)
-![기획2](https://user-images.githubusercontent.com/58777597/75105945-99784f00-565c-11ea-8127-5b184c0d804a.png)
-- Ovenapp.io를 사용하여 디자인 기획을 진행 하였습니다
 ![기능정의서](https://user-images.githubusercontent.com/58777597/75110687-840f1f00-5674-11ea-976d-6c3c6d481c90.png)
 - 기능정의서 작성
+
 ![메타데이터](https://user-images.githubusercontent.com/58777597/75110718-f67fff00-5674-11ea-9a3c-883d5a2a70cd.PNG)
 - 기능정의서를 기반으로 나온 명사들의 명을 정의
-- 회의를 통하여 팀원간 중복된 메타명 조정
+
 ## DB Design 
 ![스키마](https://user-images.githubusercontent.com/58777597/75110667-3abecf80-5674-11ea-9b67-5f6c679d898a.PNG)
 ![스키마1](https://user-images.githubusercontent.com/58777597/75110668-3c889300-5674-11ea-9e22-8a8dc88d633e.PNG)
 - Oracle을 사용하여 DB설계를 하였습니다
+
+## 협업
+### Trello
+![Trello](www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F1602607e-f955-4373-9e15-1f2585f02bd4%2FUntitled.png?table=block&id=f6c98c3c-ae1a-4acc-bdc4-f00776f68585&width=1920&userId=6fccea26-95c2-4666-8989-cbba516a665f&cache=v2)
 
 # DB 설계
 ## [메타관리]
@@ -56,59 +65,9 @@ CRM의 기초적인 요소, 기능을 갖춰져 있습니다.
 - 모듈화된 DB설계를 통하여 확장성 확보
 - 공통 코드 사용을 통하여 데이터 사이즈 축소
 
-## [모델링]
-- drawio를 사용하여 DB모델링
-
-
 ## Table Definition
 ![테이블 정의서](https://user-images.githubusercontent.com/58777597/75110682-7063b880-5674-11ea-8442-4d9e46c540f5.png)
 - 모델링 데이터를 기준으로 테이블 정의서 작성
 
 ## DB ERD
 ![MangoCRM논리ERD](https://user-images.githubusercontent.com/58777597/75110606-7907bf00-5673-11ea-9864-f25680a8661b.png)
-- Drawio를 이용하여 ERD설계를 하였습니다
-
-
-
-
-## Framework Design
-[Spring 3.9]
-- Annotation Driven을 통한 컨트롤러 호출
-- Resource Mappting을 통한 리소스 폴더 관리
-
-[MyBatis]
-- MyBatis와 Oracle 연동 구현
-- Connection Pool 셋팅을 통한 DB 연결 최적화
-
-[MAVEN]
-자바 프로젝트의 빌드(build)를 자동화 해주는 빌드 툴(build tool)이다.
-즉, 자바 소스를 compile하고 package해서 deploy하는 일을 자동화 해주는 것이다.
-
-## Devlop
-[SVN을 통한 공동작업]
-- SVN을 활용하여 팀 작업을 진행
-- 파트별 개발을 통한 개발일정 단축
-
-
-
-## Development Tools
-- eclipse
-- sqldeveloper
-
-## Using Language
-- Java
-- HTML, CSS3, JavaScript, jQuery
-
-## Development Environment
-- JDK 1.8.0
-- Spring Framework 3.9.10
-- maven-eclipse-plugin 2.9
-- Mybatis 3.2.7
-- Log4j 1.2.15
-- Servlet 3.0.1
-- DB : Oracle 12.1.0.2.0
-- Server : Tomcat 8.5
-- jQuery 1.12.4
-
-## DevOps
-- SVN

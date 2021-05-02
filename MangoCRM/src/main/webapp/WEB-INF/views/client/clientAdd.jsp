@@ -283,7 +283,7 @@ $(document).ready(function() {
 		var emailRule = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*.[a-zA-Z]{2,3}$/i;
 
 
-		if($.trim($("#txt_client_name").val()) == "") {
+		if($.trim($("#txt_client_name").val()) === "") {
 			makeAlert(1, "입력오류", "이름을 입력하세요.", null);
 			$("#txt_client_name").focus();
 		} else if($.trim($("#txt__client_company_name").val()) == "") {
@@ -322,7 +322,7 @@ $(document).ready(function() {
 					data : params ,  //보낼 데이터
 					//{키 : 값, 키 : 값,...} -> json
 					success : function(result) {
-						if(result.res=="SUCCESS") {
+						if(result.res==="SUCCESS") {
 							alert("등록에 성공하였습니다");
 							$("#addForm").attr("action","clientList");
 	 						$("#addForm").submit();

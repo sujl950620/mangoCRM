@@ -44,7 +44,7 @@ public class ClientController {
 	
 	// 고객 목록
 	@RequestMapping(value = "/clientList")
-	public ModelAndView clientList(HttpSession session, @RequestParam HashMap<String, String> params, ModelAndView mav) {
+	public ModelAndView clientList(@RequestParam HashMap<String, String> params, ModelAndView mav) {
 		clientService.pageSet(params);
 		mav.addObject("page", params.get("page"));
 		mav.setViewName("client/clientList");
@@ -54,7 +54,7 @@ public class ClientController {
 	
 	// 고객등록
 	@RequestMapping(value = "/clientAdd")
-	public ModelAndView clientAdd(HttpSession session, @RequestParam HashMap<String, String> params,ModelAndView mav) {
+	public ModelAndView clientAdd(@RequestParam HashMap<String, String> params,ModelAndView mav) {
 		clientService.pageSet(params);
 		mav.addObject("page", params.get("page"));
 		mav.setViewName("client/clientAdd");
