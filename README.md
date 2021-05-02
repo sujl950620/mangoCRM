@@ -55,7 +55,7 @@ CRM의 기초적인 요소, 기능을 갖춰져 있습니다.
 
 ## 협업
 ### Trello
-![Trello](www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F1602607e-f955-4373-9e15-1f2585f02bd4%2FUntitled.png?table=block&id=f6c98c3c-ae1a-4acc-bdc4-f00776f68585&width=1920&userId=6fccea26-95c2-4666-8989-cbba516a665f&cache=v2)
+![Trello](https://www.notion.so/image/https%3A%2F%2Fs3-us-west-2.amazonaws.com%2Fsecure.notion-static.com%2F1602607e-f955-4373-9e15-1f2585f02bd4%2FUntitled.png?table=block&id=f6c98c3c-ae1a-4acc-bdc4-f00776f68585&width=1920&userId=6fccea26-95c2-4666-8989-cbba516a665f&cache=v2)
 
 # DB 설계
 ## [메타관리]
