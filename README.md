@@ -1,4 +1,4 @@
-# MangoCRM 
+# MangoCRM
 수강생분들과 개발한 대규모 CRM 프로젝트입니다.
 CRM의 기초적인 요소, 기능을 갖춰져 있습니다.
 
@@ -34,7 +34,7 @@ CRM의 기초적인 요소, 기능을 갖춰져 있습니다.
 
 - 이외 많은 여러분이 참가해주셨습니다.
 
-# Preview 
+# Preview
 ![고객목록](https://user-images.githubusercontent.com/58777597/75110448-93409d80-5671-11ea-8d25-d908ecd3a942.PNG)
 ![S-고객등록](https://user-images.githubusercontent.com/58777597/75110456-b66b4d00-5671-11ea-8d8b-7e180465abce.PNG)
 ![S-고객상세](https://user-images.githubusercontent.com/58777597/75110459-b8cda700-5671-11ea-81d1-f48e05cd6d66.PNG)
@@ -48,7 +48,7 @@ CRM의 기초적인 요소, 기능을 갖춰져 있습니다.
 ![메타데이터](https://user-images.githubusercontent.com/58777597/75110718-f67fff00-5674-11ea-9a3c-883d5a2a70cd.PNG)
 - 기능정의서를 기반으로 나온 명사들의 명을 정의
 
-## DB Design 
+## DB Design
 ![스키마](https://user-images.githubusercontent.com/58777597/75110667-3abecf80-5674-11ea-9b67-5f6c679d898a.PNG)
 ![스키마1](https://user-images.githubusercontent.com/58777597/75110668-3c889300-5674-11ea-9e22-8a8dc88d633e.PNG)
 - Oracle을 사용하여 DB설계를 하였습니다
