@@ -156,7 +156,7 @@ public class ClientController {
 			produces="text/json;charset=UTF-8")
 	@ResponseBody
 	public String getCompListAjax(@RequestParam Map<String, String> params, HttpSession session) throws Throwable {
-		Map<String, Object> modelMap = new HashMap<String, Object>();
+		Map<String, Object> modelMap = new HashMap<>();
 		params.put("sEmpNo",String.valueOf(session.getAttribute("sEmpNo")));
 		clientService.pageSet(params);
 		PagingBean pb = iPagingService.getPagingBean(Integer.parseInt(params.get("page")), iClientService.getCompCnt(params), 10, 5);
@@ -174,7 +174,7 @@ public class ClientController {
 			produces="text/json;charset=UTF-8")
 	@ResponseBody
 	public String getClientAjax(@RequestParam Map<String, String> params) throws Throwable {
-		Map<String, Object> modelMap = new HashMap<String, Object>();
+		Map<String, Object> modelMap = new HashMap<>();
 		clientService.pageSet(params);
 		PagingBean pb = iPagingService.getPagingBean(Integer.parseInt(params.get("page")), iClientService.getclientCnt(params), 10, 5);
 		params.put("startCnt", Integer.toString(pb.getStartCount()));
@@ -188,7 +188,7 @@ public class ClientController {
 		@RequestMapping(value="/getClientOpinAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
 		public String getClientOpinAjax(@RequestParam Map<String, String> params) throws Throwable {
-			Map<String, Object> modelMap = new HashMap<String, Object>();
+			Map<String, Object> modelMap = new HashMap<>();
 			modelMap.put("opin", iClientService.getClientOpin(params));
 			modelMap.put("cnt", iClientService.getClientOpinCnt(params));
 			
@@ -199,7 +199,7 @@ public class ClientController {
 		@RequestMapping(value="/insertClientOpinAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
 		public String insertClientOpinAjax(@RequestParam Map<String, String> params) throws Throwable {
-			Map<String, Object> modelMap = new HashMap<String, Object>();
+			Map<String, Object> modelMap = new HashMap<>();
 			String res;
 			try {
 				iClientService.insertClientOpin(params);
@@ -217,7 +217,7 @@ public class ClientController {
 		@RequestMapping(value="/delClientOpinAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
 		public String delClientOpinAjax(@RequestParam Map<String, String> params) throws Throwable {
-			Map<String, Object> modelMap = new HashMap<String, Object>();
+			Map<String, Object> modelMap = new HashMap<>();
 			String res;
 			try {
 				iClientService.delClientOpin(params);
@@ -236,7 +236,7 @@ public class ClientController {
 		@RequestMapping(value="/getClientMemoAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
 		public String getClientMemoAjax(@RequestParam Map<String, String> params) throws Throwable {
-			Map<String, Object> modelMap = new HashMap<String, Object>();
+			Map<String, Object> modelMap = new HashMap<>();
 			modelMap.put("memo", iClientService.getClientMemo(params));
 			modelMap.put("cnt", iClientService.getClientMemoCnt(params));
 			return mapper.writeValueAsString(modelMap);
@@ -246,7 +246,7 @@ public class ClientController {
 		@RequestMapping(value="/insertClientMemoAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
 		public String insertClientMemoAjax(@RequestParam Map<String, String> params) throws Throwable {
-			Map<String, Object> modelMap = new HashMap<String, Object>();
+			Map<String, Object> modelMap = new HashMap<>();
 			String res ;
 			try {
 				iClientService.insertClientMemo(params);
@@ -264,7 +264,7 @@ public class ClientController {
 		@RequestMapping(value="/delClientMemoAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
 		public String delClientMemoAjax(@RequestParam Map<String, String> params) throws Throwable {
-			Map<String, Object> modelMap = new HashMap<String, Object>();
+			Map<String, Object> modelMap = new HashMap<>();
 			String res ;
 			try {
 				iClientService.delClientMemo(params);
@@ -284,7 +284,7 @@ public class ClientController {
 	public String clientDelAjax(@RequestParam Map<String, String> params,
 			@RequestParam("client_check") List<String> clientCheck) throws Throwable {
 
-		Map<String, Object> modelMap = new HashMap<String, Object>();
+		Map<String, Object> modelMap = new HashMap<>();
 		String res;
 		try {
 			for (String s : clientCheck) {
@@ -304,7 +304,7 @@ public class ClientController {
 		@RequestMapping(value="/clientddelAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
 		public String clientDelAjax(@RequestParam Map<String, String> params) throws Throwable {
-			Map<String, Object> modelMap = new HashMap<String, Object>();
+			Map<String, Object> modelMap = new HashMap<>();
 			String res ;
 			try {
 				iClientService.clientDel(params);
