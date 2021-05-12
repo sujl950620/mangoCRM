@@ -1,6 +1,5 @@
 package com.smart.mango.web.inside.service;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -28,132 +27,130 @@ public class ClientService implements IClientService {
 	
 	/* 고객 등록 */
 	@Override
-	public void clientInsertData(HashMap<String, String> params) throws Throwable {
-		iClientDao.clientinsertData(params);
+	public void clientInsertData(Map<String, String> params) throws Throwable {
+		iClientDao.clientInsertData(params);
 	}
 
 
 	@Override
-	public List<HashMap<String, String>> getClientGrade(HashMap<String, String> params) throws Throwable {
+	public List<Map<String, String>> getClientGrade(Map<String, String> params) throws Throwable {
 		return iClientDao.getClientGrade(params);
 	}
 
 
 	@Override
-	public int getEmpCnt(HashMap<String, String> params) throws Throwable {
+	public int getEmpCnt(Map<String, String> params) throws Throwable {
 		return iClientDao.getEmpCnt(params);
 	}
 
 
 	@Override
-	public List<HashMap<String, String>> getEmpList(HashMap<String, String> params) throws Throwable {
+	public List<Map<String, String>> getEmpList(Map<String, String> params) throws Throwable {
 		return iClientDao.getEmpList(params);
 	}
 
 
 	@Override
-	public int getCompCnt(HashMap<String, String> params) throws Throwable {
+	public int getCompCnt(Map<String, String> params) throws Throwable {
 		return iClientDao.getCompCnt(params);
 	}
 
 
 	@Override
-	public List<HashMap<String, String>> getCompList(HashMap<String, String> params) throws Throwable {
+	public List<Map<String, String>> getCompList(Map<String, String> params) throws Throwable {
 		return iClientDao.getCompList(params);
 	}
 
 
 	@Override
-	public int getclientCnt(HashMap<String, String> params) throws Throwable {
-		return iClientDao.getclientCnt(params);
+	public int getclientCnt(Map<String, String> params) throws Throwable {
+		return iClientDao.getClientCnt(params);
 	}
 
 
 	@Override
-	public List<HashMap<String, String>> getclientList(HashMap<String, String> params) throws Throwable {
-		return iClientDao.getclientList(params);
+	public List<Map<String, String>> getclientList(Map<String, String> params) throws Throwable {
+		return iClientDao.getClientList(params);
 	}
 
 
 	@Override
-	public HashMap<String, String> getClientData(HashMap<String, String> params) throws Throwable {
+	public Map<String, String> getClientData(Map<String, String> params) throws Throwable {
 		return iClientDao.getClientData(params);
 	}
 
 
 	@Override
-	public List<HashMap<String, String>> getClientOpin(HashMap<String, String> params) throws Throwable {
+	public List<Map<String, String>> getClientOpin(Map<String, String> params) throws Throwable {
 		return iClientDao.getClientOpin(params);
 	}
 
 
 	@Override
-	public int getClientOpinCnt(HashMap<String, String> params) throws Throwable {
+	public int getClientOpinCnt(Map<String, String> params) throws Throwable {
 		return iClientDao.getClientOpinCnt(params);
 	}
 
 
 	@Override
-	public void insertClientOpin(HashMap<String, String> params) throws Throwable {
+	public void insertClientOpin(Map<String, String> params) throws Throwable {
 		iClientDao.insertClientOpin(params);
 	}
 
 
 	@Override
-	public void delClientOpin(HashMap<String, String> params) throws Throwable {
+	public void delClientOpin(Map<String, String> params) throws Throwable {
 		iClientDao.delClientOpin(params);
 	}
 
 
 	@Override
-	public List<HashMap<String, String>> getClientMemo(HashMap<String, String> params) throws Throwable {
+	public List<Map<String, String>> getClientMemo(Map<String, String> params) throws Throwable {
 		return iClientDao.getClientMemo(params);
 	}
 
 
 	@Override
-	public int getClientMemoCnt(HashMap<String, String> params) throws Throwable {
+	public int getClientMemoCnt(Map<String, String> params) throws Throwable {
 		return iClientDao.getClientMemoCnt(params);
 	}
 
 
 	@Override
-	public void insertClientMemo(HashMap<String, String> params) throws Throwable {
+	public void insertClientMemo(Map<String, String> params) throws Throwable {
 		iClientDao.insertClientMemo(params);
 	}
 
 
 	@Override
-	public void delClientMemo(HashMap<String, String> params) throws Throwable {
+	public void delClientMemo(Map<String, String> params) throws Throwable {
 		iClientDao.delClientMemo(params);
 	}
 
 
 	@Override
-	public void clientDel(HashMap<String, String> params) throws Throwable {
-		iClientDao.clientdel(params);
+	public void clientDel(Map<String, String> params) throws Throwable {
+		iClientDao.clientDel(params);
 	}
 
 
 	@Override
-	public void clientUpdateData(HashMap<String, String> params) throws Throwable {
-		iClientDao.clientupdateData(params);
+	public void clientUpdateData(Map<String, String> params) throws Throwable {
+		iClientDao.clientUpdateData(params);
 	}
 
 
 	@Override
-	public List<HashMap<String, String>> getClientSche(HashMap<String, String> params) throws Throwable {
+	public List<Map<String, String>> getClientSche(Map<String, String> params) throws Throwable {
 		return iClientDao.getClientSche(params);
 	}
 	
-	public HashMap<String, String> pageSet(HashMap<String, String> params) {
-		if(params.get("page") == null) {
-			params.put("page", "1");
-		}	
+	public Map<String, String> pageSet(Map<String, String> params) {
+		params.putIfAbsent("page", "1");
 		return params;
 	}
-	
-	public PagingBean startEndPage(int cnt,HashMap<String, String> params ) {
+
+	public PagingBean startEndPage(int cnt, Map<String, String> params) {
 		PagingBean pb = iPagingService.getPagingBean(Integer.parseInt(params.get("page")), cnt, 10, 5);
 		params.put("startCnt", Integer.toString(pb.getStartCount()));
 		params.put("endCnt", Integer.toString(pb.getEndCount()));

@@ -6,7 +6,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpSession;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -24,48 +25,54 @@ import com.smart.mango.web.inside.service.IEmpService;
 
 @Controller
 public class ClientController {
-	@Autowired
+
+	private static final Logger logger = LoggerFactory.getLogger(ClientController.class);
+
 	public IClientService iClientService;
-	
-	@Autowired
+
 	public ICommonService iCommonService;
-	
-	@Autowired
+
 	public IPagingService iPagingService;
-	
-	@Autowired
-	public IEmpService iEmpService; 
-	
-	@Autowired
+
+	public IEmpService iEmpService;
+
 	public ObjectMapper mapper;
-	
-	@Autowired
+
 	public ClientService clientService;
-	
+
+	public ClientController(IClientService iClientService, ICommonService iCommonService,
+			IPagingService iPagingService, IEmpService iEmpService, ObjectMapper mapper,
+			ClientService clientService) {
+		this.iClientService = iClientService;
+		this.iCommonService = iCommonService;
+		this.iPagingService = iPagingService;
+		this.iEmpService = iEmpService;
+		this.mapper = mapper;
+		this.clientService = clientService;
+	}
+
 	// 고객 목록
-	@RequestMapping(value = "/clientList")
-	public ModelAndView clientList(@RequestParam HashMap<String, String> params, ModelAndView mav) {
+	@RequestMapping("/clientList")
+	public ModelAndView clientList(@RequestParam Map<String, String> params, ModelAndView mav) {
 		clientService.pageSet(params);
 		mav.addObject("page", params.get("page"));
 		mav.setViewName("client/clientList");
-
 		return mav;
 	}
 	
 	// 고객등록
-	@RequestMapping(value = "/clientAdd")
-	public ModelAndView clientAdd(@RequestParam HashMap<String, String> params,ModelAndView mav) {
+	@RequestMapping("/clientAdd")
+	public ModelAndView clientAdd(@RequestParam Map<String, String> params,ModelAndView mav) {
 		clientService.pageSet(params);
 		mav.addObject("page", params.get("page"));
 		mav.setViewName("client/clientAdd");
-
 		return mav;
 	}
 	
 	// 고객 정보
-	@RequestMapping(value = "/clientDetail")
-	public ModelAndView clientDetail(HttpSession session, ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
-		HashMap<String, String> data = iClientService.getClientData(params);
+	@RequestMapping( "/clientDetail")
+	public ModelAndView clientDetail(ModelAndView mav, @RequestParam Map<String, String> params) throws Throwable {
+		Map<String, String> data = iClientService.getClientData(params);
 		mav.addObject("data", data);
 		mav.setViewName("client/clientDetail");
 		
@@ -73,19 +80,18 @@ public class ClientController {
 	}
 	
 	// 고객 수정
-	@RequestMapping(value = "/clientUpdate")
-	public ModelAndView clientUpdate(HttpSession session, ModelAndView mav, @RequestParam HashMap<String, String> params) throws Throwable {
+	@RequestMapping( "/clientUpdate")
+	public ModelAndView clientUpdate(ModelAndView mav, @RequestParam Map<String, String> params) throws Throwable {
 		clientService.pageSet(params);
 		mav.addObject("page", params.get("page"));
 		mav.setViewName("client/clientUpdate");
-		
 		return mav;
 	}
 		
 	// 담당자 목록 가져오기
 	@RequestMapping(value="/getEmppopListAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 	@ResponseBody
-	public String getEmppopListAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+	public String getEmpPopListAjax(@RequestParam Map<String, String> params) throws Throwable {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		clientService.pageSet(params);
 		PagingBean emppb = iPagingService.getPagingBean(Integer.parseInt(params.get("page")), iClientService.getEmpCnt(params), 10, 5);
@@ -100,7 +106,7 @@ public class ClientController {
 			method = RequestMethod.POST,
 			produces = "test/json;charset=UTF-8")
 	@ResponseBody 
-	public String clientAddSetAjax(@RequestParam HashMap<String, String>params,HttpSession session, ModelAndView modelAndView) throws Throwable{
+	public String clientAddSetAjax(@RequestParam Map<String, String>params, HttpSession session) throws Throwable{
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		params.put("sEmpNo",String.valueOf(session.getAttribute("sEmpNo")));
 		modelMap.put("grade",iClientService.getClientGrade(params));
@@ -111,14 +117,14 @@ public class ClientController {
 			method = RequestMethod.POST,
 			produces = "test/json;charset=UTF-8")
 	@ResponseBody 
-	public String clientWriteAjax(@RequestParam HashMap<String, String>params, ModelAndView modelAndView) throws Throwable{
+	public String clientWriteAjax(@RequestParam Map<String, String>params) throws Throwable{
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		try {
 			/* 고객등록 */
 			iClientService.clientInsertData(params);
 			modelMap.put("res","SUCCESS");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("고객 등록 실패 -> {}", e.getMessage());
 			modelMap.put("res", "Failed");
 		}
 		return mapper.writeValueAsString(modelMap);
@@ -129,14 +135,14 @@ public class ClientController {
 			method = RequestMethod.POST,
 			produces = "test/json;charset=UTF-8")
 	@ResponseBody 
-	public String clientUpdateAjax(@RequestParam HashMap<String, String>params, ModelAndView modelAndView) throws Throwable{
+	public String clientUpdateAjax(@RequestParam Map<String, String>params) throws Throwable{
 		Map<String,Object> modelMap = new HashMap<String,Object>();
 		try {
 			/* 고객등록 */
 			iClientService.clientUpdateData(params);
 			modelMap.put("res","SUCCESS");
 		} catch (Exception e) {
-			e.printStackTrace();
+			logger.info("고객 수정 실패 -> {}", e.getMessage());
 			modelMap.put("res", "Failed");
 		}
 		return mapper.writeValueAsString(modelMap);
@@ -149,7 +155,7 @@ public class ClientController {
 			method=RequestMethod.POST, 
 			produces="text/json;charset=UTF-8")
 	@ResponseBody
-	public String getcompListAjax(@RequestParam HashMap<String, String> params, ModelAndView mav, HttpSession session) throws Throwable {
+	public String getCompListAjax(@RequestParam Map<String, String> params, HttpSession session) throws Throwable {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
 		params.put("sEmpNo",String.valueOf(session.getAttribute("sEmpNo")));
 		clientService.pageSet(params);
@@ -167,23 +173,21 @@ public class ClientController {
 			method=RequestMethod.POST, 
 			produces="text/json;charset=UTF-8")
 	@ResponseBody
-	public String getclientAjax(@RequestParam HashMap<String, String> params, ModelAndView mav, HttpSession session) throws Throwable {
+	public String getClientAjax(@RequestParam Map<String, String> params) throws Throwable {
 		Map<String, Object> modelMap = new HashMap<String, Object>();
-		
 		clientService.pageSet(params);
 		PagingBean pb = iPagingService.getPagingBean(Integer.parseInt(params.get("page")), iClientService.getclientCnt(params), 10, 5);
 		params.put("startCnt", Integer.toString(pb.getStartCount()));
 		params.put("endCnt", Integer.toString(pb.getEndCount()));
 		modelMap.put("list", iClientService.getclientList(params));
 		modelMap.put("pb", pb);
-		
 		return mapper.writeValueAsString(modelMap);
 	}
 	
 	// 고객 의견 목록 Get
 		@RequestMapping(value="/getClientOpinAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
-		public String getClientOpinAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+		public String getClientOpinAjax(@RequestParam Map<String, String> params) throws Throwable {
 			Map<String, Object> modelMap = new HashMap<String, Object>();
 			modelMap.put("opin", iClientService.getClientOpin(params));
 			modelMap.put("cnt", iClientService.getClientOpinCnt(params));
@@ -194,32 +198,33 @@ public class ClientController {
 		// 고객 의견 Insert
 		@RequestMapping(value="/insertClientOpinAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
-		public String insertClientOpinAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+		public String insertClientOpinAjax(@RequestParam Map<String, String> params) throws Throwable {
 			Map<String, Object> modelMap = new HashMap<String, Object>();
-			String res = "";
+			String res;
 			try {
 				iClientService.insertClientOpin(params);
 				res = "SUCCESS";
 			}
 			catch(Exception e) {
+				logger.info("의견 등록 실패 -> {}", e.getMessage());
 				res = "FAILED";
 			}
 			modelMap.put("res", res);
-			
 			return mapper.writeValueAsString(modelMap);
 		}
 		
 		// 고객 의견 Delete
 		@RequestMapping(value="/delClientOpinAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
-		public String delClientOpinAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+		public String delClientOpinAjax(@RequestParam Map<String, String> params) throws Throwable {
 			Map<String, Object> modelMap = new HashMap<String, Object>();
-			String res = "";
+			String res;
 			try {
 				iClientService.delClientOpin(params);
 				res = "SUCCESS";
 			}
 			catch(Exception e) {
+				logger.info("의견 삭제 실패 -> {}", e.getMessage());
 				res = "FAILED";
 			}
 			modelMap.put("res", res);
@@ -230,99 +235,94 @@ public class ClientController {
 		// 고객 메모 목록 Get
 		@RequestMapping(value="/getClientMemoAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
-		public String getClientMemoAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+		public String getClientMemoAjax(@RequestParam Map<String, String> params) throws Throwable {
 			Map<String, Object> modelMap = new HashMap<String, Object>();
 			modelMap.put("memo", iClientService.getClientMemo(params));
 			modelMap.put("cnt", iClientService.getClientMemoCnt(params));
-			
 			return mapper.writeValueAsString(modelMap);
 		}
 		
 		// 고객 의견 Insert
 		@RequestMapping(value="/insertClientMemoAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
-		public String insertClientMemoAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+		public String insertClientMemoAjax(@RequestParam Map<String, String> params) throws Throwable {
 			Map<String, Object> modelMap = new HashMap<String, Object>();
-			String res = "";
+			String res ;
 			try {
 				iClientService.insertClientMemo(params);
 				res = "SUCCESS";
 			}
 			catch(Exception e) {
+				logger.info("의견 메모 등록 실패 -> {}", e.getMessage());
 				res = "FAILED";
 			}
-			
 			modelMap.put("res", res);
-			
 			return mapper.writeValueAsString(modelMap);
 		}
 		
 		// 고객 의견 Delete
 		@RequestMapping(value="/delClientMemoAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
-		public String delClientMemoAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+		public String delClientMemoAjax(@RequestParam Map<String, String> params) throws Throwable {
 			Map<String, Object> modelMap = new HashMap<String, Object>();
-			String res = "";
+			String res ;
 			try {
 				iClientService.delClientMemo(params);
 				res = "SUCCESS";
 			}
 			catch(Exception e) {
+				logger.info("의견 메모 삭제 실패 -> {}", e.getMessage());
 				res = "FAILED";
 			}
-			
 			modelMap.put("res", res);
-			
 			return mapper.writeValueAsString(modelMap);
 		}
-		
-		// 고객 리스트 삭제 Delete
-		@RequestMapping(value="/clientdelAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
-		@ResponseBody
-		public String clientdelAjax(@RequestParam HashMap<String, String> params, @RequestParam("client_check") List<String> clientCheck, ModelAndView mav) throws Throwable {
-			Map<String, Object> modelMap = new HashMap<String, Object>();
-			String res = "";
-			try {
-				for(int i = 0 ; i < clientCheck.size(); i++) {
-					params.put("client_no",clientCheck.get(i));
-					iClientService.clientDel(params);
-				}
-				res = "SUCCESS";
+
+	// 고객 리스트 삭제 Delete
+	@RequestMapping(value = "/clientdelAjax", method = RequestMethod.POST, produces = "text/json;charset=UTF-8")
+	@ResponseBody
+	public String clientDelAjax(@RequestParam Map<String, String> params,
+			@RequestParam("client_check") List<String> clientCheck) throws Throwable {
+
+		Map<String, Object> modelMap = new HashMap<String, Object>();
+		String res;
+		try {
+			for (String s : clientCheck) {
+				params.put("client_no", s);
+				iClientService.clientDel(params);
 			}
-			catch(Exception e) {
-				res = "FAILED";
-			}
-			
-			modelMap.put("res", res);
-			
-			return mapper.writeValueAsString(modelMap);
+			res = "SUCCESS";
+		} catch (Exception e) {
+			logger.info("고객 삭제 실패 -> {}", e.getMessage());
+			res = "FAILED";
 		}
+		modelMap.put("res", res);
+		return mapper.writeValueAsString(modelMap);
+	}
 		
 		// 고객 정보 삭제 Delete
 		@RequestMapping(value="/clientddelAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
-		public String clientddelAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
+		public String clientDelAjax(@RequestParam Map<String, String> params) throws Throwable {
 			Map<String, Object> modelMap = new HashMap<String, Object>();
-			String res = "";
+			String res ;
 			try {
 				iClientService.clientDel(params);
 				res = "SUCCESS";
 			}
 			catch(Exception e) {
+				logger.info("고객 정보 삭제 실패 -> {}", e.getMessage());
 				res = "FAILED";
 			}
-			
 			modelMap.put("res", res);
-			
 			return mapper.writeValueAsString(modelMap);
 		}
 		
 //		활동일정
 		@RequestMapping(value="/getClientScheAjax", method=RequestMethod.POST, produces="text/json;charset=UTF-8")
 		@ResponseBody
-		public String getClientScheAjax(@RequestParam HashMap<String, String> params, ModelAndView mav) throws Throwable {
-			Map<String, Object> modelMap = new HashMap<String, Object>();
-			
+		public String getClientScheAjax(@RequestParam Map<String, String> params) throws Throwable {
+			Map<String, Object> modelMap = new HashMap<>();
 			String str = "";
 			if(params.get("acti0") != null) {
 				str += "OR CC2.CODE_S_CATE = 0 ";
@@ -342,10 +342,7 @@ public class ClientController {
 			} else {
 				params.put("filter", str.substring(3));			
 			}
-				
-			List<HashMap<String, String>> scheList = iClientService.getClientSche(params);
-			
-			
+			List<Map<String, String>> scheList = iClientService.getClientSche(params);
 			modelMap.put("scheList", scheList);
 			return mapper.writeValueAsString(modelMap);
 		}
